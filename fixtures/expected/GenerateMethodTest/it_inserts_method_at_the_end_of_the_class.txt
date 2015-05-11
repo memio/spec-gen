@@ -1,0 +1,14 @@
+<?php
+
+namespace Vendor\Project;
+
+class MyClass
+{
+    public function firstMethod()
+    {
+    }
+
+    public function myMethod()
+    {
+    }
+}

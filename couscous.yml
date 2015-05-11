@@ -1,0 +1,17 @@
+template:
+    url: https://github.com/CouscousPHP/Template-Light.git
+
+baseUrl: http://memio.github.io/spec-gen
+
+title: Memio SpecGen
+subTitle: phpspec extension for better code generation
+
+github:
+    user: memio
+    repo: spec-gen
+
+menu:
+    items:
+        home:
+            text: Home
+            relativeUrl:

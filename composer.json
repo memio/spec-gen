@@ -1,0 +1,38 @@
+{
+    "name": "memio/spec-gen",
+    "license": "MIT",
+    "type": "library",
+    "description": "phpspec extension for better code generation",
+    "keywords": ["phpspec", "extension", "generator", "PHP", "code"],
+    "homepage": "http://memio.github.io/spec-gen",
+    "authors": [
+        {
+            "name": "Loïc Chardonnet",
+            "email": "loic.chardonnet@gmail.com",
+            "homepage": "http://gnugat.github.io",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Memio\\SpecGen\\": "src/Memio/SpecGen"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Memio\\SpecGen\\Fixtures\\": "fixtures",
+            "Memio\\SpecGen\\Tests\\": "tests"
+        }
+    },
+    "require": {
+        "gnugat/redaktilo": "~1.7",
+        "memio/memio": "~1.0",
+        "php": ">=5.3.3",
+        "phpspec/phpspec": "~2.2",
+        "symfony/event-dispatcher": "~2.1"
+    },
+    "require-dev": {
+        "fabpot/php-cs-fixer": "~1.6",
+        "phpunit/phpunit": "~4.6"
+    }
+}

@@ -1,0 +1,9 @@
+# Third party
+/composer.lock
+/vendor
+/phpunit.xml
+/.couscous
+
+# Temporary files
+/fixtures/actual
+!/fixtures/actualGeneratedTest/.gitkeep
