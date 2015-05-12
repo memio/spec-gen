@@ -18,7 +18,7 @@ class Repository
      *
      * @return string
      */
-    public function find($name)
+    public static function find($name)
     {
         return file_get_contents(__DIR__.'/'.$name.'.txt');
     }
