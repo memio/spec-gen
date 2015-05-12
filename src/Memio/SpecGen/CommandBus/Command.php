@@ -12,7 +12,7 @@
 namespace Memio\SpecGen\CommandBus;
 
 /**
- * An imperative message
+ * An imperative message.
  */
 interface Command
 {

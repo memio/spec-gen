@@ -15,7 +15,7 @@ use Memio\PrettyPrinter\PrettyPrinter;
 use Gnugat\Redaktilo\Editor;
 
 /**
- * As a developer using phpspec, I want generated methods to be saved in my source code
+ * As a developer using phpspec, I want generated methods to be saved in my source code.
  *
  * Given a class I'm specifying
  * And a new method in it

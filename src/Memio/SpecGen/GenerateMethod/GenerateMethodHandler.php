@@ -11,7 +11,6 @@
 
 namespace Memio\SpecGen\GenerateMethod;
 
-use Memio\Model\Argument;
 use Memio\Model\File;
 use Memio\Model\Method;
 use Memio\Model\Object;
