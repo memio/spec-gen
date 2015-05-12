@@ -1,4 +1,4 @@
-# Memio's SpecGen [![SensioLabsInsight](https://insight.sensiolabs.com/projects/a2b24423-9840-45ab-a011-598aa3ba26bf/mini.png)](https://insight.sensiolabs.com/projects/a2b24423-9840-45ab-a011-598aa3ba26bf) [![Travis CI](https://travis-ci.org/memio/spec-gen.png)](https://travis-ci.org/memio/spec-gen)
+# Memio's SpecGen [![SensioLabsInsight](https://insight.sensiolabs.com/projects/7cea8bf7-2f9f-4d34-a7e8-55fabeed867f/mini.png)](https://insight.sensiolabs.com/projects/7cea8bf7-2f9f-4d34-a7e8-55fabeed867f) [![Travis CI](https://travis-ci.org/memio/spec-gen.png)](https://travis-ci.org/memio/spec-gen)
 
 This extension for [phpspec](http://phpspec.net/) provides a powerfull code generator:
 
