@@ -11,8 +11,10 @@
 
 namespace Memio\SpecGen\GenerateMethod;
 
+use Memio\Model\Method;
 use Memio\PrettyPrinter\PrettyPrinter;
 use Gnugat\Redaktilo\Editor;
+use Gnugat\Redaktilo\File;
 
 /**
  * As a developer using phpspec, I want generated methods to be saved in my source code.
@@ -24,8 +26,10 @@ use Gnugat\Redaktilo\Editor;
  */
 class InsertGeneratedMethodListener
 {
-    const START_FO_CLASS = '/^{$/';
+    const START_OF_CLASS = '/^{$/';
     const END_OF_CLASS = '/^}$/';
+    const NAME_SPACE = '/^namespace /';
+    const USE_STATEMENT = '/^use /';
 
     /**
      * @var Editor
@@ -53,16 +57,58 @@ class InsertGeneratedMethodListener
     public function onGeneratedMethod(GeneratedMethod $generatedMethod)
     {
         $fileName = $generatedMethod->file->getFilename();
+        $fullyQualifiedNames = $generatedMethod->file->allFullyQualifiedNames();
         $method = array_shift($generatedMethod->file->getStructure()->allMethods()); // $object should contain only one method, the generated one.
 
-        $generatedCode = $this->prettyPrinter->generateCode($method);
         $file = $this->editor->open($fileName);
-        $this->editor->jumpBelow($file, self::END_OF_CLASS);
+        $this->insertUseStatements($file, $fullyQualifiedNames);
+        $this->insertMethod($file, $method);
+        $this->editor->save($file);
+    }
+
+    /**
+     * @param File  $file
+     * @param array $fullyQualifiedNames
+     */
+    private function insertUseStatements(File $file, array $fullyQualifiedNames)
+    {
+        foreach ($fullyQualifiedNames as $fullyQualifiedName) {
+            $fullyQualifiedClassName = $fullyQualifiedName->getFullyQualifiedName();
+            if (!$this->editor->hasBelow($file, "/^use $fullyQualifiedClassName;$/", 0)) {
+                $this->insertUseStatement($file, $fullyQualifiedClassName);
+            }
+        }
+    }
+
+    /**
+     * @param File   $file
+     * @param string $fullyQualifiedClassName
+     */
+    private function insertUseStatement(File $file, $fullyQualifiedClassName)
+    {
+        if (!$this->editor->hasBelow($file, self::USE_STATEMENT, 0)) {
+            $this->editor->jumpBelow($file, self::NAME_SPACE, 0);
+            $this->editor->insertBelow($file, '');
+        } else {
+            $lastLineNumber = $file->getCurrentLineNumber() - 1;
+            $file->setCurrentLineNumber($lastLineNumber);
+            $this->editor->jumpAbove($file, self::USE_STATEMENT);
+        }
+        $this->editor->insertBelow($file, "use $fullyQualifiedClassName;");
+    }
+
+    /**
+     * @param File   $file
+     * @param Method $method
+     */
+    private function insertMethod(File $file, Method $method)
+    {
+        $generatedCode = $this->prettyPrinter->generateCode($method);
+        $this->editor->jumpBelow($file, self::END_OF_CLASS, 0);
         $this->editor->insertAbove($file, $generatedCode);
         $above = $file->getCurrentLineNumber() - 1;
-        if (0 === preg_match(self::START_FO_CLASS, $file->getLine($above))) {
+        if (0 === preg_match(self::START_OF_CLASS, $file->getLine($above))) {
             $this->editor->insertAbove($file, '');
         }
-        $this->editor->save($file);
     }
 }

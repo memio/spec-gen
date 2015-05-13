@@ -19,6 +19,7 @@ use Prophecy\Argument;
 class MethodGeneratorSpec extends ObjectBehavior
 {
     const FILE_NAME = 'src/Vendor/Project/MyClass.php';
+    const NAME_SPACE = 'Vendor\Project';
     const CLASS_NAME = 'MyClass';
     const METHOD_NAME = 'myMethod';
 
@@ -40,6 +41,7 @@ class MethodGeneratorSpec extends ObjectBehavior
     function it_calls_the_command_bus(CommandBus $commandBus, ResourceInterface $resource)
     {
         $resource->getSrcFilename()->willReturn(self::FILE_NAME);
+        $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
         $resource->getSrcClassname()->willReturn(self::CLASS_NAME);
         $data = array(
             'name' => self::METHOD_NAME,

@@ -12,6 +12,7 @@
 namespace Memio\SpecGen\GenerateMethod;
 
 use Memio\Model\File;
+use Memio\Model\FullyQualifiedName;
 use Memio\Model\Method;
 use Memio\Model\Object;
 use Memio\SpecGen\CommandBus\Command;
@@ -56,16 +57,46 @@ class GenerateMethodHandler implements CommandHandler
      */
     public function handle(Command $command)
     {
-        $file = new File($command->fileName);
         $method = new Method($command->methodName);
+        $file = File::make($command->fileName)
+            ->setStructure(Object::make($command->fullyQualifiedName)
+                ->addMethod($method)
+            )
+        ;
         $arguments = $this->variableArgumentMarshaller->marshal($command->arguments);
         foreach ($arguments as $argument) {
+            $fullyQualifiedName = new FullyQualifiedName($argument->getType());
+            if ($this->shouldAddUseStatement($file, $fullyQualifiedName)) {
+                $file->addFullyQualifiedName($fullyQualifiedName);
+            }
             $method->addArgument($argument);
         }
-        $file->setStructure(Object::make($command->className)
-            ->addMethod($method)
-        );
         $generatedMethod = new GeneratedMethod($file);
         $this->eventDispatcher->dispatch(GeneratedMethod::EVENT_NAME, $generatedMethod);
+    }
+
+    /**
+     * @param File               $file
+     * @param FullyQualifiedName $fullyQualifiedName
+     *
+     * @return bool
+     */
+    private function shouldAddUseStatement(File $file, FullyQualifiedName $fullyQualifiedName)
+    {
+        $type = $fullyQualifiedName->getFullyQualifiedName();
+        $nonObjectTypes = array('string', 'bool', 'int', 'double', 'callable', 'resource', 'array', 'null', 'mixed');
+        if (in_array($type, $nonObjectTypes, true)) {
+            return false;
+        }
+        if ($fullyQualifiedName->getNamespace() === $file->getNamespace()) {
+            return false;
+        }
+        foreach ($file->allFullyQualifiedNames() as $fullyQualifiedName) {
+            if ($fullyQualifiedName->getFullyQualifiedName() === $type) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

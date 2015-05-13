@@ -49,7 +49,7 @@ class MethodGenerator implements GeneratorInterface
     {
         $generateMethod = new GenerateMethod(
             $resource->getSrcFilename(),
-            $resource->getSrcClassname(),
+            $resource->getSrcNamespace().'\\'.$resource->getSrcClassname(),
             $data['name'],
             $data['arguments']
         );

@@ -28,7 +28,7 @@ class GenerateMethod implements Command
     /**
      * @var string
      */
-    public $className;
+    public $fullyQualifiedName;
 
     /**
      * @var string
@@ -42,14 +42,14 @@ class GenerateMethod implements Command
 
     /**
      * @param string $fileName
-     * @param string $className
+     * @param string $fullyQualifiedName
      * @param string $methodName
      * @param array  $arguments
      */
-    public function __construct($fileName, $className, $methodName, array $arguments)
+    public function __construct($fileName, $fullyQualifiedName, $methodName, array $arguments)
     {
         $this->fileName = $fileName;
-        $this->className = $className;
+        $this->fullyQualifiedName = $fullyQualifiedName;
         $this->methodName = $methodName;
         $this->arguments = $arguments;
     }

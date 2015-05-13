@@ -49,7 +49,7 @@ class InsertGeneratedMethodListenerSpec extends ObjectBehavior
 
         $prettyPrinter->generateCode($methodModel)->willReturn($generatedCode);
         $editor->open(self::FILE_NAME)->willReturn($file);
-        $editor->jumpBelow($file, InsertGeneratedMethodListener::END_OF_CLASS)->shouldBeCalled();
+        $editor->jumpBelow($file, InsertGeneratedMethodListener::END_OF_CLASS, 0)->shouldBeCalled();
         $editor->insertAbove($file, $generatedCode)->shouldBeCalled();
         $file->getCurrentLineNumber()->willReturn(42);
         $file->getLine(41)->willReturn('{');
@@ -74,7 +74,7 @@ class InsertGeneratedMethodListenerSpec extends ObjectBehavior
 
         $prettyPrinter->generateCode($methodModel)->willReturn($generatedCode);
         $editor->open(self::FILE_NAME)->willReturn($file);
-        $editor->jumpBelow($file, InsertGeneratedMethodListener::END_OF_CLASS)->shouldBeCalled();
+        $editor->jumpBelow($file, InsertGeneratedMethodListener::END_OF_CLASS, 0)->shouldBeCalled();
         $editor->insertAbove($file, $generatedCode)->shouldBeCalled();
         $file->getCurrentLineNumber()->willReturn(42);
         $file->getLine(41)->willReturn('    }');
