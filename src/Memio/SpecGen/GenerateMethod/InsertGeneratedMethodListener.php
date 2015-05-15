@@ -92,7 +92,7 @@ class InsertGeneratedMethodListener
             $this->editor->jumpBelow($file, self::NAME_SPACE, 0);
             $this->editor->insertBelow($file, '');
         } else {
-            $lastLineNumber = $file->getCurrentLineNumber() - 1;
+            $lastLineNumber = $file->getLength() - 1;
             $file->setCurrentLineNumber($lastLineNumber);
             $this->editor->jumpAbove($file, self::USE_STATEMENT);
         }
