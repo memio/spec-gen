@@ -42,7 +42,8 @@ class LogGeneratedMethodListener
     {
         $object = $generatedMethod->file->getStructure();
         $className = $object->getName();
-        $method = array_shift($object->allMethods()); // $object should contain only one method, the generated one.
+        $methods = $object->allMethods();
+        $method = array_shift($methods); // $object should contain only one method, the generated one.
         $methodName = $method->getName();
 
         $this->io->write(<<<OUTPUT

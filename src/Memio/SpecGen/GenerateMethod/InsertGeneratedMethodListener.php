@@ -58,7 +58,8 @@ class InsertGeneratedMethodListener
     {
         $fileName = $generatedMethod->file->getFilename();
         $fullyQualifiedNames = $generatedMethod->file->allFullyQualifiedNames();
-        $method = array_shift($generatedMethod->file->getStructure()->allMethods()); // $object should contain only one method, the generated one.
+        $allMethods = $generatedMethod->file->getStructure()->allMethods();
+        $method = array_shift($allMethods); // $object should contain only one method, the generated one.
 
         $file = $this->editor->open($fileName);
         $this->insertUseStatements($file, $fullyQualifiedNames);
