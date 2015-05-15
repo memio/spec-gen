@@ -17,7 +17,7 @@ use Memio\SpecGen\Tests\GeneratorTestCase;
 class GenerateMethodTest extends GeneratorTestCase
 {
     const NAME_SPACE = 'Vendor\Project';
-    const CLASS_NAME = 'MyClass';
+    const CLASS_NAME = 'Vendor\Project\MyClass';
 
     private $methodGenerator;
 
