@@ -12,15 +12,14 @@
 namespace spec\Memio\SpecGen\GenerateMethod;
 
 use Memio\Model\File as FileModel;
+use Memio\Model\FullyQualifiedName as FullyQualifiedNameModel;
 use Memio\Model\Method as MethodModel;
 use Memio\Model\Object as ObjectModel;
-use Memio\PrettyPrinter\PrettyPrinter;
-use Memio\SpecGen\Fixtures\Repository;
+use Memio\SpecGen\CodeEditor\CodeEditor;
 use Memio\SpecGen\GenerateMethod\GeneratedMethod;
-use Memio\SpecGen\GenerateMethod\InsertGeneratedMethodListener;
-use Gnugat\Redaktilo\Editor;
 use Gnugat\Redaktilo\File;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 
 class InsertGeneratedMethodListenerSpec extends ObjectBehavior
 {
@@ -28,58 +27,32 @@ class InsertGeneratedMethodListenerSpec extends ObjectBehavior
     const CLASS_NAME = 'MyClass';
     const METHOD_NAME = 'myMethod';
 
-    function let(Editor $editor, PrettyPrinter $prettyPrinter)
+    function let(CodeEditor $codeEditor)
     {
-        $this->beConstructedWith($editor, $prettyPrinter);
+        $this->beConstructedWith($codeEditor);
     }
 
     function it_inserts_the_generated_method(
-        Editor $editor,
+        CodeEditor $codeEditor,
         File $file,
         FileModel $fileModel,
+        FullyQualifiedNameModel $fullyQualifiedNameModel,
         MethodModel $methodModel,
-        ObjectModel $objectModel,
-        PrettyPrinter $prettyPrinter
+        ObjectModel $objectModel
     ) {
-        $generatedCode = Repository::find('generated_method');
+        $insertUseStatements = Argument::type('Memio\SpecGen\CodeEditor\InsertUseStatements');
+        $insertMethod = Argument::type('Memio\SpecGen\CodeEditor\InsertMethod');
+
         $generatedMethod = new GeneratedMethod($fileModel->getWrappedObject());
+        $fileModel->allFullyQualifiedNames()->willReturn(array($fullyQualifiedNameModel));
         $fileModel->getFilename()->willReturn(self::FILE_NAME);
         $fileModel->getStructure()->willReturn($objectModel);
         $objectModel->allMethods()->willReturn(array($methodModel));
 
-        $prettyPrinter->generateCode($methodModel)->willReturn($generatedCode);
-        $editor->open(self::FILE_NAME)->willReturn($file);
-        $editor->jumpBelow($file, InsertGeneratedMethodListener::END_OF_CLASS, 0)->shouldBeCalled();
-        $editor->insertAbove($file, $generatedCode)->shouldBeCalled();
-        $file->getCurrentLineNumber()->willReturn(42);
-        $file->getLine(41)->willReturn('{');
-        $editor->save($file)->shouldBeCalled();
-
-        $this->onGeneratedMethod($generatedMethod);
-    }
-
-    function it_also_inserts_an_empty_line_above_if_the_class_is_not_empty(
-        Editor $editor,
-        File $file,
-        FileModel $fileModel,
-        MethodModel $methodModel,
-        ObjectModel $objectModel,
-        PrettyPrinter $prettyPrinter
-    ) {
-        $generatedCode = Repository::find('generated_method');
-        $generatedMethod = new GeneratedMethod($fileModel->getWrappedObject());
-        $fileModel->getFilename()->willReturn(self::FILE_NAME);
-        $fileModel->getStructure()->willReturn($objectModel);
-        $objectModel->allMethods()->willReturn(array($methodModel));
-
-        $prettyPrinter->generateCode($methodModel)->willReturn($generatedCode);
-        $editor->open(self::FILE_NAME)->willReturn($file);
-        $editor->jumpBelow($file, InsertGeneratedMethodListener::END_OF_CLASS, 0)->shouldBeCalled();
-        $editor->insertAbove($file, $generatedCode)->shouldBeCalled();
-        $file->getCurrentLineNumber()->willReturn(42);
-        $file->getLine(41)->willReturn('    }');
-        $editor->insertAbove($file, '')->shouldBeCalled();
-        $editor->save($file)->shouldBeCalled();
+        $codeEditor->open(self::FILE_NAME)->willReturn($file);
+        $codeEditor->handle($insertUseStatements)->shouldBeCalled();
+        $codeEditor->handle($insertMethod)->shouldBeCalled();
+        $codeEditor->save($file)->shouldBeCalled();
 
         $this->onGeneratedMethod($generatedMethod);
     }

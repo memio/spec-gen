@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Memio\SpecGen\Editor;
+namespace Memio\SpecGen\CodeEditor;
 
 use Gnugat\Redaktilo\Editor;
 use Gnugat\Redaktilo\File;

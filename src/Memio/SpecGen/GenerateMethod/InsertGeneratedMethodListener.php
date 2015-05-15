@@ -12,8 +12,9 @@
 namespace Memio\SpecGen\GenerateMethod;
 
 use Memio\Model\Method;
-use Memio\PrettyPrinter\PrettyPrinter;
-use Gnugat\Redaktilo\Editor;
+use Memio\SpecGen\CodeEditor\CodeEditor;
+use Memio\SpecGen\CodeEditor\InsertMethod;
+use Memio\SpecGen\CodeEditor\InsertUseStatements;
 use Gnugat\Redaktilo\File;
 
 /**
@@ -23,14 +24,10 @@ use Gnugat\Redaktilo\File;
  * And a new method in it
  * When it has been generated
  * Then it should be inserted at the end of the file
+ * And use statements should be inserted when necessary
  */
 class InsertGeneratedMethodListener
 {
-    const START_OF_CLASS = '/^{$/';
-    const END_OF_CLASS = '/^}$/';
-    const NAME_SPACE = '/^namespace /';
-    const USE_STATEMENT = '/^use /';
-
     /**
      * @var Editor
      */
@@ -42,13 +39,11 @@ class InsertGeneratedMethodListener
     private $prettyPrinter;
 
     /**
-     * @param Editor        $editor
-     * @param PrettyPrinter $prettyPrinter
+     * @param CodeEditor $codeEditor
      */
-    public function __construct(Editor $editor, PrettyPrinter $prettyPrinter)
+    public function __construct(CodeEditor $codeEditor)
     {
-        $this->editor = $editor;
-        $this->prettyPrinter = $prettyPrinter;
+        $this->codeEditor = $codeEditor;
     }
 
     /**
@@ -61,56 +56,9 @@ class InsertGeneratedMethodListener
         $allMethods = $generatedMethod->file->getStructure()->allMethods();
         $method = array_shift($allMethods); // $object should contain only one method, the generated one.
 
-        $file = $this->editor->open($fileName);
-        $this->insertUseStatements($file, $fullyQualifiedNames);
-        $this->insertMethod($file, $method);
-        $this->editor->save($file);
-    }
-
-    /**
-     * @param File  $file
-     * @param array $fullyQualifiedNames
-     */
-    private function insertUseStatements(File $file, array $fullyQualifiedNames)
-    {
-        foreach ($fullyQualifiedNames as $fullyQualifiedName) {
-            $fullyQualifiedClassName = $fullyQualifiedName->getFullyQualifiedName();
-            $escapedFullyQualifiedClassName = addslashes($fullyQualifiedClassName);
-            if (!$this->editor->hasBelow($file, "/^use $escapedFullyQualifiedClassName;$/", 0)) {
-                $this->insertUseStatement($file, $fullyQualifiedClassName);
-            }
-        }
-    }
-
-    /**
-     * @param File   $file
-     * @param string $fullyQualifiedClassName
-     */
-    private function insertUseStatement(File $file, $fullyQualifiedClassName)
-    {
-        if (!$this->editor->hasBelow($file, self::USE_STATEMENT, 0)) {
-            $this->editor->jumpBelow($file, self::NAME_SPACE, 0);
-            $this->editor->insertBelow($file, '');
-        } else {
-            $lastLineNumber = $file->getLength() - 1;
-            $file->setCurrentLineNumber($lastLineNumber);
-            $this->editor->jumpAbove($file, self::USE_STATEMENT);
-        }
-        $this->editor->insertBelow($file, "use $fullyQualifiedClassName;");
-    }
-
-    /**
-     * @param File   $file
-     * @param Method $method
-     */
-    private function insertMethod(File $file, Method $method)
-    {
-        $generatedCode = $this->prettyPrinter->generateCode($method);
-        $this->editor->jumpBelow($file, self::END_OF_CLASS, 0);
-        $this->editor->insertAbove($file, $generatedCode);
-        $above = $file->getCurrentLineNumber() - 1;
-        if (0 === preg_match(self::START_OF_CLASS, $file->getLine($above))) {
-            $this->editor->insertAbove($file, '');
-        }
+        $file = $this->codeEditor->open($fileName);
+        $this->codeEditor->handle(new InsertUseStatements($file, $fullyQualifiedNames));
+        $this->codeEditor->handle(new InsertMethod($file, $method));
+        $this->codeEditor->save($file);
     }
 }

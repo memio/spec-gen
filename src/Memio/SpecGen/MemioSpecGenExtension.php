@@ -28,6 +28,7 @@ class MemioSpecGenExtension implements ExtensionInterface
     public function load(ServiceContainer $container)
     {
         $this->setupSharedServices($container);
+        $this->setupCodeEditor($container);
         $this->setupGenerateMethodHandler($container);
         $this->setupGenerators($container);
     }
@@ -54,13 +55,41 @@ class MemioSpecGenExtension implements ExtensionInterface
     /**
      * @param ServiceContainer $container
      */
+    private function setupCodeEditor(ServiceContainer $container)
+    {
+        $container->setShared('memio_spec_gen.code_editor', function (ServiceContainer $container) {
+            $editor = $container->get('redaktilo.editor');
+            $prettyPrinter = $container->get('memio.pretty_printer');
+
+            $insertMethodHandler = new \Memio\SpecGen\CodeEditor\InsertMethodHandler($editor, $prettyPrinter);
+            $insertUseStatementHandler = new \Memio\SpecGen\CodeEditor\InsertUseStatementHandler(
+                $editor,
+                $prettyPrinter
+            );
+            $insertUseStatementsHandler = new \Memio\SpecGen\CodeEditor\InsertUseStatementsHandler(
+                $editor,
+                $insertUseStatementHandler
+            );
+
+            $commandBus = new \Memio\SpecGen\CommandBus\CommandBus();
+            $commandBus->addCommandHandler($insertMethodHandler);
+            $commandBus->addCommandHandler($insertUseStatementHandler);
+            $commandBus->addCommandHandler($insertUseStatementsHandler);
+
+            return new \Memio\SpecGen\CodeEditor\CodeEditor($commandBus, $editor);
+        });
+    }
+
+    /**
+     * @param ServiceContainer $container
+     */
     private function setupGenerateMethodHandler(ServiceContainer $container)
     {
         $eventDispatcher = $container->get('memio_spec_gen.event_dispatcher');
         $commandBus = $container->get('memio_spec_gen.command_bus');
 
         $insertGeneratedMethodListener = new \Memio\SpecGen\GenerateMethod\InsertGeneratedMethodListener(
-            $container->get('redaktilo.editor'),
+            $container->get('memio_spec_gen.code_editor'),
             $container->get('memio.pretty_printer')
         );
         $logGeneratedMethodListener = new \Memio\SpecGen\GenerateMethod\LogGeneratedMethodListener(
