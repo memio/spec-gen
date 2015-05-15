@@ -30,7 +30,7 @@ Let's write the following specification:
 namespace spec\Vendor\Project;
 
 use PhpSpec\ObjectBehavior;
-use Vendor\Project\Request;
+use Vendor\Project\Message\Request;
 
 class RequestHandlerSpec extends ObjectBehavior
 {
@@ -51,6 +51,8 @@ Running the tests (`phpspec run`) will generate the following class:
 
 namespace Vendor\Project;
 
+use Vendor\Project\Message\Request;
+
 class RequestHandler
 {
     public function handle(Request $request, $argument1, $argument2)
@@ -60,9 +62,6 @@ class RequestHandler
 ```
 
 Now we can start naming those generic arguments, and write the code.
-
-> **Note**: the use statement for `Request` is missing.
-> This feature is planned for one of the next release.
 
 ## Want to know more?
 
@@ -80,7 +79,6 @@ And finally some meta documentation:
 
 ## Roadmap
 
-* Generating use statements
 * Generating constructors
 * Generating method PHPdoc
 * Generating License header (based on `composer.json` data)
