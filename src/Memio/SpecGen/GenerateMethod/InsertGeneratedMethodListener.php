@@ -75,7 +75,8 @@ class InsertGeneratedMethodListener
     {
         foreach ($fullyQualifiedNames as $fullyQualifiedName) {
             $fullyQualifiedClassName = $fullyQualifiedName->getFullyQualifiedName();
-            if (!$this->editor->hasBelow($file, "/^use $fullyQualifiedClassName;$/", 0)) {
+            $escapedFullyQualifiedClassName = addslashes($fullyQualifiedClassName);
+            if (!$this->editor->hasBelow($file, "/^use $escapedFullyQualifiedClassName;$/", 0)) {
                 $this->insertUseStatement($file, $fullyQualifiedClassName);
             }
         }
