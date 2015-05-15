@@ -16,6 +16,9 @@ use Memio\SpecGen\Tests\GeneratorTestCase;
 
 class GenerateMethodTest extends GeneratorTestCase
 {
+    const NAME_SPACE = 'Vendor\Project';
+    const CLASS_NAME = 'Vendor\Project\MyClass';
+
     private $methodGenerator;
 
     protected function setUp()
@@ -32,7 +35,8 @@ class GenerateMethodTest extends GeneratorTestCase
 
         $resource = $this->prophesize('PhpSpec\Locator\ResourceInterface');
         $resource->getSrcFilename()->willReturn($filename);
-        $resource->getSrcClassname()->willReturn('MyClass');
+        $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
+        $resource->getSrcClassname()->willReturn(self::CLASS_NAME);
 
         $this->methodGenerator->generate($resource->reveal(), array(
             'name' => 'myMethod',
@@ -51,7 +55,8 @@ class GenerateMethodTest extends GeneratorTestCase
 
         $resource = $this->prophesize('PhpSpec\Locator\ResourceInterface');
         $resource->getSrcFilename()->willReturn($filename);
-        $resource->getSrcClassname()->willReturn('MyClass');
+        $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
+        $resource->getSrcClassname()->willReturn(self::CLASS_NAME);
 
         $this->methodGenerator->generate($resource->reveal(), array(
             'name' => 'myMethod',
@@ -74,7 +79,8 @@ class GenerateMethodTest extends GeneratorTestCase
 
         $resource = $this->prophesize('PhpSpec\Locator\ResourceInterface');
         $resource->getSrcFilename()->willReturn($filename);
-        $resource->getSrcClassname()->willReturn('MyClass');
+        $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
+        $resource->getSrcClassname()->willReturn(self::CLASS_NAME);
 
         $this->methodGenerator->generate($resource->reveal(), array(
             'name' => 'myMethod',
@@ -95,7 +101,8 @@ class GenerateMethodTest extends GeneratorTestCase
 
         $resource = $this->prophesize('PhpSpec\Locator\ResourceInterface');
         $resource->getSrcFilename()->willReturn($filename);
-        $resource->getSrcClassname()->willReturn('MyClass');
+        $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
+        $resource->getSrcClassname()->willReturn(self::CLASS_NAME);
 
         $this->methodGenerator->generate($resource->reveal(), array(
             'name' => 'myMethod',

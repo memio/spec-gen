@@ -2,6 +2,8 @@
 
 namespace Vendor\Project;
 
+use DateTime;
+
 class MyClass
 {
     public function myMethod(DateTime $dateTime, array $argument1, $argument2)

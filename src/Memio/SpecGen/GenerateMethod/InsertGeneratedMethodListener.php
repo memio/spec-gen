@@ -11,8 +11,11 @@
 
 namespace Memio\SpecGen\GenerateMethod;
 
-use Memio\PrettyPrinter\PrettyPrinter;
-use Gnugat\Redaktilo\Editor;
+use Memio\Model\Method;
+use Memio\SpecGen\CodeEditor\CodeEditor;
+use Memio\SpecGen\CodeEditor\InsertMethod;
+use Memio\SpecGen\CodeEditor\InsertUseStatements;
+use Gnugat\Redaktilo\File;
 
 /**
  * As a developer using phpspec, I want generated methods to be saved in my source code.
@@ -21,12 +24,10 @@ use Gnugat\Redaktilo\Editor;
  * And a new method in it
  * When it has been generated
  * Then it should be inserted at the end of the file
+ * And use statements should be inserted when necessary
  */
 class InsertGeneratedMethodListener
 {
-    const START_FO_CLASS = '/^{$/';
-    const END_OF_CLASS = '/^}$/';
-
     /**
      * @var Editor
      */
@@ -38,13 +39,11 @@ class InsertGeneratedMethodListener
     private $prettyPrinter;
 
     /**
-     * @param Editor        $editor
-     * @param PrettyPrinter $prettyPrinter
+     * @param CodeEditor $codeEditor
      */
-    public function __construct(Editor $editor, PrettyPrinter $prettyPrinter)
+    public function __construct(CodeEditor $codeEditor)
     {
-        $this->editor = $editor;
-        $this->prettyPrinter = $prettyPrinter;
+        $this->codeEditor = $codeEditor;
     }
 
     /**
@@ -53,16 +52,13 @@ class InsertGeneratedMethodListener
     public function onGeneratedMethod(GeneratedMethod $generatedMethod)
     {
         $fileName = $generatedMethod->file->getFilename();
-        $method = array_shift($generatedMethod->file->getStructure()->allMethods()); // $object should contain only one method, the generated one.
+        $fullyQualifiedNames = $generatedMethod->file->allFullyQualifiedNames();
+        $allMethods = $generatedMethod->file->getStructure()->allMethods();
+        $method = array_shift($allMethods); // $object should contain only one method, the generated one.
 
-        $generatedCode = $this->prettyPrinter->generateCode($method);
-        $file = $this->editor->open($fileName);
-        $this->editor->jumpBelow($file, self::END_OF_CLASS);
-        $this->editor->insertAbove($file, $generatedCode);
-        $above = $file->getCurrentLineNumber() - 1;
-        if (0 === preg_match(self::START_FO_CLASS, $file->getLine($above))) {
-            $this->editor->insertAbove($file, '');
-        }
-        $this->editor->save($file);
+        $file = $this->codeEditor->open($fileName);
+        $this->codeEditor->handle(new InsertUseStatements($file, $fullyQualifiedNames));
+        $this->codeEditor->handle(new InsertMethod($file, $method));
+        $this->codeEditor->save($file);
     }
 }

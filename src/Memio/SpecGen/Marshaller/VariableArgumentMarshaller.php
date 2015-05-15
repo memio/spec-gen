@@ -23,7 +23,8 @@ class VariableArgumentMarshaller
                 if ($variable instanceof ProphecySubjectInterface) {
                     $type = ($this->getProphecyBaseType($variable));
                 }
-                $name = lcfirst(end(explode('\\', $type)));
+                $nameSpaceBits = explode('\\', $type);
+                $name = lcfirst(end($nameSpaceBits));
             }
             $argumentCollection->add($type, $name);
         }
@@ -39,7 +40,6 @@ class VariableArgumentMarshaller
     private function getProphecyBaseType($variable)
     {
         $typeName = get_parent_class($variable);
-
         if ($typeName == 'stdClass'
             && $interfaces = $this->getAllInterfaces($variable)) {
             $typeName = reset($interfaces);
