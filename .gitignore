@@ -6,4 +6,4 @@
 
 # Temporary files
 /fixtures/actual
-!/fixtures/actualGeneratedTest/.gitkeep
+!/fixtures/actual/Generated*Test/.gitkeep
