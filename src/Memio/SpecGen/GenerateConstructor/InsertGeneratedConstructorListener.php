@@ -9,24 +9,26 @@
  * file that was distributed with this source code.
  */
 
-namespace Memio\SpecGen\GenerateMethod;
+namespace Memio\SpecGen\GenerateConstructor;
 
 use Memio\Model\Method;
 use Memio\SpecGen\CodeEditor\CodeEditor;
-use Memio\SpecGen\CodeEditor\InsertMethod;
+use Memio\SpecGen\CodeEditor\InsertConstructor;
+use Memio\SpecGen\CodeEditor\InsertProperties;
 use Memio\SpecGen\CodeEditor\InsertUseStatements;
 use Gnugat\Redaktilo\File;
 
 /**
- * As a developer using phpspec, I want generated methods to be saved in my source code.
+ * As a developer using phpspec, I want generated cosntructors to be saved in my source code.
  *
  * Given a class I'm specifying
- * And a new method in it
+ * And a new constructor in it
  * When it has been generated
- * Then it should be inserted at the end of the file
+ * Then it should be inserted at the begining of the file
  * And use statements should be inserted when necessary
+ * And properties for the constructor's arguments should be inserted
  */
-class InsertGeneratedMethodListener
+class InsertGeneratedConstructorListener
 {
     /**
      * @var PrettyPrinter
@@ -42,18 +44,20 @@ class InsertGeneratedMethodListener
     }
 
     /**
-     * @param GeneratedMethod $generatedMethod
+     * @param GeneratedConstructor $generatedConstructor
      */
-    public function onGeneratedMethod(GeneratedMethod $generatedMethod)
+    public function onGeneratedConstructor(GeneratedConstructor $generatedConstructor)
     {
-        $fileName = $generatedMethod->file->getFilename();
-        $fullyQualifiedNames = $generatedMethod->file->allFullyQualifiedNames();
-        $allMethods = $generatedMethod->file->getStructure()->allMethods();
+        $fileName = $generatedConstructor->file->getFilename();
+        $fullyQualifiedNames = $generatedConstructor->file->allFullyQualifiedNames();
+        $allMethods = $generatedConstructor->file->getStructure()->allMethods();
+        $allProperties = $generatedConstructor->file->getStructure()->allProperties();
         $method = array_shift($allMethods); // $object should contain only one method, the generated one.
 
         $file = $this->codeEditor->open($fileName);
         $this->codeEditor->handle(new InsertUseStatements($file, $fullyQualifiedNames));
-        $this->codeEditor->handle(new InsertMethod($file, $method));
+        $this->codeEditor->handle(new InsertProperties($file, $allProperties));
+        $this->codeEditor->handle(new InsertConstructor($file, $method));
         $this->codeEditor->save($file);
     }
 }

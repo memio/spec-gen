@@ -49,7 +49,7 @@ class InsertUseStatementHandlerSpec extends ObjectBehavior
         $this->handle($insertUseStatement);
     }
 
-    function it_inserts_use_Statement_at_the_end_of_the_use_statements_block(Editor $editor, File $file, FullyQualifiedName $fullyQualifiedName, PrettyPrinter $prettyPrinter)
+    function it_inserts_use_statement_at_the_end_of_the_use_statements_block(Editor $editor, File $file, FullyQualifiedName $fullyQualifiedName, PrettyPrinter $prettyPrinter)
     {
         $insertUseStatement = new InsertUseStatement($file->getWrappedObject(), $fullyQualifiedName->getWrappedObject());
         $fullyQualifiedName->getFullyQualifiedName()->willReturn('Vendor\Project\MyDependency');

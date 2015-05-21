@@ -1,0 +1,14 @@
+<?php
+
+namespace Vendor\Project;
+
+use DateTime;
+
+class MyClass
+{
+    private $dateTime;
+
+    public function __construct(DateTime $dateTime)
+    {
+    }
+}

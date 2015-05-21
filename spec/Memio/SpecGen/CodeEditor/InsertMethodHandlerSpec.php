@@ -41,6 +41,7 @@ class InsertMethodHandlerSpec extends ObjectBehavior
         $insertMethod = new InsertMethod($file->getWrappedObject(), $method->getWrappedObject());
         $generatedCode = 'abstract public function myMethod();';
 
+        $method->getName()->willReturn('myMethod');
         $prettyPrinter->generateCode($method)->willReturn($generatedCode);
         $editor->jumpBelow($file, InsertMethodHandler::END_OF_CLASS, 0)->shouldBeCalled();
         $editor->insertAbove($file, $generatedCode)->shouldBeCalled();
@@ -55,6 +56,7 @@ class InsertMethodHandlerSpec extends ObjectBehavior
         $insertMethod = new InsertMethod($file->getWrappedObject(), $method->getWrappedObject());
         $generatedCode = 'abstract public function myMethod();';
 
+        $method->getName()->willReturn('myMethod');
         $prettyPrinter->generateCode($method)->willReturn($generatedCode);
         $editor->jumpBelow($file, InsertMethodHandler::END_OF_CLASS, 0)->shouldBeCalled();
         $editor->insertAbove($file, $generatedCode)->shouldBeCalled();

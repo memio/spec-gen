@@ -16,12 +16,12 @@ use PhpSpec\Locator\ResourceInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class MethodGeneratorSpec extends ObjectBehavior
+class ConstructorGeneratorSpec extends ObjectBehavior
 {
     const FILE_NAME = 'src/Vendor/Project/MyClass.php';
     const NAME_SPACE = 'Vendor\Project';
     const CLASS_NAME = 'MyClass';
-    const METHOD_NAME = 'myMethod';
+    const METHOD_NAME = '__construct';
 
     function let(CommandBus $commandBus)
     {
@@ -33,9 +33,10 @@ class MethodGeneratorSpec extends ObjectBehavior
         $this->shouldImplement('PhpSpec\CodeGenerator\Generator\GeneratorInterface');
     }
 
-    function it_supports_method_generation(ResourceInterface $resource)
+    function it_supports_constructor_generation(ResourceInterface $resource)
     {
-        $this->supports($resource, 'method', array())->shouldBe(true);
+        $data = array('name' => self::METHOD_NAME);
+        $this->supports($resource, 'method', $data)->shouldBe(true);
     }
 
     function it_calls_the_command_bus(CommandBus $commandBus, ResourceInterface $resource)
@@ -48,14 +49,14 @@ class MethodGeneratorSpec extends ObjectBehavior
             'arguments' => array(),
         );
 
-        $command = Argument::type('Memio\SpecGen\GenerateMethod\GenerateMethod');
+        $command = Argument::type('Memio\SpecGen\GenerateConstructor\GenerateConstructor');
         $commandBus->handle($command)->shouldbeCalled();
 
         $this->generate($resource, $data);
     }
 
-    function it_has_regular_priority()
+    function it_has_a_higher_priority_than_method_generator()
     {
-        $this->getPriority()->shouldBe(0);
+        $this->getPriority()->shouldBe(1);
     }
 }

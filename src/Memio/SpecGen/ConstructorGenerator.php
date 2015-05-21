@@ -12,14 +12,14 @@
 namespace Memio\SpecGen;
 
 use Memio\SpecGen\CommandBus\CommandBus;
-use Memio\SpecGen\GenerateMethod\GenerateMethod;
+use Memio\SpecGen\GenerateConstructor\GenerateConstructor;
 use PhpSpec\CodeGenerator\Generator\GeneratorInterface;
 use PhpSpec\Locator\ResourceInterface;
 
 /**
- * When phpspec finds an undefined method in a specification, it calls this generator.
+ * When phpspec finds an undefined method named "__construct" in a specification, it calls this generator.
  */
-class MethodGenerator implements GeneratorInterface
+class ConstructorGenerator implements GeneratorInterface
 {
     /**
      * @var CommandBus
@@ -39,7 +39,7 @@ class MethodGenerator implements GeneratorInterface
      */
     public function supports(ResourceInterface $resource, $generation, array $data)
     {
-        return 'method' === $generation;
+        return 'method' === $generation && '__construct' === $data['name'];
     }
 
     /**
@@ -47,13 +47,13 @@ class MethodGenerator implements GeneratorInterface
      */
     public function generate(ResourceInterface $resource, array $data = array())
     {
-        $generateMethod = new GenerateMethod(
+        $generateConstructor = new GenerateConstructor(
             $resource->getSrcFilename(),
             $resource->getSrcClassName(),
             $data['name'],
             $data['arguments']
         );
-        $this->commandBus->handle($generateMethod);
+        $this->commandBus->handle($generateConstructor);
     }
 
     /**
@@ -61,6 +61,6 @@ class MethodGenerator implements GeneratorInterface
      */
     public function getPriority()
     {
-        return 0;
+        return 1;
     }
 }
