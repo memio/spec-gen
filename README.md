@@ -2,16 +2,24 @@
 
 This extension for [phpspec](http://phpspec.net/) provides a powerful code generator:
 
-* it typehints object, array and callable arguments
-* it names object arguments after their type
-* it names scalar arguments after a generic name (`argument`)
-* it adds number on names that could collide (e.g. `$argument1, $argument2`)
+* method generation:
+    * it inserts method at the end of the class
+    * it typehints object, array and callable arguments
+    * it names object arguments after their type
+    * it names scalar arguments after a generic name (`argument`)
+    * it adds number on names that could collide (e.g. `$argument1, $argument2`)
+* constructor generation, same as method except:
+    * it inserts constructor at the begining of the class
+    * it inserts properties for each constructor arguments
+
+> **Note**: Currently it is not possible to provide custom templates to SpecGen
+> (it is not compatible with phpspec templates).
 
 ## Installation
 
 First install it using [Composer](https://getcomposer.org/download):
 
-    composer require --dev memio/spec-gen:~0.1
+    composer require --dev memio/spec-gen:~0.3
 
 Then enable it in `phpspec.yml`:
 
@@ -29,17 +37,26 @@ Let's write the following specification:
 
 namespace spec\Vendor\Project;
 
+use Vendor\Project\Service\Filesystem;
+use Vendor\Project\File;
 use PhpSpec\ObjectBehavior;
-use Vendor\Project\Message\Request;
 
-class RequestHandlerSpec extends ObjectBehavior
+class TextEditorSpec extends ObjectBehavior
 {
-    const MASTER_REQUEST = 1;
-    const CATCH_EXCEPTIONS = true;
+    const FILENAME = '/tmp/file.txt';
+    const FORCE_FILE_CREATION = true;
 
-    function it_catches_exceptions_from_master_request(Request $request)
+    function let(Filesystem $filesystem)
     {
-        $this->handle($request, self::MASTER_REQUEST, self::CATCH_EXCEPTIONS);
+        $this->beConstructedWith($filesystem);
+    }
+
+    function it_creates_new_files(File $file, Filesystem $filesystem)
+    {
+        $filesystem->exists(self::FILENAME)->willReturn(false);
+        $filesystem->create(self::FILENAME)->willReturn($file);
+
+        $this->open(self::FILENAME, self::FORCE_FILE_CREATION)->shouldBe($file);
     }
 }
 ```
@@ -51,17 +68,23 @@ Running the tests (`phpspec run`) will generate the following class:
 
 namespace Vendor\Project;
 
-use Vendor\Project\Message\Request;
+use Vendor\Project\Service\Filesystem;
 
-class RequestHandler
+class TextEditor
 {
-    public function handle(Request $request, $argument1, $argument2)
+    private $filesystem;
+
+    public function __construct(Filesytem $filesystem)
+    {
+    }
+
+    public function open($argument1, $argument2)
     {
     }
 }
 ```
 
-Now we can start naming those generic arguments, and write the code.
+Now we can start naming those generic arguments and write the code.
 
 ## Want to know more?
 
@@ -79,6 +102,7 @@ And finally some meta documentation:
 
 ## Roadmap
 
-* Generating constructors
-* Generating method PHPdoc
+* Generating method/property PHPdoc
 * Generating License header (based on `composer.json` data)
+* Sorting "use statements" by aphabetical order
+* Accepting custom templates
