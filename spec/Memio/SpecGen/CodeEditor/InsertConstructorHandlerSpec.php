@@ -33,7 +33,7 @@ class InsertConstructorHandlerSpec extends ObjectBehavior
         $this->shouldImplement('Memio\SpecGen\CommandBus\CommandHandler');
     }
 
-    function it_supports_insert_method_command(InsertConstructor $insertConstructor)
+    function it_supports_insert_constructor_command(InsertConstructor $insertConstructor)
     {
         $this->supports($insertConstructor)->shouldBe(true);
     }

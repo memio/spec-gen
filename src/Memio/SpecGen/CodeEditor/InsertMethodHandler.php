@@ -18,8 +18,7 @@ use Memio\SpecGen\CommandBus\CommandHandler;
 
 class InsertMethodHandler implements CommandHandler
 {
-    const START_OF_CLASS = '/^{$/';
-    const END_OF_CLASS = '/^}$/';
+    const CLASS_ENDING = '/^}$/';
 
     /**
      * @var Editor
@@ -54,12 +53,17 @@ class InsertMethodHandler implements CommandHandler
      */
     public function handle(Command $command)
     {
-        $generatedCode = $this->prettyPrinter->generateCode($command->method);
-        $this->editor->jumpBelow($command->file, self::END_OF_CLASS, 0);
-        $this->editor->insertAbove($command->file, $generatedCode);
-        $above = $command->file->getCurrentLineNumber() - 1;
-        if (0 === preg_match(self::START_OF_CLASS, $command->file->getLine($above))) {
-            $this->editor->insertAbove($command->file, '');
+        $methodPattern = '/^    public function '.$command->method->getName().'\(/';
+        if ($this->editor->hasBelow($command->file, $methodPattern, 0)) {
+            return;
         }
+        $this->editor->jumpBelow($command->file, self::CLASS_ENDING, 0);
+        $command->file->decrementCurrentLineNumber(1);
+        $line = trim($command->file->getLine());
+        if ('{' !== $line && '' !== $line) {
+            $this->editor->insertBelow($command->file, '');
+        }
+        $generatedCode = $this->prettyPrinter->generateCode($command->method);
+        $this->editor->insertBelow($command->file, $generatedCode);
     }
 }
