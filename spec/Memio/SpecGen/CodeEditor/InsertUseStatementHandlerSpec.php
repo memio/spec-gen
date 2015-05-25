@@ -14,16 +14,21 @@ namespace spec\Memio\SpecGen\CodeEditor;
 use Gnugat\Redaktilo\Editor;
 use Gnugat\Redaktilo\File;
 use Memio\Model\FullyQualifiedName;
-use Memio\PrettyPrinter\PrettyPrinter;
 use Memio\SpecGen\CodeEditor\InsertUseStatement;
 use Memio\SpecGen\CodeEditor\InsertUseStatementHandler;
 use PhpSpec\ObjectBehavior;
 
 class InsertUseStatementHandlerSpec extends ObjectBehavior
 {
-    function let(Editor $editor, PrettyPrinter $prettyPrinter)
+    const FULLY_QUALIFIED_NAME = 'Vendor\Project\MyClass';
+    const NAME_SPACE = 'Vendor\Project';
+    const NAME_SPACE_PATTERN = '/^namespace Vendor\\\\Project;$/';
+    const USE_STATEMENT = 'use Vendor\Project\MyClass;';
+    const USE_STATEMENT_PATTERN = '/^use Vendor\\\\Project\\\\MyClass;$/';
+
+    function let(Editor $editor)
     {
-        $this->beConstructedWith($editor, $prettyPrinter);
+        $this->beConstructedWith($editor);
     }
 
     function it_is_a_command_handler()
@@ -36,29 +41,72 @@ class InsertUseStatementHandlerSpec extends ObjectBehavior
         $this->supports($insertUseStatement)->shouldBe(true);
     }
 
-    function it_inserts_the_first_use_statement(Editor $editor, File $file, FullyQualifiedName $fullyQualifiedName, PrettyPrinter $prettyPrinter)
-    {
+    function it_does_not_insert_use_statement_in_same_namespace(
+        Editor $editor,
+        File $file,
+        FullyQualifiedName $fullyQualifiedName
+    ) {
         $insertUseStatement = new InsertUseStatement($file->getWrappedObject(), $fullyQualifiedName->getWrappedObject());
-        $fullyQualifiedName->getFullyQualifiedName()->willReturn('Vendor\Project\MyDependency');
+        $fullyQualifiedName->getNamespace()->willReturn(self::NAME_SPACE);
+        $fullyQualifiedName->getFullyQualifiedName()->willReturn(self::FULLY_QUALIFIED_NAME);
 
-        $editor->hasBelow($file, InsertUseStatementHandler::USE_STATEMENT, 0)->willReturn(false);
-        $editor->jumpBelow($file, InsertUseStatementHandler::NAME_SPACE, 0)->shouldBeCalled();
-        $editor->insertBelow($file, '')->shouldBeCalled();
-        $editor->insertBelow($file, "use Vendor\Project\MyDependency;")->shouldBeCalled();
+        $editor->hasBelow($file, self::NAME_SPACE_PATTERN, 0)->willReturn(true);
+        $editor->insertBelow($file, self::USE_STATEMENT)->shouldNotBeCalled();
 
         $this->handle($insertUseStatement);
     }
 
-    function it_inserts_use_statement_at_the_end_of_the_use_statements_block(Editor $editor, File $file, FullyQualifiedName $fullyQualifiedName, PrettyPrinter $prettyPrinter)
-    {
+    function it_does_not_insert_use_statement_twice(
+        Editor $editor,
+        File $file,
+        FullyQualifiedName $fullyQualifiedName
+    ) {
         $insertUseStatement = new InsertUseStatement($file->getWrappedObject(), $fullyQualifiedName->getWrappedObject());
-        $fullyQualifiedName->getFullyQualifiedName()->willReturn('Vendor\Project\MyDependency');
+        $fullyQualifiedName->getNamespace()->willReturn(self::NAME_SPACE);
+        $fullyQualifiedName->getFullyQualifiedName()->willReturn(self::FULLY_QUALIFIED_NAME);
 
-        $editor->hasBelow($file, InsertUseStatementHandler::USE_STATEMENT, 0)->willReturn(true);
-        $file->getLength()->willReturn(10);
-        $file->setCurrentLineNumber(9)->shouldBeCalled();
+        $editor->hasBelow($file, self::NAME_SPACE_PATTERN, 0)->willReturn(false);
+        $editor->hasBelow($file, self::USE_STATEMENT_PATTERN, 0)->willReturn(true);
+        $editor->insertBelow($file, self::USE_STATEMENT)->shouldNotBeCalled();
+
+        $this->handle($insertUseStatement);
+    }
+
+    function it_inserts_first_use_statement(
+        Editor $editor,
+        File $file,
+        FullyQualifiedName $fullyQualifiedName
+    ) {
+        $insertUseStatement = new InsertUseStatement($file->getWrappedObject(), $fullyQualifiedName->getWrappedObject());
+        $fullyQualifiedName->getNamespace()->willReturn(self::NAME_SPACE);
+        $fullyQualifiedName->getFullyQualifiedName()->willReturn(self::FULLY_QUALIFIED_NAME);
+
+        $editor->hasBelow($file, self::NAME_SPACE_PATTERN, 0)->willReturn(false);
+        $editor->hasBelow($file, self::USE_STATEMENT_PATTERN, 0)->willReturn(false);
+        $editor->jumpBelow($file, InsertUseStatementHandler::CLASS_ENDING, 0)->shouldBeCalled();
+        $editor->hasAbove($file, InsertUseStatementHandler::USE_STATEMENT)->willReturn(false);
+        $editor->jumpAbove($file, InsertUseStatementHandler::NAME_SPACE)->shouldBeCalled();
+        $editor->insertBelow($file, '')->shouldBeCalled();
+        $editor->insertBelow($file, self::USE_STATEMENT)->shouldBeCalled();
+
+        $this->handle($insertUseStatement);
+    }
+
+    function it_inserts_use_statement_at_the_end_of_use_statement_block(
+        Editor $editor,
+        File $file,
+        FullyQualifiedName $fullyQualifiedName
+    ) {
+        $insertUseStatement = new InsertUseStatement($file->getWrappedObject(), $fullyQualifiedName->getWrappedObject());
+        $fullyQualifiedName->getNamespace()->willReturn(self::NAME_SPACE);
+        $fullyQualifiedName->getFullyQualifiedName()->willReturn(self::FULLY_QUALIFIED_NAME);
+
+        $editor->hasBelow($file, self::NAME_SPACE_PATTERN, 0)->willReturn(false);
+        $editor->hasBelow($file, self::USE_STATEMENT_PATTERN, 0)->willReturn(false);
+        $editor->jumpBelow($file, InsertUseStatementHandler::CLASS_ENDING, 0)->shouldBeCalled();
+        $editor->hasAbove($file, InsertUseStatementHandler::USE_STATEMENT)->willReturn(true);
         $editor->jumpAbove($file, InsertUseStatementHandler::USE_STATEMENT)->shouldBeCalled();
-        $editor->insertBelow($file, "use Vendor\Project\MyDependency;")->shouldBeCalled();
+        $editor->insertBelow($file, self::USE_STATEMENT)->shouldBeCalled();
 
         $this->handle($insertUseStatement);
     }

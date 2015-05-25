@@ -89,14 +89,6 @@ class GenerateConstructorHandler implements CommandHandler
         if (in_array($type, $nonObjectTypes, true)) {
             return false;
         }
-        if ($fullyQualifiedName->getNamespace() === $file->getNamespace()) {
-            return false;
-        }
-        foreach ($file->allFullyQualifiedNames() as $fullyQualifiedName) {
-            if ($fullyQualifiedName->getFullyQualifiedName() === $type) {
-                return false;
-            }
-        }
 
         return true;
     }

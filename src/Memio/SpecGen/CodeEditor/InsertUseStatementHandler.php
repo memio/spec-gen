@@ -12,12 +12,12 @@
 namespace Memio\SpecGen\CodeEditor;
 
 use Gnugat\Redaktilo\Editor;
-use Memio\PrettyPrinter\PrettyPrinter;
 use Memio\SpecGen\CommandBus\Command;
 use Memio\SpecGen\CommandBus\CommandHandler;
 
 class InsertUseStatementHandler implements CommandHandler
 {
+    const CLASS_ENDING = '}';
     const NAME_SPACE = '/^namespace /';
     const USE_STATEMENT = '/^use /';
 
@@ -27,18 +27,11 @@ class InsertUseStatementHandler implements CommandHandler
     private $editor;
 
     /**
-     * @var PrettyPrinter
+     * @param Editor $editor
      */
-    private $prettyPrinter;
-
-    /**
-     * @param Editor        $editor
-     * @param PrettyPrinter $prettyPrinter
-     */
-    public function __construct(Editor $editor, PrettyPrinter $prettyPrinter)
+    public function __construct(Editor $editor)
     {
         $this->editor = $editor;
-        $this->prettyPrinter = $prettyPrinter;
     }
 
     /**
@@ -54,15 +47,21 @@ class InsertUseStatementHandler implements CommandHandler
      */
     public function handle(Command $command)
     {
-        if (!$this->editor->hasBelow($command->file, self::USE_STATEMENT, 0)) {
-            $this->editor->jumpBelow($command->file, self::NAME_SPACE, 0);
-            $this->editor->insertBelow($command->file, '');
-        } else {
-            $lastLineNumber = $command->file->getLength() - 1;
-            $command->file->setCurrentLineNumber($lastLineNumber);
-            $this->editor->jumpAbove($command->file, self::USE_STATEMENT);
+        $namespace = $command->fullyQualifiedName->getNamespace();
+        $fullyQualifiedName = $command->fullyQualifiedName->getFullyQualifiedName();
+        $namespacePattern = '/^namespace '.addslashes($namespace).';$/';
+        $useStatementPattern = '/^use '.addslashes($fullyQualifiedName).';$/';
+        if ($this->editor->hasBelow($command->file, $namespacePattern, 0) || $this->editor->hasBelow($command->file, $useStatementPattern, 0)) {
+            return;
         }
-        $fullyQualifiedClassName = $command->fullyQualifiedName->getFullyQualifiedName();
-        $this->editor->insertBelow($command->file, "use $fullyQualifiedClassName;");
+        $this->editor->jumpBelow($command->file, self::CLASS_ENDING, 0);
+        if ($this->editor->hasAbove($command->file, self::USE_STATEMENT)) {
+            $this->editor->jumpAbove($command->file, self::USE_STATEMENT);
+        } else {
+            $this->editor->jumpAbove($command->file, self::NAME_SPACE);
+            $this->editor->insertBelow($command->file, '');
+        }
+        $generatedCode = 'use '.$fullyQualifiedName.';';
+        $this->editor->insertBelow($command->file, $generatedCode);
     }
 }
