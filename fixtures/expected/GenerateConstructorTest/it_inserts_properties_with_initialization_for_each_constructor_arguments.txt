@@ -10,5 +10,6 @@ class MyClass
 
     public function __construct(DateTime $dateTime)
     {
+        $this->dateTime = $dateTime;
     }
 }

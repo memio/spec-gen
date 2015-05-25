@@ -10,7 +10,7 @@ This extension for [phpspec](http://phpspec.net/) provides a powerful code gener
     * it adds number on names that could collide (e.g. `$argument1, $argument2`)
 * constructor generation, same as method except:
     * it inserts constructor at the begining of the class
-    * it inserts properties for each constructor arguments
+    * it inserts properties with initialization for each constructor arguments
 
 > **Note**: Currently it is not possible to provide custom templates to SpecGen
 > (it is not compatible with phpspec templates).

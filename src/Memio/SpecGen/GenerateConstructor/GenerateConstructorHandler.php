@@ -71,6 +71,12 @@ class GenerateConstructorHandler implements CommandHandler
             }
             $object->addProperty(new Property($argumentName));
             $method->addArgument($argument);
+            $body = $method->getBody();
+            if (!empty($body)) {
+                $body .= "\n";
+            }
+            $body .= '        $this->'.$argumentName.' = $'.$argumentName.';';
+            $method->setBody($body);
         }
         $generatedConstructor = new GeneratedConstructor($file);
         $this->eventDispatcher->dispatch(GeneratedConstructor::EVENT_NAME, $generatedConstructor);

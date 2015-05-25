@@ -49,7 +49,7 @@ class GenerateConstructorTest extends GeneratorTestCase
     /**
      * @test
      */
-    public function it_inserts_properties_for_each_constructor_arguments()
+    public function it_inserts_properties_with_initialization_for_each_constructor_arguments()
     {
         $filename = $this->getFixtureFilename();
 
