@@ -43,8 +43,6 @@ class LogGeneratedConstructorListener
         $object = $generatedConstructor->file->getStructure();
         $className = $object->getName();
         $propertiesCount = count($object->allProperties());
-        $methods = $object->allMethods();
-        $method = array_shift($methods); // $object should contain only one method, the generated one.
 
         $propertiesWord = (1 === $propertiesCount ? 'property' : 'properties');
         $this->io->write(<<<OUTPUT
