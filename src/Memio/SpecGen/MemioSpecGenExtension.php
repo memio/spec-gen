@@ -78,7 +78,6 @@ class MemioSpecGenExtension implements ExtensionInterface
                 $prettyPrinter
             );
             $insertPropertiesHandler = new \Memio\SpecGen\CodeEditor\InsertPropertiesHandler(
-                $editor,
                 $insertPropertyHandler
             );
 

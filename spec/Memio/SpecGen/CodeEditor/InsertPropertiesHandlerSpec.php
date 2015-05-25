@@ -11,7 +11,6 @@
 
 namespace spec\Memio\SpecGen\CodeEditor;
 
-use Gnugat\Redaktilo\Editor;
 use Gnugat\Redaktilo\File;
 use Memio\Model\Property;
 use Memio\SpecGen\CodeEditor\InsertPropertyHandler;
@@ -21,9 +20,9 @@ use Prophecy\Argument;
 
 class InsertPropertiesHandlerSpec extends ObjectBehavior
 {
-    function let(Editor $editor, InsertPropertyHandler $insertPropertyHandler)
+    function let(InsertPropertyHandler $insertPropertyHandler)
     {
-        $this->beConstructedWith($editor, $insertPropertyHandler);
+        $this->beConstructedWith($insertPropertyHandler);
     }
 
     function it_is_a_command_handler()
@@ -36,12 +35,8 @@ class InsertPropertiesHandlerSpec extends ObjectBehavior
         $this->supports($insertProperties)->shouldBe(true);
     }
 
-    function it_inserts_properties(
-        Editor $editor,
-        File $file,
-        Property $property,
-        InsertPropertyHandler $insertPropertyHandler
-    ) {
+    function it_inserts_properties(File $file, Property $property, InsertPropertyHandler $insertPropertyHandler)
+    {
         $properties = array($property->getWrappedObject());
         $insertProperties = new InsertProperties($file->getWrappedObject(), $properties);
 
