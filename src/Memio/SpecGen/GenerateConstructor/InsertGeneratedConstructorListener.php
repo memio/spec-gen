@@ -29,9 +29,9 @@ use Memio\SpecGen\CodeEditor\InsertUseStatements;
 class InsertGeneratedConstructorListener
 {
     /**
-     * @var PrettyPrinter
+     * @var CodeEditor
      */
-    private $prettyPrinter;
+    private $codeEditor;
 
     /**
      * @param CodeEditor $codeEditor

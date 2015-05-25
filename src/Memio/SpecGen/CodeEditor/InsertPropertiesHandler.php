@@ -11,29 +11,21 @@
 
 namespace Memio\SpecGen\CodeEditor;
 
-use Gnugat\Redaktilo\Editor;
 use Memio\SpecGen\CommandBus\Command;
 use Memio\SpecGen\CommandBus\CommandHandler;
 
 class InsertPropertiesHandler implements CommandHandler
 {
     /**
-     * @var Editor
-     */
-    private $editor;
-
-    /**
      * @var InsertPropertyHandler
      */
     private $insertPropertyHandler;
 
     /**
-     * @param Editor                $editor
      * @param InsertPropertyHandler $insertPropertyHandler
      */
-    public function __construct(Editor $editor, InsertPropertyHandler $insertPropertyHandler)
+    public function __construct(InsertPropertyHandler $insertPropertyHandler)
     {
-        $this->editor = $editor;
         $this->insertPropertyHandler = $insertPropertyHandler;
     }
 

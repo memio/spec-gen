@@ -27,9 +27,9 @@ use Memio\SpecGen\CodeEditor\InsertUseStatements;
 class InsertGeneratedMethodListener
 {
     /**
-     * @var PrettyPrinter
+     * @var CodeEditor
      */
-    private $prettyPrinter;
+    private $codeEditor;
 
     /**
      * @param CodeEditor $codeEditor
