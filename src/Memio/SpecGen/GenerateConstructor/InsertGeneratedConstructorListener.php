@@ -11,12 +11,10 @@
 
 namespace Memio\SpecGen\GenerateConstructor;
 
-use Memio\Model\Method;
 use Memio\SpecGen\CodeEditor\CodeEditor;
 use Memio\SpecGen\CodeEditor\InsertConstructor;
 use Memio\SpecGen\CodeEditor\InsertProperties;
 use Memio\SpecGen\CodeEditor\InsertUseStatements;
-use Gnugat\Redaktilo\File;
 
 /**
  * As a developer using phpspec, I want generated cosntructors to be saved in my source code.

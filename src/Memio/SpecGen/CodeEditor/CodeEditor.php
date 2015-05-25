@@ -17,7 +17,7 @@ use Memio\SpecGen\CommandBus\Command;
 use Memio\SpecGen\CommandBus\CommandBus;
 
 /**
- * Facade to enable the "Code Editor" metaphor
+ * Facade to enable the "Code Editor" metaphor.
  */
 class CodeEditor
 {

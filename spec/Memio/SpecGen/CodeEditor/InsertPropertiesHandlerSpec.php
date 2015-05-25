@@ -16,7 +16,6 @@ use Gnugat\Redaktilo\File;
 use Memio\Model\Property;
 use Memio\SpecGen\CodeEditor\InsertPropertyHandler;
 use Memio\SpecGen\CodeEditor\InsertProperties;
-use Memio\SpecGen\CodeEditor\InsertPropertiesHandler;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 

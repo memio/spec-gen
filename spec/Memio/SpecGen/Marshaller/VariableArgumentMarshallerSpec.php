@@ -12,7 +12,6 @@
 namespace spec\Memio\SpecGen\Marshaller;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class VariableArgumentMarshallerSpec extends ObjectBehavior
 {

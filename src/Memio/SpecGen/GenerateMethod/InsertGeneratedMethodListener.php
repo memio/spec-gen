@@ -11,11 +11,9 @@
 
 namespace Memio\SpecGen\GenerateMethod;
 
-use Memio\Model\Method;
 use Memio\SpecGen\CodeEditor\CodeEditor;
 use Memio\SpecGen\CodeEditor\InsertMethod;
 use Memio\SpecGen\CodeEditor\InsertUseStatements;
-use Gnugat\Redaktilo\File;
 
 /**
  * As a developer using phpspec, I want generated methods to be saved in my source code.

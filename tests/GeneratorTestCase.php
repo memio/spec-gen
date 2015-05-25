@@ -11,7 +11,6 @@
 
 namespace Memio\SpecGen\Tests;
 
-use Memio\Memio\Config\Build;
 use PHPUnit_Framework_TestCase;
 
 class GeneratorTestCase extends PHPUnit_Framework_TestCase

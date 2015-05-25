@@ -55,14 +55,14 @@ class InsertConstructorHandler implements CommandHandler
      */
     public function handle(Command $command)
     {
-        if ($this->editor->hasBelow($command->file, InsertConstructorHandler::CONSTRUCTOR, 0)) {
+        if ($this->editor->hasBelow($command->file, self::CONSTRUCTOR, 0)) {
             return;
         }
-        if ($this->editor->hasBelow($command->file, InsertConstructorHandler::METHOD, 0)) {
-            $this->editor->jumpBelow($command->file, InsertConstructorHandler::METHOD, 0);
+        if ($this->editor->hasBelow($command->file, self::METHOD, 0)) {
+            $this->editor->jumpBelow($command->file, self::METHOD, 0);
             $this->editor->insertAbove($command->file, '');
         } else {
-            $this->editor->jumpBelow($command->file, InsertConstructorHandler::CLASS_ENDING, 0);
+            $this->editor->jumpBelow($command->file, self::CLASS_ENDING, 0);
         }
         $generatedCode = $this->prettyPrinter->generateCode($command->method);
         $this->editor->insertAbove($command->file, $generatedCode);

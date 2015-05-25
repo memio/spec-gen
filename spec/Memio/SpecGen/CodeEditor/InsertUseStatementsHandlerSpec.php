@@ -16,7 +16,6 @@ use Gnugat\Redaktilo\File;
 use Memio\Model\FullyQualifiedName;
 use Memio\SpecGen\CodeEditor\InsertUseStatementHandler;
 use Memio\SpecGen\CodeEditor\InsertUseStatements;
-use Memio\SpecGen\CodeEditor\InsertUseStatementsHandler;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -47,7 +46,7 @@ class InsertUseStatementsHandlerSpec extends ObjectBehavior
         $insertUseStatements = new InsertUseStatements($file->getWrappedObject(), $fullyQualifiedNames);
 
         $fullyQualifiedName->getFullyQualifiedName()->willReturn('Vendor\Project\MyDependency');
-        $editor->hasBelow($file, "/^use Vendor\\\\Project\\\\MyDependency;$/", 0)->willReturn(false);
+        $editor->hasBelow($file, '/^use Vendor\\\\Project\\\\MyDependency;$/', 0)->willReturn(false);
         $insertUseStatement = Argument::Type('Memio\SpecGen\CodeEditor\InsertUseStatement');
         $insertUseStatementHandler->handle($insertUseStatement)->shouldBeCalled();
 
@@ -64,7 +63,7 @@ class InsertUseStatementsHandlerSpec extends ObjectBehavior
         $insertUseStatements = new InsertUseStatements($file->getWrappedObject(), $fullyQualifiedNames);
 
         $fullyQualifiedName->getFullyQualifiedName()->willReturn('Vendor\Project\MyDependency');
-        $editor->hasBelow($file, "/^use Vendor\\\\Project\\\\MyDependency;$/", 0)->willReturn(true);
+        $editor->hasBelow($file, '/^use Vendor\\\\Project\\\\MyDependency;$/', 0)->willReturn(true);
         $insertUseStatement = Argument::Type('Memio\SpecGen\CodeEditor\InsertUseStatement');
         $insertUseStatementHandler->handle($insertUseStatement)->shouldNotBeCalled();
 
