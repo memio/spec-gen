@@ -52,6 +52,11 @@ class MemioSpecGenExtension implements ExtensionInterface
         $container->setShared('memio_spec_gen.command_bus', function (ServiceContainer $container) {
             return new \Memio\SpecGen\CommandBus\CommandBus();
         });
+        $container->setShared('memio_spec_gen.variable_argument_marshaller', function (ServiceContainer $container) {
+            return new \Memio\SpecGen\Marshaller\VariableArgumentMarshaller(
+                new \Memio\SpecGen\Marshaller\Service\TypeGuesser
+            );
+        });
     }
 
     /**
@@ -113,7 +118,7 @@ class MemioSpecGenExtension implements ExtensionInterface
 
         $generateConstructorHandler = new \Memio\SpecGen\GenerateConstructor\GenerateConstructorHandler(
             $container->get('memio_spec_gen.event_dispatcher'),
-            new \Memio\SpecGen\Marshaller\VariableArgumentMarshaller()
+            $container->get('memio_spec_gen.variable_argument_marshaller')
         );
         $commandBus->addCommandHandler($generateConstructorHandler);
     }
@@ -138,7 +143,7 @@ class MemioSpecGenExtension implements ExtensionInterface
 
         $generateMethodHandler = new \Memio\SpecGen\GenerateMethod\GenerateMethodHandler(
             $container->get('memio_spec_gen.event_dispatcher'),
-            new \Memio\SpecGen\Marshaller\VariableArgumentMarshaller()
+            $container->get('memio_spec_gen.variable_argument_marshaller')
         );
         $commandBus->addCommandHandler($generateMethodHandler);
     }

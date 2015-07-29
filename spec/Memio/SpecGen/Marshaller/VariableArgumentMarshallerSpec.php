@@ -11,13 +11,26 @@
 
 namespace spec\Memio\SpecGen\Marshaller;
 
+use Memio\SpecGen\Marshaller\Service\TypeGuesser;
 use PhpSpec\ObjectBehavior;
 
 class VariableArgumentMarshallerSpec extends ObjectBehavior
 {
-    function it_converts_array_of_variables_into_array_of_arguments()
+    function let(TypeGuesser $typeGuesser)
     {
-        $variables = array(new \DateTime(), array(), 'string');
+        $this->beConstructedWith($typeGuesser);
+    }
+
+    function it_converts_array_of_variables_into_array_of_arguments(TypeGuesser $typeGuesser)
+    {
+        $dateTime = new \DateTime();
+        $array = array();
+        $string = 'string';
+        $variables = array($dateTime, $array, $string);
+
+        $typeGuesser->guess($dateTime)->willReturn('DateTime');
+        $typeGuesser->guess($array)->willReturn('array');
+        $typeGuesser->guess($string)->willReturn('string');
 
         $arguments = $this->marshal($variables);
         $dateTimeArgument = $arguments[0];
