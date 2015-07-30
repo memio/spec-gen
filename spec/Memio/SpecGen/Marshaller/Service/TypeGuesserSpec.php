@@ -12,11 +12,9 @@
 namespace spec\Memio\SpecGen\Marshaller\Service;
 
 use Memio\SpecGen\Fixtures\Types\DeepImplementation;
-use Memio\SpecGen\Fixtures\Types\DeepInterface;
 use Memio\SpecGen\Fixtures\Types\NoParents;
 use Memio\SpecGen\Fixtures\Types\SomeAndOtherImplementation;
 use Memio\SpecGen\Fixtures\Types\SomeImplementation;
-use Memio\SpecGen\Fixtures\Types\SomeInterface;
 use Memio\SpecGen\Fixtures\Types\WithParents;
 use PhpSpec\ObjectBehavior;
 

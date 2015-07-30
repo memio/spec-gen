@@ -11,7 +11,6 @@
 
 namespace Memio\SpecGen\Marshaller\Service;
 
-use Memio\SpecGen\Fixtures\Types\DeepImplementation;
 use Prophecy\Prophecy\ProphecySubjectInterface;
 
 class TypeGuesser
