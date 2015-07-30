@@ -4,8 +4,8 @@ This extension for [phpspec](http://phpspec.net/) provides a powerful code gener
 
 * method generation:
     * it inserts method at the end of the class
-    * it typehints object, array and callable arguments
-    * it names object arguments after their type
+    * it typehints object (uses interface when possible), array and callable arguments
+    * it names object arguments after their type (strips `Interface` suffix from names)
     * it names scalar arguments after a generic name (`argument`)
     * it adds number on names that could collide (e.g. `$argument1, $argument2`)
 * constructor generation, same as method except:
@@ -19,7 +19,7 @@ This extension for [phpspec](http://phpspec.net/) provides a powerful code gener
 
 First install it using [Composer](https://getcomposer.org/download):
 
-    composer require --dev memio/spec-gen:~0.3
+    composer require --dev memio/spec-gen:^0.4
 
 Then enable it in `phpspec.yml`:
 
