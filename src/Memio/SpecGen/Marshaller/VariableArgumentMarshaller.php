@@ -12,20 +12,28 @@
 namespace Memio\SpecGen\Marshaller;
 
 use Memio\SpecGen\Marshaller\Model\ArgumentCollection;
+use Memio\SpecGen\Marshaller\Service\NameGuesser;
 use Memio\SpecGen\Marshaller\Service\TypeGuesser;
 
 class VariableArgumentMarshaller
 {
+    /**
+     * @var NameGuesser
+     */
+    private $nameGuesser;
+
     /**
      * @var TypeGuesser
      */
     private $typeGuesser;
 
     /**
+     * @param NameGuesser $nameGuesser
      * @param TypeGuesser $typeGuesser
      */
-    public function __construct(TypeGuesser $typeGuesser)
+    public function __construct(NameGuesser $nameGuesser, TypeGuesser $typeGuesser)
     {
+        $this->nameGuesser = $nameGuesser;
         $this->typeGuesser = $typeGuesser;
     }
 
@@ -39,11 +47,7 @@ class VariableArgumentMarshaller
         $argumentCollection = new ArgumentCollection();
         foreach ($variables as $variable) {
             $type = $this->typeGuesser->guess($variable);
-            $name = 'argument';
-            if (is_object($variable)) {
-                $nameSpaceBits = explode('\\', $type);
-                $name = lcfirst(end($nameSpaceBits));
-            }
+            $name = $this->nameGuesser->guess($type);
             $argumentCollection->add($type, $name);
         }
 

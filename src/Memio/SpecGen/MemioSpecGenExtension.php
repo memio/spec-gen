@@ -54,6 +54,7 @@ class MemioSpecGenExtension implements ExtensionInterface
         });
         $container->setShared('memio_spec_gen.variable_argument_marshaller', function (ServiceContainer $container) {
             return new \Memio\SpecGen\Marshaller\VariableArgumentMarshaller(
+                new \Memio\SpecGen\Marshaller\Service\NameGuesser,
                 new \Memio\SpecGen\Marshaller\Service\TypeGuesser
             );
         });

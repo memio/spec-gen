@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the memio/spec-gen package.
+ *
+ * (c) Loïc Chardonnet <loic.chardonnet@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Memio\SpecGen\Marshaller\Service;
 
 use Memio\SpecGen\Fixtures\Types\DeepImplementation;
@@ -18,7 +27,7 @@ class TypeGuesser
             return 'callable';
         }
         if (!is_object($variable)) {
-            return gettype($variable);
+            return $this->getNonObjectType($variable);
         }
         $interfaces = class_implements($variable);
         unset($interfaces['Prophecy\Prophecy\ProphecySubjectInterface']);
@@ -32,5 +41,25 @@ class TypeGuesser
         }
 
         return get_class($variable);
+    }
+
+    /**
+     * @param mixed $variable
+     *
+     * @return string
+     */
+    private function getNonObjectType($variable)
+    {
+        $normalizations = array(
+            'boolean' => 'bool',
+            'integer' => 'int',
+            'NULL' => 'null',
+        );
+        $type = gettype($variable);
+        if (isset($normalizations[$type])) {
+            $type = $normalizations[$type];
+        }
+
+        return $type;
     }
 }

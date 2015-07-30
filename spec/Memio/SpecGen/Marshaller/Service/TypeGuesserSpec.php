@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the memio/spec-gen package.
+ *
+ * (c) Loïc Chardonnet <loic.chardonnet@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace spec\Memio\SpecGen\Marshaller\Service;
 
 use Memio\SpecGen\Fixtures\Types\DeepImplementation;
@@ -15,7 +24,7 @@ class TypeGuesserSpec extends ObjectBehavior
 {
     function it_guesses_scalar_types()
     {
-        $this->guess(42)->shouldBe('integer');
+        $this->guess(42)->shouldBe('int');
     }
 
     function it_guesses_objects_without_parents()

@@ -2,13 +2,13 @@
 
 namespace Vendor\Project;
 
-use DateTime;
+use DateTimeInterface;
 
 class MyClass
 {
     private $dateTime;
 
-    public function __construct(DateTime $dateTime)
+    public function __construct(DateTimeInterface $dateTime)
     {
         $this->dateTime = $dateTime;
     }
