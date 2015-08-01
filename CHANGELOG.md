@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.4.0: Interface Typehints
+
+* object arguments will now be typehinted against their interface
+* object arguments will now be named after their interface (without `Interface` suffix)
+
 ## 0.3.0: Constructor generation
 
 * constructor generation, same as method except:
