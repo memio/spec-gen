@@ -12,10 +12,31 @@
 namespace Memio\SpecGen\Marshaller;
 
 use Memio\SpecGen\Marshaller\Model\ArgumentCollection;
-use Prophecy\Prophecy\ProphecySubjectInterface;
+use Memio\SpecGen\Marshaller\Service\NameGuesser;
+use Memio\SpecGen\Marshaller\Service\TypeGuesser;
 
 class VariableArgumentMarshaller
 {
+    /**
+     * @var NameGuesser
+     */
+    private $nameGuesser;
+
+    /**
+     * @var TypeGuesser
+     */
+    private $typeGuesser;
+
+    /**
+     * @param NameGuesser $nameGuesser
+     * @param TypeGuesser $typeGuesser
+     */
+    public function __construct(NameGuesser $nameGuesser, TypeGuesser $typeGuesser)
+    {
+        $this->nameGuesser = $nameGuesser;
+        $this->typeGuesser = $typeGuesser;
+    }
+
     /**
      * @param array $variables
      *
@@ -25,52 +46,11 @@ class VariableArgumentMarshaller
     {
         $argumentCollection = new ArgumentCollection();
         foreach ($variables as $variable) {
-            $type = is_callable($variable) ? 'callable' : gettype($variable);
-            $name = 'argument';
-            if (is_object($variable)) {
-                $type = get_class($variable);
-                if ($variable instanceof ProphecySubjectInterface) {
-                    $type = ($this->getProphecyBaseType($variable));
-                }
-                $nameSpaceBits = explode('\\', $type);
-                $name = lcfirst(end($nameSpaceBits));
-            }
+            $type = $this->typeGuesser->guess($variable);
+            $name = $this->nameGuesser->guess($type);
             $argumentCollection->add($type, $name);
         }
 
         return $argumentCollection->all();
-    }
-
-    /**
-     * @param mixed $variable
-     *
-     * @return mixed|string
-     */
-    private function getProphecyBaseType($variable)
-    {
-        $typeName = get_parent_class($variable);
-        if ($typeName == 'stdClass'
-            && $interfaces = $this->getAllInterfaces($variable)) {
-            $typeName = reset($interfaces);
-        }
-
-        return $typeName;
-    }
-
-    /**
-     * @param mixed $variable
-     *
-     * @return array
-     */
-    private function getAllInterfaces($variable)
-    {
-        $interfaces = array_filter(
-            class_implements($variable),
-            function ($el) {
-                return 0 !== strpos($el, 'Prophecy\\');
-            }
-        );
-
-        return $interfaces;
     }
 }

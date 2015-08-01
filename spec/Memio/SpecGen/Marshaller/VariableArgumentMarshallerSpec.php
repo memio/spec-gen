@@ -11,23 +11,31 @@
 
 namespace spec\Memio\SpecGen\Marshaller;
 
+use Memio\SpecGen\Marshaller\Service\NameGuesser;
+use Memio\SpecGen\Marshaller\Service\TypeGuesser;
 use PhpSpec\ObjectBehavior;
 
 class VariableArgumentMarshallerSpec extends ObjectBehavior
 {
-    function it_converts_array_of_variables_into_array_of_arguments()
+    const ARGUMENT_TYPE = 'DateTimeInterface';
+    const ARGUMENT_NAME = 'dateTime';
+
+    function let(NameGuesser $nameGuesser, TypeGuesser $typeGuesser)
     {
-        $variables = array(new \DateTime(), array(), 'string');
+        $this->beConstructedWith($nameGuesser, $typeGuesser);
+    }
+
+    function it_converts_array_of_variables_into_array_of_arguments(NameGuesser $nameGuesser, TypeGuesser $typeGuesser)
+    {
+        $variable = new \DateTime();
+        $variables = array($variable);
+
+        $typeGuesser->guess($variable)->willReturn(self::ARGUMENT_TYPE);
+        $nameGuesser->guess(self::ARGUMENT_TYPE)->willReturn(self::ARGUMENT_NAME);
 
         $arguments = $this->marshal($variables);
-        $dateTimeArgument = $arguments[0];
-        $dateTimeArgument->getType()->shouldBe('DateTime');
-        $dateTimeArgument->getName()->shouldBe('dateTime');
-        $arrayArgument = $arguments[1];
-        $arrayArgument->getType()->shouldBe('array');
-        $arrayArgument->getName()->shouldBe('argument1');
-        $stringArgument = $arguments[2];
-        $stringArgument->getType()->shouldBe('string');
-        $stringArgument->getName()->shouldBe('argument2');
+        $argument = $arguments[0];
+        $argument->getType()->shouldBe(self::ARGUMENT_TYPE);
+        $argument->getName()->shouldBe(self::ARGUMENT_NAME);
     }
 }

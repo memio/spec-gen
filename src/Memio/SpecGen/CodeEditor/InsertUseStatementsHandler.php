@@ -38,7 +38,7 @@ class InsertUseStatementsHandler implements CommandHandler
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function supports(Command $command)
     {
@@ -46,7 +46,7 @@ class InsertUseStatementsHandler implements CommandHandler
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function handle(Command $command)
     {

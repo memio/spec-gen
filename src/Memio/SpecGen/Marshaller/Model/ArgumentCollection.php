@@ -39,7 +39,7 @@ class ArgumentCollection
             return;
         }
         $argumentsCount = count($this->arguments);
-        for ($i = 0; $i < $argumentsCount; $i++) {
+        for ($i = 0; $i < $argumentsCount; ++$i) {
             $argument = $this->arguments[$i];
             if ($argument->getName() === $name) {
                 $this->arguments[$i] = new Argument($argument->getType(), $name.'1');

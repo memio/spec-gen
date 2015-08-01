@@ -35,7 +35,7 @@ class MethodGenerator implements GeneratorInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function supports(ResourceInterface $resource, $generation, array $data)
     {
@@ -43,7 +43,7 @@ class MethodGenerator implements GeneratorInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function generate(ResourceInterface $resource, array $data = array())
     {
@@ -57,7 +57,7 @@ class MethodGenerator implements GeneratorInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getPriority()
     {

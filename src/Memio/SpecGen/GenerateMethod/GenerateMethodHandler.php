@@ -45,7 +45,7 @@ class GenerateMethodHandler implements CommandHandler
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function supports(Command $command)
     {
@@ -53,7 +53,7 @@ class GenerateMethodHandler implements CommandHandler
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function handle(Command $command)
     {

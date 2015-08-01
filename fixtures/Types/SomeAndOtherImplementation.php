@@ -9,24 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Memio\SpecGen\Tests;
+namespace Memio\SpecGen\Fixtures\Types;
 
-use PhpSpec\IO\IOInterface;
-
-class NullIO implements IOInterface
+class SomeAndOtherImplementation implements SomeInterface, OtherInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function write($message)
+    public function doSomething()
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isVerbose()
+    public function doSomethingElse()
     {
-        return false;
     }
 }
