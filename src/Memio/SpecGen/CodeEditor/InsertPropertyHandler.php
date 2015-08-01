@@ -44,7 +44,7 @@ class InsertPropertyHandler implements CommandHandler
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function supports(Command $command)
     {
@@ -52,7 +52,7 @@ class InsertPropertyHandler implements CommandHandler
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function handle(Command $command)
     {

@@ -16,14 +16,14 @@ use PhpSpec\IO\IOInterface;
 class NullIO implements IOInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function write($message)
     {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isVerbose()
     {

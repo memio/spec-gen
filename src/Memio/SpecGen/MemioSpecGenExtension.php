@@ -24,7 +24,7 @@ use PhpSpec\ServiceContainer;
 class MemioSpecGenExtension implements ExtensionInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(ServiceContainer $container)
     {
