@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.4.1: Updated dependencies
+
+* added support for PHP 7
+* added support for Symfony 3
+
 ## 0.4.0: Interface Typehints
 
 * object arguments will now be typehinted against their interface
