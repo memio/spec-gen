@@ -13,7 +13,7 @@ namespace Memio\SpecGen;
 
 use Memio\SpecGen\GenerateConstructor\GeneratedConstructor;
 use Memio\SpecGen\GenerateMethod\GeneratedMethod;
-use PhpSpec\Extension\ExtensionInterface;
+use PhpSpec\Extension;
 use PhpSpec\ServiceContainer;
 
 /**
@@ -21,7 +21,7 @@ use PhpSpec\ServiceContainer;
  *
  * Here we over write phpspec's generators by ours.
  */
-class MemioSpecGenExtension implements ExtensionInterface
+class MemioSpecGenExtension implements Extension
 {
     /**
      * {@inheritdoc}

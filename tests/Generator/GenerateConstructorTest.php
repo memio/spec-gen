@@ -33,7 +33,7 @@ class GenerateConstructorTest extends GeneratorTestCase
     {
         $filename = $this->getFixtureFilename();
 
-        $resource = $this->prophesize('PhpSpec\Locator\ResourceInterface');
+        $resource = $this->prophesize('PhpSpec\Locator\Resource');
         $resource->getSrcFilename()->willReturn($filename);
         $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
         $resource->getSrcClassname()->willReturn(self::CLASS_NAME);
@@ -53,7 +53,7 @@ class GenerateConstructorTest extends GeneratorTestCase
     {
         $filename = $this->getFixtureFilename();
 
-        $resource = $this->prophesize('PhpSpec\Locator\ResourceInterface');
+        $resource = $this->prophesize('PhpSpec\Locator\Resource');
         $resource->getSrcFilename()->willReturn($filename);
         $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
         $resource->getSrcClassname()->willReturn(self::CLASS_NAME);

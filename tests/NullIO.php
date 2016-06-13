@@ -11,9 +11,9 @@
 
 namespace Memio\SpecGen\Tests;
 
-use PhpSpec\IO\IOInterface;
+use PhpSpec\IO\IO;
 
-class NullIO implements IOInterface
+class NullIO implements IO
 {
     /**
      * {@inheritdoc}

@@ -13,13 +13,13 @@ namespace Memio\SpecGen;
 
 use Memio\SpecGen\CommandBus\CommandBus;
 use Memio\SpecGen\GenerateConstructor\GenerateConstructor;
-use PhpSpec\CodeGenerator\Generator\GeneratorInterface;
-use PhpSpec\Locator\ResourceInterface;
+use PhpSpec\CodeGenerator\Generator\Generator;
+use PhpSpec\Locator\Resource;
 
 /**
  * When phpspec finds an undefined method named "__construct" in a specification, it calls this generator.
  */
-class ConstructorGenerator implements GeneratorInterface
+class ConstructorGenerator implements Generator
 {
     /**
      * @var CommandBus
@@ -37,7 +37,7 @@ class ConstructorGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function supports(ResourceInterface $resource, $generation, array $data)
+    public function supports(Resource $resource, $generation, array $data)
     {
         return 'method' === $generation && '__construct' === $data['name'];
     }
@@ -45,7 +45,7 @@ class ConstructorGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate(ResourceInterface $resource, array $data = array())
+    public function generate(Resource $resource, array $data = array())
     {
         $generateConstructor = new GenerateConstructor(
             $resource->getSrcFilename(),

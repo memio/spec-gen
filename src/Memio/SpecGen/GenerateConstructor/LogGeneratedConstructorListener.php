@@ -11,7 +11,7 @@
 
 namespace Memio\SpecGen\GenerateConstructor;
 
-use PhpSpec\IO\IOInterface;
+use PhpSpec\IO\IO;
 
 /**
  * As a developer using phpspec, I want to know when a constructor has been generated.
@@ -23,14 +23,14 @@ use PhpSpec\IO\IOInterface;
 class LogGeneratedConstructorListener
 {
     /**
-     * @var IOInterface
+     * @var IO
      */
     private $io;
 
     /**
-     * @param IOInterface $io
+     * @param IO $io
      */
-    public function __construct(IOInterface $io)
+    public function __construct(IO $io)
     {
         $this->io = $io;
     }
