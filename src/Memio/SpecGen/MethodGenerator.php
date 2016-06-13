@@ -13,13 +13,13 @@ namespace Memio\SpecGen;
 
 use Memio\SpecGen\CommandBus\CommandBus;
 use Memio\SpecGen\GenerateMethod\GenerateMethod;
-use PhpSpec\CodeGenerator\Generator\GeneratorInterface;
-use PhpSpec\Locator\ResourceInterface;
+use PhpSpec\CodeGenerator\Generator\Generator;
+use PhpSpec\Locator\Resource;
 
 /**
  * When phpspec finds an undefined method in a specification, it calls this generator.
  */
-class MethodGenerator implements GeneratorInterface
+class MethodGenerator implements Generator
 {
     /**
      * @var CommandBus
@@ -37,7 +37,7 @@ class MethodGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function supports(ResourceInterface $resource, $generation, array $data)
+    public function supports(Resource $resource, $generation, array $data)
     {
         return 'method' === $generation;
     }
@@ -45,7 +45,7 @@ class MethodGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate(ResourceInterface $resource, array $data = array())
+    public function generate(Resource $resource, array $data = array())
     {
         $generateMethod = new GenerateMethod(
             $resource->getSrcFilename(),
