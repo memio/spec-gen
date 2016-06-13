@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 0.5.0: Upgraded to phpspec 3
+
+Due to phpspec sharing some common dependencies with SpecGen:
+
+* dropped support for PHP < 5.6
+* dropped support for Symfony Event Dispatcher < 2.7
+
 ## 0.4.1: Updated dependencies
 
 * added support for PHP 7
