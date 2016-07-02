@@ -1,6 +1,16 @@
 # CHANGELOG
 
-## 0.5.0: Upgraded to phpspec 3
+## 0.6.0: Upgraded tp phpspec 3.0@beta2
+
+> **BC Break**: since phpspec 3.0@beta2, registering extensions in
+> `phpspec.yml` is done as follow:
+>
+> ```
+> extensions:
+>     Memio\SpecGen\MemioSpecGenExtension: ~
+> ```
+
+## 0.5.0: Upgraded to phpspec 3.0@beta1
 
 Due to phpspec sharing some common dependencies with SpecGen:
 

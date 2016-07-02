@@ -19,7 +19,7 @@ This extension for [phpspec](http://phpspec.net/) provides a powerful code gener
 
 First install it using [Composer](https://getcomposer.org/download):
 
-    composer require --dev memio/spec-gen:^0.5
+    composer require --dev memio/spec-gen:^0.6
 
 Then enable it in `phpspec.yml`:
 
