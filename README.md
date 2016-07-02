@@ -25,7 +25,7 @@ Then enable it in `phpspec.yml`:
 
 ```
 extensions:
-  - Memio\SpecGen\MemioSpecGenExtension
+    Memio\SpecGen\MemioSpecGenExtension: ~
 ```
 
 ## Full example

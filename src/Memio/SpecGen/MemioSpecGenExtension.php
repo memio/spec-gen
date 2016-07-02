@@ -26,33 +26,33 @@ class MemioSpecGenExtension implements Extension
     /**
      * {@inheritdoc}
      */
-    public function load(ServiceContainer $container)
+    public function load(ServiceContainer $container, array $params)
     {
-        $this->setupSharedServices($container);
-        $this->setupCodeEditor($container);
-        $this->setupGenerateConstructorHandler($container);
-        $this->setupGenerateMethodHandler($container);
-        $this->setupGenerators($container);
+        $this->defineupSharedServices($container);
+        $this->defineupCodeEditor($container);
+        $this->defineupGenerateConstructorHandler($container);
+        $this->defineupGenerateMethodHandler($container);
+        $this->defineupGenerators($container);
     }
 
     /**
      * @param ServiceContainer $container
      */
-    private function setupSharedServices(ServiceContainer $container)
+    private function defineupSharedServices(ServiceContainer $container)
     {
-        $container->setShared('redaktilo.editor', function () {
+        $container->define('redaktilo.editor', function () {
             return \Gnugat\Redaktilo\EditorFactory::createEditor();
         });
-        $container->setShared('memio.pretty_printer', function () {
+        $container->define('memio.pretty_printer', function () {
             return \Memio\Memio\Config\Build::prettyPrinter();
         });
-        $container->setShared('memio_spec_gen.event_dispatcher', function (ServiceContainer $container) {
+        $container->define('memio_spec_gen.event_dispatcher', function (ServiceContainer $container) {
             return new \Symfony\Component\EventDispatcher\EventDispatcher();
         });
-        $container->setShared('memio_spec_gen.command_bus', function (ServiceContainer $container) {
+        $container->define('memio_spec_gen.command_bus', function (ServiceContainer $container) {
             return new \Memio\SpecGen\CommandBus\CommandBus();
         });
-        $container->setShared('memio_spec_gen.variable_argument_marshaller', function (ServiceContainer $container) {
+        $container->define('memio_spec_gen.variable_argument_marshaller', function (ServiceContainer $container) {
             return new \Memio\SpecGen\Marshaller\VariableArgumentMarshaller(
                 new \Memio\SpecGen\Marshaller\Service\NameGuesser(),
                 new \Memio\SpecGen\Marshaller\Service\TypeGuesser()
@@ -63,9 +63,9 @@ class MemioSpecGenExtension implements Extension
     /**
      * @param ServiceContainer $container
      */
-    private function setupCodeEditor(ServiceContainer $container)
+    private function defineupCodeEditor(ServiceContainer $container)
     {
-        $container->setShared('memio_spec_gen.code_editor', function (ServiceContainer $container) {
+        $container->define('memio_spec_gen.code_editor', function (ServiceContainer $container) {
             $editor = $container->get('redaktilo.editor');
             $prettyPrinter = $container->get('memio.pretty_printer');
 
@@ -102,7 +102,7 @@ class MemioSpecGenExtension implements Extension
     /**
      * @param ServiceContainer $container
      */
-    private function setupGenerateConstructorHandler(ServiceContainer $container)
+    private function defineupGenerateConstructorHandler(ServiceContainer $container)
     {
         $eventDispatcher = $container->get('memio_spec_gen.event_dispatcher');
         $commandBus = $container->get('memio_spec_gen.command_bus');
@@ -127,7 +127,7 @@ class MemioSpecGenExtension implements Extension
     /**
      * @param ServiceContainer $container
      */
-    private function setupGenerateMethodHandler(ServiceContainer $container)
+    private function defineupGenerateMethodHandler(ServiceContainer $container)
     {
         $eventDispatcher = $container->get('memio_spec_gen.event_dispatcher');
         $commandBus = $container->get('memio_spec_gen.command_bus');
@@ -152,12 +152,12 @@ class MemioSpecGenExtension implements Extension
     /**
      * @param ServiceContainer $container
      */
-    private function setupGenerators(ServiceContainer $container)
+    private function defineupGenerators(ServiceContainer $container)
     {
-        $container->set('code_generator.generators.method', function (ServiceContainer $container) {
+        $container->define('code_generator.generators.method', function (ServiceContainer $container) {
             return new \Memio\SpecGen\MethodGenerator($container->get('memio_spec_gen.command_bus'));
         });
-        $container->set('code_generator.generators.constructor', function (ServiceContainer $container) {
+        $container->define('code_generator.generators.constructor', function (ServiceContainer $container) {
             return new \Memio\SpecGen\ConstructorGenerator($container->get('memio_spec_gen.command_bus'));
         });
     }
