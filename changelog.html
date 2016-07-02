@@ -47,7 +47,14 @@
                 
                 <section id="content" class="col-sm-offset-3 col-lg-offset-2 col-sm-9 col-lg-10">
                     <h1 id="changelog">CHANGELOG</h1>
-<h2 id="050-upgraded-to-phpspec-3">0.5.0: Upgraded to phpspec 3</h2>
+<h2 id="060-upgraded-tp-phpspec-30beta2">0.6.0: Upgraded tp phpspec 3.0@beta2</h2>
+<blockquote>
+<p><strong>BC Break</strong>: since phpspec 3.0@beta2, registering extensions in
+<code>phpspec.yml</code> is done as follow:</p>
+<pre><code>extensions:
+    Memio\SpecGen\MemioSpecGenExtension: ~</code></pre>
+</blockquote>
+<h2 id="050-upgraded-to-phpspec-30beta1">0.5.0: Upgraded to phpspec 3.0@beta1</h2>
 <p>Due to phpspec sharing some common dependencies with SpecGen:</p>
 <ul>
 <li>dropped support for PHP &lt; 5.6</li>
