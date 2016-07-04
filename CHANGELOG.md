@@ -1,5 +1,7 @@
 # CHANGELOG
 
+## 0.6.1: Fixed ugrade
+
 ## 0.6.0: Upgraded tp phpspec 3.0@beta2
 
 > **BC Break**: since phpspec 3.0@beta2, registering extensions in
