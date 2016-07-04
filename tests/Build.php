@@ -12,6 +12,7 @@
 namespace Memio\SpecGen\Tests;
 
 use PhpSpec\ServiceContainer;
+use PhpSpec\ServiceContainer\IndexedServiceContainer;
 use Memio\SpecGen\MemioSpecGenExtension;
 
 class Build
@@ -27,14 +28,14 @@ class Build
     public static function serviceContainer()
     {
         if (null === self::$serviceContainer) {
-            self::$serviceContainer = new ServiceContainer();
+            self::$serviceContainer = new IndexedServiceContainer();
 
-            self::$serviceContainer->setShared('console.io', function (ServiceContainer $container) {
+            self::$serviceContainer->define('console.io', function (ServiceContainer $container) {
                 return new NullIO();
             });
 
             $memioSpecGenExtension = new MemioSpecGenExtension();
-            $memioSpecGenExtension->load(self::$serviceContainer);
+            $memioSpecGenExtension->load(self::$serviceContainer, array());
         }
 
         return self::$serviceContainer;
