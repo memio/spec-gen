@@ -23,6 +23,8 @@ use PhpSpec\ServiceContainer;
  */
 class MemioSpecGenExtension implements Extension
 {
+    const CODE_GENERATOR_TAG = ['code_generator.generators'];
+
     /**
      * {@inheritdoc}
      */
@@ -156,9 +158,9 @@ class MemioSpecGenExtension implements Extension
     {
         $container->define('code_generator.generators.method', function (ServiceContainer $container) {
             return new \Memio\SpecGen\MethodGenerator($container->get('memio_spec_gen.command_bus'));
-        });
+        }, self::CODE_GENERATOR_TAG);
         $container->define('code_generator.generators.constructor', function (ServiceContainer $container) {
             return new \Memio\SpecGen\ConstructorGenerator($container->get('memio_spec_gen.command_bus'));
-        });
+        }, self::CODE_GENERATOR_TAG);
     }
 }
