@@ -1,8 +1,11 @@
 # CHANGELOG
 
-## 0.6.1: Fixed ugrade
+## 0.6.2: Re-enabled constructor generator
 
-## 0.6.0: Upgraded tp phpspec 3.0@beta2
+Constructor generator wasn't registered as a generator in phpspec 3,
+du to a missing DI tag.
+
+## 0.6.0, 0.6.1: Upgraded tp phpspec 3.0@beta2
 
 > **BC Break**: since phpspec 3.0@beta2, registering extensions in
 > `phpspec.yml` is done as follow:
@@ -11,6 +14,9 @@
 > extensions:
 >     Memio\SpecGen\MemioSpecGenExtension: ~
 > ```
+
+> **Note**: `0.6.0` is actually the same as `0.5.0`, due to a git tagging
+> typo.
 
 ## 0.5.0: Upgraded to phpspec 3.0@beta1
 
