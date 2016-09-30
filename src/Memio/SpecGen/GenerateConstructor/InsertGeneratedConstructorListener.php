@@ -28,22 +28,13 @@ use Memio\SpecGen\CodeEditor\InsertUseStatements;
  */
 class InsertGeneratedConstructorListener
 {
-    /**
-     * @var CodeEditor
-     */
     private $codeEditor;
 
-    /**
-     * @param CodeEditor $codeEditor
-     */
     public function __construct(CodeEditor $codeEditor)
     {
         $this->codeEditor = $codeEditor;
     }
 
-    /**
-     * @param GeneratedConstructor $generatedConstructor
-     */
     public function onGeneratedConstructor(GeneratedConstructor $generatedConstructor)
     {
         $fileName = $generatedConstructor->file->getFilename();

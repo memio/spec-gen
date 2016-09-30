@@ -15,21 +15,10 @@ use Memio\Model\Argument;
 
 class ArgumentCollection
 {
-    /**
-     * @var array
-     */
     private $arguments = array();
-
-    /**
-     * @var array
-     */
     private $nameCount = array();
 
-    /**
-     * @param string $type
-     * @param string $name
-     */
-    public function add($type, $name)
+    public function add(string $type, string $name)
     {
         $this->nameCount[$name] = (isset($this->nameCount[$name]) ? $this->nameCount[$name] + 1 : 1);
         $indexedName = $name.$this->nameCount[$name];
@@ -48,10 +37,7 @@ class ArgumentCollection
         }
     }
 
-    /**
-     * @return array
-     */
-    public function all()
+    public function all() : array
     {
         return $this->arguments;
     }

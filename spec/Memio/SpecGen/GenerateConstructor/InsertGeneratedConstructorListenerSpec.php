@@ -17,6 +17,9 @@ use Memio\Model\Method as MethodModel;
 use Memio\Model\Object as ObjectModel;
 use Memio\Model\Property as PropertyModel;
 use Memio\SpecGen\CodeEditor\CodeEditor;
+use Memio\SpecGen\CodeEditor\InsertConstructor;
+use Memio\SpecGen\CodeEditor\InsertProperties;
+use Memio\SpecGen\CodeEditor\InsertUseStatements;
 use Memio\SpecGen\GenerateConstructor\GeneratedConstructor;
 use Gnugat\Redaktilo\File;
 use PhpSpec\ObjectBehavior;
@@ -42,9 +45,9 @@ class InsertGeneratedConstructorListenerSpec extends ObjectBehavior
         ObjectModel $objectModel,
         PropertyModel $propertyModel
     ) {
-        $insertUseStatements = Argument::type('Memio\SpecGen\CodeEditor\InsertUseStatements');
-        $insertProperties = Argument::type('Memio\SpecGen\CodeEditor\InsertProperties');
-        $insertConstructor = Argument::type('Memio\SpecGen\CodeEditor\InsertConstructor');
+        $insertUseStatements = Argument::type(InsertUseStatements::class);
+        $insertProperties = Argument::type(InsertProperties::class);
+        $insertConstructor = Argument::type(InsertConstructor::class);
 
         $generatedConstructor = new GeneratedConstructor($fileModel->getWrappedObject());
         $fileModel->allFullyQualifiedNames()->willReturn(array($fullyQualifiedNameModel));

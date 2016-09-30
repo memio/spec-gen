@@ -22,22 +22,12 @@ use PhpSpec\IO\IO;
  */
 class LogGeneratedMethodListener
 {
-    /**
-     * @var IO
-     */
     private $io;
-
-    /**
-     * @param IO $io
-     */
     public function __construct(IO $io)
     {
         $this->io = $io;
     }
 
-    /**
-     * @param GeneratedMethod $generatedMethod
-     */
     public function onGeneratedMethod(GeneratedMethod $generatedMethod)
     {
         $object = $generatedMethod->file->getStructure();

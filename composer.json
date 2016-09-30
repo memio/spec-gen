@@ -27,7 +27,7 @@
     "require": {
         "gnugat/redaktilo": "^1.7",
         "memio/memio": "^1.1",
-        "php": "^5.6 || ^7.0",
+        "php": "^7.0",
         "phpspec/phpspec": "^3.0@beta",
         "symfony/event-dispatcher": "^2.7 || ^3.0"
     },

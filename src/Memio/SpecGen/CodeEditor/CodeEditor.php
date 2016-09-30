@@ -21,47 +21,25 @@ use Memio\SpecGen\CommandBus\CommandBus;
  */
 class CodeEditor
 {
-    /**
-     * @var CommandBus
-     */
     private $commandBus;
-
-    /**
-     * @var Editor
-     */
     private $editor;
 
-    /**
-     * @param CommandBus $commandBus
-     * @param Editor     $editor
-     */
     public function __construct(CommandBus $commandBus, Editor $editor)
     {
         $this->commandBus = $commandBus;
         $this->editor = $editor;
     }
 
-    /**
-     * @param string $filename
-     *
-     * @return File
-     */
-    public function open($filename)
+    public function open(string $filename) : File
     {
         return $this->editor->open($filename);
     }
 
-    /**
-     * @param File $file
-     */
     public function save(File $file)
     {
         $this->editor->save($file);
     }
 
-    /**
-     * @param Command $command
-     */
     public function handle(Command $command)
     {
         $this->commandBus->handle($command);

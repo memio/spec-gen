@@ -13,15 +13,21 @@ namespace Memio\SpecGen\Marshaller\Service;
 
 class NameGuesser
 {
-    /**
-     * @param string $type
-     *
-     * @return string
-     */
-    public function guess($type)
+    const NON_OBJECT_TYPES = [
+        'string',
+        'bool',
+        'int',
+        'double',
+        'callable',
+        'resource',
+        'array',
+        'null',
+        'mixed',
+    ];
+
+    public function guess(string $type) : string
     {
-        $nonObjectTypes = array('string', 'bool', 'int', 'double', 'callable', 'resource', 'array', 'null', 'mixed');
-        if (in_array($type, $nonObjectTypes, true)) {
+        if (in_array($type, self::NON_OBJECT_TYPES, true)) {
             return 'argument';
         }
         $nameSpaceBits = explode('\\', $type);

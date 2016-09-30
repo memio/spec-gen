@@ -22,22 +22,13 @@ use PhpSpec\IO\IO;
  */
 class LogGeneratedConstructorListener
 {
-    /**
-     * @var IO
-     */
     private $io;
 
-    /**
-     * @param IO $io
-     */
     public function __construct(IO $io)
     {
         $this->io = $io;
     }
 
-    /**
-     * @param GeneratedConstructor $generatedConstructor
-     */
     public function onGeneratedConstructor(GeneratedConstructor $generatedConstructor)
     {
         $object = $generatedConstructor->file->getStructure();

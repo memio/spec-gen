@@ -15,10 +15,7 @@ use PHPUnit_Framework_TestCase;
 
 class GeneratorTestCase extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @return string
-     */
-    protected function getFixtureFilename()
+    protected function getFixtureFilename() : string
     {
         $path = $this->getPath();
         $method = $this->getMethod();
@@ -32,20 +29,14 @@ class GeneratorTestCase extends PHPUnit_Framework_TestCase
         return $filename;
     }
 
-    /**
-     * @param string $filename
-     */
-    protected function assertExpectedCode($actualFilename)
+    protected function assertExpectedCode(string $actualFilename)
     {
         $expectedFilename = __DIR__.'/../fixtures/expected/'.$this->getPath().'/'.$this->getMethod().'.txt';
 
         $this->assertFileEquals($expectedFilename, $actualFilename);
     }
 
-    /**
-     * @return string
-     */
-    private function getPath()
+    private function getPath() : string
     {
         $trace = debug_backtrace();
         $testFqcn = $trace[2]['class'];
@@ -54,10 +45,7 @@ class GeneratorTestCase extends PHPUnit_Framework_TestCase
         return str_replace('\\', '/', $type);
     }
 
-    /**
-     * @return string
-     */
-    private function getMethod()
+    private function getMethod() : string
     {
         $trace = debug_backtrace();
 

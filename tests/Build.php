@@ -17,14 +17,8 @@ use Memio\SpecGen\MemioSpecGenExtension;
 
 class Build
 {
-    /**
-     * @var ServiceContainer|null
-     */
     private static $serviceContainer;
 
-    /**
-     * @return ServiceContainer
-     */
     public static function serviceContainer()
     {
         if (null === self::$serviceContainer) {

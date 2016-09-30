@@ -17,6 +17,7 @@ use Memio\Model\Property;
 use Memio\PrettyPrinter\PrettyPrinter;
 use Memio\SpecGen\CodeEditor\InsertProperty;
 use Memio\SpecGen\CodeEditor\InsertPropertyHandler;
+use Memio\SpecGen\CommandBus\CommandHandler;
 use PhpSpec\ObjectBehavior;
 
 class InsertPropertyHandlerSpec extends ObjectBehavior
@@ -28,7 +29,7 @@ class InsertPropertyHandlerSpec extends ObjectBehavior
 
     function it_is_a_command_handler()
     {
-        $this->shouldImplement('Memio\SpecGen\CommandBus\CommandHandler');
+        $this->shouldImplement(CommandHandler::class);
     }
 
     function it_supports_insert_property_command(InsertProperty $insertProperty)

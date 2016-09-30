@@ -13,6 +13,7 @@ namespace Memio\SpecGen\Tests\Generator;
 
 use Memio\SpecGen\Tests\Build;
 use Memio\SpecGen\Tests\GeneratorTestCase;
+use PhpSpec\Locator\Resource;
 
 class GenerateMethodTest extends GeneratorTestCase
 {
@@ -33,7 +34,7 @@ class GenerateMethodTest extends GeneratorTestCase
     {
         $filename = $this->getFixtureFilename();
 
-        $resource = $this->prophesize('PhpSpec\Locator\Resource');
+        $resource = $this->prophesize(Resource::class);
         $resource->getSrcFilename()->willReturn($filename);
         $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
         $resource->getSrcClassname()->willReturn(self::CLASS_NAME);
@@ -53,7 +54,7 @@ class GenerateMethodTest extends GeneratorTestCase
     {
         $filename = $this->getFixtureFilename();
 
-        $resource = $this->prophesize('PhpSpec\Locator\Resource');
+        $resource = $this->prophesize(Resource::class);
         $resource->getSrcFilename()->willReturn($filename);
         $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
         $resource->getSrcClassname()->willReturn(self::CLASS_NAME);
@@ -77,7 +78,7 @@ class GenerateMethodTest extends GeneratorTestCase
     {
         $filename = $this->getFixtureFilename();
 
-        $resource = $this->prophesize('PhpSpec\Locator\Resource');
+        $resource = $this->prophesize(Resource::class);
         $resource->getSrcFilename()->willReturn($filename);
         $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
         $resource->getSrcClassname()->willReturn(self::CLASS_NAME);
@@ -99,7 +100,7 @@ class GenerateMethodTest extends GeneratorTestCase
     {
         $filename = $this->getFixtureFilename();
 
-        $resource = $this->prophesize('PhpSpec\Locator\Resource');
+        $resource = $this->prophesize(Resource::class);
         $resource->getSrcFilename()->willReturn($filename);
         $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
         $resource->getSrcClassname()->willReturn(self::CLASS_NAME);

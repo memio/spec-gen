@@ -17,6 +17,7 @@ use Memio\Model\Method;
 use Memio\PrettyPrinter\PrettyPrinter;
 use Memio\SpecGen\CodeEditor\InsertConstructor;
 use Memio\SpecGen\CodeEditor\InsertConstructorHandler;
+use Memio\SpecGen\CommandBus\CommandHandler;
 use PhpSpec\ObjectBehavior;
 
 class InsertConstructorHandlerSpec extends ObjectBehavior
@@ -30,7 +31,7 @@ class InsertConstructorHandlerSpec extends ObjectBehavior
 
     function it_is_a_command_handler()
     {
-        $this->shouldImplement('Memio\SpecGen\CommandBus\CommandHandler');
+        $this->shouldImplement(CommandHandler::class);
     }
 
     function it_supports_insert_constructor_command(InsertConstructor $insertConstructor)

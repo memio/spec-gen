@@ -20,34 +20,17 @@ use Memio\SpecGen\CommandBus\Command;
  */
 class GenerateMethod implements Command
 {
-    /**
-     * @var string
-     */
     public $fileName;
-
-    /**
-     * @var string
-     */
     public $fullyQualifiedName;
-
-    /**
-     * @var string
-     */
     public $methodName;
-
-    /**
-     * @var string
-     */
     public $arguments;
 
-    /**
-     * @param string $fileName
-     * @param string $fullyQualifiedName
-     * @param string $methodName
-     * @param array  $arguments
-     */
-    public function __construct($fileName, $fullyQualifiedName, $methodName, array $arguments)
-    {
+    public function __construct(
+        string $fileName,
+        string $fullyQualifiedName,
+        string $methodName,
+        array $arguments
+    ) {
         $this->fileName = $fileName;
         $this->fullyQualifiedName = $fullyQualifiedName;
         $this->methodName = $methodName;

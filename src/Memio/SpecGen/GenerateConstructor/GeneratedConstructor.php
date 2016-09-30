@@ -23,14 +23,8 @@ class GeneratedConstructor extends Event
 {
     const EVENT_NAME = 'generated_constructor';
 
-    /**
-     * @var File
-     */
     public $file;
 
-    /**
-     * @param File $file
-     */
     public function __construct(File $file)
     {
         $this->file = $file;

@@ -20,37 +20,20 @@ class InsertMethodHandler implements CommandHandler
 {
     const CLASS_ENDING = '/^}$/';
 
-    /**
-     * @var Editor
-     */
     private $editor;
-
-    /**
-     * @var PrettyPrinter
-     */
     private $prettyPrinter;
 
-    /**
-     * @param Editor        $editor
-     * @param PrettyPrinter $prettyPrinter
-     */
     public function __construct(Editor $editor, PrettyPrinter $prettyPrinter)
     {
         $this->editor = $editor;
         $this->prettyPrinter = $prettyPrinter;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function supports(Command $command)
+    public function supports(Command $command) : bool
     {
         return $command instanceof InsertMethod;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function handle(Command $command)
     {
         $methodPattern = '/^    public function '.$command->method->getName().'\(/';

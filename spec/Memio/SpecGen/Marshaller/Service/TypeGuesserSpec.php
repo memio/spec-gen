@@ -12,9 +12,12 @@
 namespace spec\Memio\SpecGen\Marshaller\Service;
 
 use Memio\SpecGen\Fixtures\Types\DeepImplementation;
+use Memio\SpecGen\Fixtures\Types\DeepInterface;
 use Memio\SpecGen\Fixtures\Types\NoParents;
+use Memio\SpecGen\Fixtures\Types\OtherInterface;
 use Memio\SpecGen\Fixtures\Types\SomeAndOtherImplementation;
 use Memio\SpecGen\Fixtures\Types\SomeImplementation;
+use Memio\SpecGen\Fixtures\Types\SomeInterface;
 use Memio\SpecGen\Fixtures\Types\WithParents;
 use PhpSpec\ObjectBehavior;
 
@@ -27,51 +30,51 @@ class TypeGuesserSpec extends ObjectBehavior
 
     function it_guesses_objects_without_parents()
     {
-        $this->guess(new NoParents())->shouldBe('Memio\SpecGen\Fixtures\Types\NoParents');
+        $this->guess(new NoParents())->shouldBe(NoParents::class);
     }
 
     function it_guesses_objects_with_parents()
     {
-        $this->guess(new WithParents())->shouldBe('Memio\SpecGen\Fixtures\Types\WithParents');
+        $this->guess(new WithParents())->shouldBe(WithParents::class);
     }
 
     function it_guesses_implementations_of_an_interface()
     {
-        $this->guess(new SomeImplementation())->shouldBe('Memio\SpecGen\Fixtures\Types\SomeInterface');
+        $this->guess(new SomeImplementation())->shouldBe(SomeInterface::class);
     }
 
     function it_guesses_implementations_of_many_interfaces()
     {
-        $this->guess(new SomeAndOtherImplementation())->shouldBe('Memio\SpecGen\Fixtures\Types\SomeInterface');
+        $this->guess(new SomeAndOtherImplementation())->shouldBe(SomeInterface::class);
     }
 
     function it_guesses_implementations_of_deep_interfaces()
     {
-        $this->guess(new DeepImplementation())->shouldBe('Memio\SpecGen\Fixtures\Types\DeepInterface');
+        $this->guess(new DeepImplementation())->shouldBe(DeepInterface::class);
     }
 
     function it_guesses_phpspec_doubles_of_objects_without_parents(NoParents $noParents)
     {
-        $this->guess($noParents)->shouldBe('Memio\SpecGen\Fixtures\Types\NoParents');
+        $this->guess($noParents)->shouldBe(NoParents::class);
     }
 
     function it_guesses_phpspec_doubles_of_objects_with_parents(WithParents $withParents)
     {
-        $this->guess($withParents)->shouldBe('Memio\SpecGen\Fixtures\Types\WithParents');
+        $this->guess($withParents)->shouldBe(WithParents::class);
     }
 
     function it_guesses_phpspec_doubles_of_implementations_of_an_interface(SomeImplementation $someImplementation)
     {
-        $this->guess($someImplementation)->shouldBe('Memio\SpecGen\Fixtures\Types\SomeInterface');
+        $this->guess($someImplementation)->shouldBe(SomeInterface::class);
     }
 
     function it_guesses_phpspec_doubles_of_implementations_of_many_interfaces(SomeAndOtherImplementation $someAndOtherImplementation)
     {
-        $this->guess($someAndOtherImplementation)->shouldBe('Memio\SpecGen\Fixtures\Types\OtherInterface');
+        $this->guess($someAndOtherImplementation)->shouldBe(OtherInterface::class);
     }
 
     function it_guesses_phpspec_doubles_of_implementations_of_deep_interfaces(DeepImplementation $deepImplementation)
     {
-        $this->guess($deepImplementation)->shouldBe('Memio\SpecGen\Fixtures\Types\SomeInterface');
+        $this->guess($deepImplementation)->shouldBe(SomeInterface::class);
     }
 }

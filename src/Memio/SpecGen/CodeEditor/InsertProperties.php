@@ -16,20 +16,9 @@ use Memio\SpecGen\CommandBus\Command;
 
 class InsertProperties implements Command
 {
-    /**
-     * @var File
-     */
     public $file;
-
-    /**
-     * @var array
-     */
     public $properties;
 
-    /**
-     * @param File  $file
-     * @param array $properties
-     */
     public function __construct(File $file, array $properties)
     {
         $this->file = $file;

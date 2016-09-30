@@ -16,22 +16,13 @@ namespace Memio\SpecGen\CommandBus;
  */
 class CommandBus
 {
-    /**
-     * @var array
-     */
     private $commandHandlers = array();
 
-    /**
-     * @param CommandHandler $commandHandler
-     */
     public function addCommandHandler(CommandHandler $commandHandler)
     {
         $this->commandHandlers[] = $commandHandler;
     }
 
-    /**
-     * @param Command $command
-     */
     public function handle(Command $command)
     {
         foreach ($this->commandHandlers as $commandHandler) {

@@ -17,37 +17,22 @@ use Memio\SpecGen\CommandBus\CommandHandler;
 
 class InsertUseStatementsHandler implements CommandHandler
 {
-    /**
-     * @var Editor
-     */
     private $editor;
-
-    /**
-     * @var InsertUseStatementHandler
-     */
     private $insertUseStatementHandler;
 
-    /**
-     * @param Editor                    $editor
-     * @param InsertUseStatementHandler $insertUseStatementHandler
-     */
-    public function __construct(Editor $editor, InsertUseStatementHandler $insertUseStatementHandler)
-    {
+    public function __construct(
+        Editor $editor,
+        InsertUseStatementHandler $insertUseStatementHandler
+    ) {
         $this->editor = $editor;
         $this->insertUseStatementHandler = $insertUseStatementHandler;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function supports(Command $command)
+    public function supports(Command $command) : bool
     {
         return $command instanceof InsertUseStatements;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function handle(Command $command)
     {
         foreach ($command->fullyQualifiedNames as $fullyQualifiedName) {

@@ -17,20 +17,9 @@ use Memio\SpecGen\CommandBus\Command;
 
 class InsertUseStatement implements Command
 {
-    /**
-     * @var File
-     */
     public $file;
-
-    /**
-     * @var FullyQualifiedName
-     */
     public $fullyQualifiedName;
 
-    /**
-     * @param File               $file
-     * @param FullyQualifiedName $fullyQualifiedName
-     */
     public function __construct(File $file, FullyQualifiedName $fullyQualifiedName)
     {
         $this->file = $file;

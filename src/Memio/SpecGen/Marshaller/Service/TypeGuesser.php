@@ -12,15 +12,11 @@
 namespace Memio\SpecGen\Marshaller\Service;
 
 use Prophecy\Prophecy\ProphecySubjectInterface;
+use Prophecy\Doubler\Generator\ReflectionInterface;
 
 class TypeGuesser
 {
-    /**
-     * @param mixed $variable
-     *
-     * @return string
-     */
-    public function guess($variable)
+    public function guess($variable) : string
     {
         if (is_callable($variable)) {
             return 'callable';
@@ -29,8 +25,8 @@ class TypeGuesser
             return $this->getNonObjectType($variable);
         }
         $interfaces = class_implements($variable);
-        unset($interfaces['Prophecy\Prophecy\ProphecySubjectInterface']);
-        unset($interfaces['Prophecy\Doubler\Generator\ReflectionInterface']);
+        unset($interfaces[ProphecySubjectInterface::class]);
+        unset($interfaces[ReflectionInterface::class]);
         $interface = current($interfaces);
         if (false !== $interface) {
             return $interface;
@@ -42,12 +38,7 @@ class TypeGuesser
         return get_class($variable);
     }
 
-    /**
-     * @param mixed $variable
-     *
-     * @return string
-     */
-    private function getNonObjectType($variable)
+    private function getNonObjectType($variable) : string
     {
         $normalizations = array(
             'boolean' => 'bool',

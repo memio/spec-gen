@@ -11,6 +11,7 @@
 
 namespace spec\Memio\SpecGen\GenerateMethod;
 
+use Memio\SpecGen\CommandBus\CommandHandler;
 use Memio\SpecGen\GenerateMethod\GenerateMethod;
 use Memio\SpecGen\GenerateMethod\GeneratedMethod;
 use Memio\SpecGen\Marshaller\VariableArgumentMarshaller;
@@ -31,7 +32,7 @@ class GenerateMethodHandlerSpec extends ObjectBehavior
 
     function it_is_a_command_handler()
     {
-        $this->shouldImplement('Memio\SpecGen\CommandBus\CommandHandler');
+        $this->shouldImplement(CommandHandler::class);
     }
 
     function it_supports_generate_method_commands(GenerateMethod $command)
@@ -47,7 +48,7 @@ class GenerateMethodHandlerSpec extends ObjectBehavior
         $command = new GenerateMethod(self::FILE_NAME, self::CLASS_NAME, self::METHOD_NAME, $variableArguments);
 
         $variableArgumentMarshaller->marshal($variableArguments)->willReturn(array());
-        $generatedMethod = Argument::type('Memio\SpecGen\GenerateMethod\GeneratedMethod');
+        $generatedMethod = Argument::type(GeneratedMethod::class);
         $eventDispatcher->dispatch(GeneratedMethod::EVENT_NAME, $generatedMethod)->shouldBeCalled();
 
         $this->handle($command);

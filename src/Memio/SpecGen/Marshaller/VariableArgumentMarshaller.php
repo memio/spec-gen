@@ -17,32 +17,16 @@ use Memio\SpecGen\Marshaller\Service\TypeGuesser;
 
 class VariableArgumentMarshaller
 {
-    /**
-     * @var NameGuesser
-     */
     private $nameGuesser;
-
-    /**
-     * @var TypeGuesser
-     */
     private $typeGuesser;
 
-    /**
-     * @param NameGuesser $nameGuesser
-     * @param TypeGuesser $typeGuesser
-     */
     public function __construct(NameGuesser $nameGuesser, TypeGuesser $typeGuesser)
     {
         $this->nameGuesser = $nameGuesser;
         $this->typeGuesser = $typeGuesser;
     }
 
-    /**
-     * @param array $variables
-     *
-     * @return array
-     */
-    public function marshal(array $variables)
+    public function marshal(array $variables) : array
     {
         $argumentCollection = new ArgumentCollection();
         foreach ($variables as $variable) {

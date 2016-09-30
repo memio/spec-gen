@@ -23,37 +23,20 @@ class InsertPropertyHandler implements CommandHandler
     const CONSTANT = '/^    const /';
     const PROPERTY = '/^    private \$/';
 
-    /**
-     * @var Editor
-     */
     private $editor;
-
-    /**
-     * @var PrettyPrinter
-     */
     private $prettyPrinter;
 
-    /**
-     * @param Editor        $editor
-     * @param PrettyPrinter $prettyPrinter
-     */
     public function __construct(Editor $editor, PrettyPrinter $prettyPrinter)
     {
         $this->editor = $editor;
         $this->prettyPrinter = $prettyPrinter;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function supports(Command $command)
+    public function supports(Command $command) : bool
     {
         return $command instanceof InsertProperty;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function handle(Command $command)
     {
         $propertyStatement = '/^    private \$'.$command->property->getName().';$/';

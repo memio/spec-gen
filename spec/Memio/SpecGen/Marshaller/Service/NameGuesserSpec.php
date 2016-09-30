@@ -11,6 +11,7 @@
 
 namespace spec\Memio\SpecGen\Marshaller\Service;
 
+use Memio\SpecGen\Fixtures\Types\SomeInterface;
 use PhpSpec\ObjectBehavior;
 
 class NameGuesserSpec extends ObjectBehavior
@@ -27,6 +28,6 @@ class NameGuesserSpec extends ObjectBehavior
 
     function it_removes_interface_suffix_from_object_argument_names()
     {
-        $this->guess('Memio\SpecGen\Fixtures\Types\SomeInterface')->shouldBe('some');
+        $this->guess(SomeInterface::class)->shouldBe('some');
     }
 }
