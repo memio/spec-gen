@@ -35,8 +35,8 @@ class LogGeneratedConstructorListenerSpec extends ObjectBehavior
         $generatedConstructor = new GeneratedConstructor($file->getWrappedObject());
         $file->getStructure()->willReturn($object);
         $object->getName()->willReturn(self::CLASS_NAME);
-        $object->allProperties()->willReturn(array($property));
-        $object->allMethods()->willReturn(array($method));
+        $object->allProperties()->willReturn([$property]);
+        $object->allMethods()->willReturn([$method]);
         $method->getName()->willReturn(self::METHOD_NAME);
 
         $className = self::CLASS_NAME;

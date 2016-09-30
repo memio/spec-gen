@@ -44,10 +44,10 @@ class GenerateMethodHandlerSpec extends ObjectBehavior
         EventDispatcherInterface $eventDispatcher,
         VariableArgumentMarshaller $variableArgumentMarshaller
     ) {
-        $variableArguments = array();
+        $variableArguments = [];
         $command = new GenerateMethod(self::FILE_NAME, self::CLASS_NAME, self::METHOD_NAME, $variableArguments);
 
-        $variableArgumentMarshaller->marshal($variableArguments)->willReturn(array());
+        $variableArgumentMarshaller->marshal($variableArguments)->willReturn([]);
         $generatedMethod = Argument::type(GeneratedMethod::class);
         $eventDispatcher->dispatch(GeneratedMethod::EVENT_NAME, $generatedMethod)->shouldBeCalled();
 

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Memio\SpecGen\Tests;
+namespace tests\Memio\SpecGen;
 
 use PhpSpec\IO\IO;
 

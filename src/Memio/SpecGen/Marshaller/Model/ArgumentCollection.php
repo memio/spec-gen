@@ -15,8 +15,8 @@ use Memio\Model\Argument;
 
 class ArgumentCollection
 {
-    private $arguments = array();
-    private $nameCount = array();
+    private $arguments = [];
+    private $nameCount = [];
 
     public function add(string $type, string $name)
     {

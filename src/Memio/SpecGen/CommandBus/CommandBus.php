@@ -16,7 +16,7 @@ namespace Memio\SpecGen\CommandBus;
  */
 class CommandBus
 {
-    private $commandHandlers = array();
+    private $commandHandlers = [];
 
     public function addCommandHandler(CommandHandler $commandHandler)
     {

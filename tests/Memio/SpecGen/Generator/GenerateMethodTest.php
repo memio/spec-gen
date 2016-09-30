@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Memio\SpecGen\Tests\Generator;
+namespace tests\Memio\SpecGen\Generator;
 
-use Memio\SpecGen\Tests\Build;
-use Memio\SpecGen\Tests\GeneratorTestCase;
+use tests\Memio\SpecGen\Build;
+use tests\Memio\SpecGen\GeneratorTestCase;
 use PhpSpec\Locator\Resource;
 
 class GenerateMethodTest extends GeneratorTestCase
@@ -39,10 +39,10 @@ class GenerateMethodTest extends GeneratorTestCase
         $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
         $resource->getSrcClassname()->willReturn(self::CLASS_NAME);
 
-        $this->methodGenerator->generate($resource->reveal(), array(
+        $this->methodGenerator->generate($resource->reveal(), [
             'name' => 'myMethod',
-            'arguments' => array(),
-        ));
+            'arguments' => [],
+        ]);
 
         $this->assertExpectedCode($filename);
     }
@@ -59,14 +59,14 @@ class GenerateMethodTest extends GeneratorTestCase
         $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
         $resource->getSrcClassname()->willReturn(self::CLASS_NAME);
 
-        $this->methodGenerator->generate($resource->reveal(), array(
+        $this->methodGenerator->generate($resource->reveal(), [
             'name' => 'myMethod',
-            'arguments' => array(
+            'arguments' => [
                 new \DateTime(),
-                array(),
+                [],
                 'string',
-            ),
-        ));
+            ],
+        ]);
 
         $this->assertExpectedCode($filename);
     }
@@ -83,12 +83,12 @@ class GenerateMethodTest extends GeneratorTestCase
         $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
         $resource->getSrcClassname()->willReturn(self::CLASS_NAME);
 
-        $this->methodGenerator->generate($resource->reveal(), array(
+        $this->methodGenerator->generate($resource->reveal(), [
             'name' => 'myMethod',
-            'arguments' => array(
+            'arguments' => [
                 new \DateTime(),
-            ),
-        ));
+            ],
+        ]);
 
         $this->assertExpectedCode($filename);
     }
@@ -105,10 +105,10 @@ class GenerateMethodTest extends GeneratorTestCase
         $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
         $resource->getSrcClassname()->willReturn(self::CLASS_NAME);
 
-        $this->methodGenerator->generate($resource->reveal(), array(
+        $this->methodGenerator->generate($resource->reveal(), [
             'name' => 'myMethod',
-            'arguments' => array(1, 2, 3, 4, 5, 6, 7, 8),
-        ));
+            'arguments' => [1, 2, 3, 4, 5, 6, 7, 8],
+        ]);
 
         $this->assertExpectedCode($filename);
     }

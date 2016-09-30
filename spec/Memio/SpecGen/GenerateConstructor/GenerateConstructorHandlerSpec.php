@@ -44,10 +44,10 @@ class GenerateConstructorHandlerSpec extends ObjectBehavior
         EventDispatcherInterface $eventDispatcher,
         VariableArgumentMarshaller $variableArgumentMarshaller
     ) {
-        $variableArguments = array();
+        $variableArguments = [];
         $command = new GenerateConstructor(self::FILE_NAME, self::CLASS_NAME, self::METHOD_NAME, $variableArguments);
 
-        $variableArgumentMarshaller->marshal($variableArguments)->willReturn(array());
+        $variableArgumentMarshaller->marshal($variableArguments)->willReturn([]);
         $generatedConstructor = Argument::type(GeneratedConstructor::class);
         $eventDispatcher->dispatch(GeneratedConstructor::EVENT_NAME, $generatedConstructor)->shouldBeCalled();
 

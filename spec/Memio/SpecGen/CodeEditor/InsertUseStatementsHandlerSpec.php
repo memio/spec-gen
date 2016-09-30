@@ -44,7 +44,7 @@ class InsertUseStatementsHandlerSpec extends ObjectBehavior
         FullyQualifiedName $fullyQualifiedName,
         InsertUseStatementHandler $insertUseStatementHandler
     ) {
-        $fullyQualifiedNames = array($fullyQualifiedName->getWrappedObject());
+        $fullyQualifiedNames = [$fullyQualifiedName->getWrappedObject()];
         $insertUseStatements = new InsertUseStatements($file->getWrappedObject(), $fullyQualifiedNames);
 
         $fullyQualifiedName->getFullyQualifiedName()->willReturn('Vendor\Project\MyDependency');
@@ -61,7 +61,7 @@ class InsertUseStatementsHandlerSpec extends ObjectBehavior
         FullyQualifiedName $fullyQualifiedName,
         InsertUseStatementHandler $insertUseStatementHandler
     ) {
-        $fullyQualifiedNames = array($fullyQualifiedName->getWrappedObject());
+        $fullyQualifiedNames = [$fullyQualifiedName->getWrappedObject()];
         $insertUseStatements = new InsertUseStatements($file->getWrappedObject(), $fullyQualifiedNames);
 
         $fullyQualifiedName->getFullyQualifiedName()->willReturn('Vendor\Project\MyDependency');

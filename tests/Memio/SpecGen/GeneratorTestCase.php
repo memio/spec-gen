@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Memio\SpecGen\Tests;
+namespace tests\Memio\SpecGen;
 
 use PHPUnit_Framework_TestCase;
 
@@ -19,8 +19,8 @@ class GeneratorTestCase extends PHPUnit_Framework_TestCase
     {
         $path = $this->getPath();
         $method = $this->getMethod();
-        $skeletonFilename = __DIR__.'/../fixtures/skeleton/'.$path.'/'.$method.'.txt';
-        $filename = __DIR__.'/../fixtures/actual/'.$path.'/'.$method.'.txt';
+        $skeletonFilename = __DIR__.'/../../../fixtures/skeleton/'.$path.'/'.$method.'.txt';
+        $filename = __DIR__.'/../../../fixtures/actual/'.$path.'/'.$method.'.txt';
         if (file_exists($filename)) {
             unlink($filename);
         }
@@ -31,7 +31,7 @@ class GeneratorTestCase extends PHPUnit_Framework_TestCase
 
     protected function assertExpectedCode(string $actualFilename)
     {
-        $expectedFilename = __DIR__.'/../fixtures/expected/'.$this->getPath().'/'.$this->getMethod().'.txt';
+        $expectedFilename = __DIR__.'/../../../fixtures/expected/'.$this->getPath().'/'.$this->getMethod().'.txt';
 
         $this->assertFileEquals($expectedFilename, $actualFilename);
     }

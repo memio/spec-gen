@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Memio\SpecGen\Tests\Generator;
+namespace tests\Memio\SpecGen\Generator;
 
-use Memio\SpecGen\Tests\Build;
-use Memio\SpecGen\Tests\GeneratorTestCase;
+use tests\Memio\SpecGen\Build;
+use tests\Memio\SpecGen\GeneratorTestCase;
 use PhpSpec\Locator\Resource;
 
 class GenerateConstructorTest extends GeneratorTestCase
@@ -39,10 +39,10 @@ class GenerateConstructorTest extends GeneratorTestCase
         $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
         $resource->getSrcClassname()->willReturn(self::CLASS_NAME);
 
-        $this->constructorGenerator->generate($resource->reveal(), array(
+        $this->constructorGenerator->generate($resource->reveal(), [
             'name' => '__construct',
-            'arguments' => array(),
-        ));
+            'arguments' => [],
+        ]);
 
         $this->assertExpectedCode($filename);
     }
@@ -59,12 +59,12 @@ class GenerateConstructorTest extends GeneratorTestCase
         $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
         $resource->getSrcClassname()->willReturn(self::CLASS_NAME);
 
-        $this->constructorGenerator->generate($resource->reveal(), array(
+        $this->constructorGenerator->generate($resource->reveal(), [
             'name' => '__construct',
-            'arguments' => array(
+            'arguments' => [
                 new \DateTime(),
-            ),
-        ));
+            ],
+        ]);
 
         $this->assertExpectedCode($filename);
     }

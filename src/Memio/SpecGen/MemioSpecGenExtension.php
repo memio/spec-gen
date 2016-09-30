@@ -104,8 +104,8 @@ class MemioSpecGenExtension implements Extension
         $logGeneratedConstructorListener = new \Memio\SpecGen\GenerateConstructor\LogGeneratedConstructorListener(
             $container->get('console.io')
         );
-        $eventDispatcher->addListener(GeneratedConstructor::EVENT_NAME, array($insertGeneratedConstructorListener, 'onGeneratedConstructor'));
-        $eventDispatcher->addListener(GeneratedConstructor::EVENT_NAME, array($logGeneratedConstructorListener, 'onGeneratedConstructor'));
+        $eventDispatcher->addListener(GeneratedConstructor::EVENT_NAME, [$insertGeneratedConstructorListener, 'onGeneratedConstructor']);
+        $eventDispatcher->addListener(GeneratedConstructor::EVENT_NAME, [$logGeneratedConstructorListener, 'onGeneratedConstructor']);
 
         $generateConstructorHandler = new \Memio\SpecGen\GenerateConstructor\GenerateConstructorHandler(
             $container->get('memio_spec_gen.event_dispatcher'),
@@ -126,8 +126,8 @@ class MemioSpecGenExtension implements Extension
         $logGeneratedMethodListener = new \Memio\SpecGen\GenerateMethod\LogGeneratedMethodListener(
             $container->get('console.io')
         );
-        $eventDispatcher->addListener(GeneratedMethod::EVENT_NAME, array($insertGeneratedMethodListener, 'onGeneratedMethod'));
-        $eventDispatcher->addListener(GeneratedMethod::EVENT_NAME, array($logGeneratedMethodListener, 'onGeneratedMethod'));
+        $eventDispatcher->addListener(GeneratedMethod::EVENT_NAME, [$insertGeneratedMethodListener, 'onGeneratedMethod']);
+        $eventDispatcher->addListener(GeneratedMethod::EVENT_NAME, [$logGeneratedMethodListener, 'onGeneratedMethod']);
 
         $generateMethodHandler = new \Memio\SpecGen\GenerateMethod\GenerateMethodHandler(
             $container->get('memio_spec_gen.event_dispatcher'),

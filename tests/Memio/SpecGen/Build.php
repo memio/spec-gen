@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Memio\SpecGen\Tests;
+namespace tests\Memio\SpecGen;
 
 use PhpSpec\ServiceContainer;
 use PhpSpec\ServiceContainer\IndexedServiceContainer;
@@ -29,7 +29,7 @@ class Build
             });
 
             $memioSpecGenExtension = new MemioSpecGenExtension();
-            $memioSpecGenExtension->load(self::$serviceContainer, array());
+            $memioSpecGenExtension->load(self::$serviceContainer, []);
         }
 
         return self::$serviceContainer;

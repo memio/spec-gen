@@ -37,7 +37,7 @@ class ConstructorGeneratorSpec extends ObjectBehavior
 
     function it_supports_constructor_generation(Resource $resource)
     {
-        $data = array('name' => self::METHOD_NAME);
+        $data = ['name' => self::METHOD_NAME];
         $this->supports($resource, 'method', $data)->shouldBe(true);
     }
 
@@ -46,10 +46,10 @@ class ConstructorGeneratorSpec extends ObjectBehavior
         $resource->getSrcFilename()->willReturn(self::FILE_NAME);
         $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
         $resource->getSrcClassname()->willReturn(self::CLASS_NAME);
-        $data = array(
+        $data = [
             'name' => self::METHOD_NAME,
-            'arguments' => array(),
-        );
+            'arguments' => [],
+        ];
 
         $command = Argument::type(GenerateConstructor::class);
         $commandBus->handle($command)->shouldbeCalled();

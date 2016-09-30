@@ -40,11 +40,11 @@ class TypeGuesser
 
     private function getNonObjectType($variable) : string
     {
-        $normalizations = array(
+        $normalizations = [
             'boolean' => 'bool',
             'integer' => 'int',
             'NULL' => 'null',
-        );
+        ];
         $type = gettype($variable);
         if (isset($normalizations[$type])) {
             $type = $normalizations[$type];

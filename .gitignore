@@ -5,5 +5,6 @@
 /.couscous
 
 # Temporary files
+/.php_cs.cache
 /fixtures/actual
 !/fixtures/actual/Generated*Test/.gitkeep

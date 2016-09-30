@@ -37,7 +37,7 @@ class MethodGeneratorSpec extends ObjectBehavior
 
     function it_supports_method_generation(Resource $resource)
     {
-        $this->supports($resource, 'method', array())->shouldBe(true);
+        $this->supports($resource, 'method', [])->shouldBe(true);
     }
 
     function it_calls_the_command_bus(CommandBus $commandBus, Resource $resource)
@@ -45,10 +45,10 @@ class MethodGeneratorSpec extends ObjectBehavior
         $resource->getSrcFilename()->willReturn(self::FILE_NAME);
         $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
         $resource->getSrcClassname()->willReturn(self::CLASS_NAME);
-        $data = array(
+        $data = [
             'name' => self::METHOD_NAME,
-            'arguments' => array(),
-        );
+            'arguments' => [],
+        ];
 
         $command = Argument::type(GenerateMethod::class);
         $commandBus->handle($command)->shouldbeCalled();

@@ -39,7 +39,7 @@ class InsertPropertiesHandlerSpec extends ObjectBehavior
 
     function it_inserts_properties(File $file, Property $property, InsertPropertyHandler $insertPropertyHandler)
     {
-        $properties = array($property->getWrappedObject());
+        $properties = [$property->getWrappedObject()];
         $insertProperties = new InsertProperties($file->getWrappedObject(), $properties);
 
         $insertProperty = Argument::Type(InsertProperty::class);

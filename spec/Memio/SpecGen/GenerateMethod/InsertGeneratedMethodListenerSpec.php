@@ -46,10 +46,10 @@ class InsertGeneratedMethodListenerSpec extends ObjectBehavior
         $insertMethod = Argument::type(InsertMethod::class);
 
         $generatedMethod = new GeneratedMethod($fileModel->getWrappedObject());
-        $fileModel->allFullyQualifiedNames()->willReturn(array($fullyQualifiedNameModel));
+        $fileModel->allFullyQualifiedNames()->willReturn([$fullyQualifiedNameModel]);
         $fileModel->getFilename()->willReturn(self::FILE_NAME);
         $fileModel->getStructure()->willReturn($objectModel);
-        $objectModel->allMethods()->willReturn(array($methodModel));
+        $objectModel->allMethods()->willReturn([$methodModel]);
 
         $codeEditor->open(self::FILE_NAME)->willReturn($file);
         $codeEditor->handle($insertUseStatements)->shouldBeCalled();

@@ -28,7 +28,7 @@ class VariableArgumentMarshallerSpec extends ObjectBehavior
     function it_converts_array_of_variables_into_array_of_arguments(NameGuesser $nameGuesser, TypeGuesser $typeGuesser)
     {
         $variable = new \DateTime();
-        $variables = array($variable);
+        $variables = [$variable];
 
         $typeGuesser->guess($variable)->willReturn(self::ARGUMENT_TYPE);
         $nameGuesser->guess(self::ARGUMENT_TYPE)->willReturn(self::ARGUMENT_NAME);
