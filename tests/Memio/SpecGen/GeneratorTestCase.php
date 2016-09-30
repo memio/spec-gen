@@ -11,9 +11,9 @@
 
 namespace tests\Memio\SpecGen;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class GeneratorTestCase extends PHPUnit_Framework_TestCase
+class GeneratorTestCase extends TestCase
 {
     protected function getFixtureFilename() : string
     {

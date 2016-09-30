@@ -28,11 +28,11 @@
         "gnugat/redaktilo": "^1.7",
         "memio/memio": "^1.1",
         "php": "^7.0",
-        "phpspec/phpspec": "^3.0@beta",
+        "phpspec/phpspec": "^3.0",
         "symfony/event-dispatcher": "^2.7 || ^3.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^1.6",
-        "phpunit/phpunit": "^4.6 || ^5.0"
+        "phpunit/phpunit": "^5.4"
     }
 }
