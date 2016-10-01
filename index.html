@@ -52,7 +52,7 @@
 <li>method generation:
 <ul>
 <li>it inserts method at the end of the class</li>
-<li>it typehints object (uses interface when possible), array and callable arguments</li>
+<li>it typehints arguments (uses interface when possible)</li>
 <li>it names object arguments after their type (strips <code>Interface</code> suffix from names)</li>
 <li>it names scalar arguments after a generic name (<code>argument</code>)</li>
 <li>it adds number on names that could collide (e.g. <code>$argument1, $argument2</code>)</li>
@@ -69,7 +69,7 @@
 </blockquote>
 <h2 id="installation">Installation</h2>
 <p>First install it using <a href="https://getcomposer.org/download">Composer</a>:</p>
-<pre><code>composer require --dev memio/spec-gen:^0.6</code></pre>
+<pre><code>composer require --dev memio/spec-gen:^0.7</code></pre>
 <p>Then enable it in <code>phpspec.yml</code>:</p>
 <pre><code>extensions:
     Memio\SpecGen\MemioSpecGenExtension: ~</code></pre>
@@ -114,9 +114,10 @@ class TextEditor
 
     public function __construct(Filesytem $filesystem)
     {
+        $this-&gt;filesystem = $filesystem;
     }
 
-    public function open($argument1, $argument2)
+    public function open(string $argument1, bool $argument2)
     {
     }
 }</code></pre>
@@ -136,10 +137,9 @@ class TextEditor
 </ul>
 <h2 id="roadmap">Roadmap</h2>
 <ul>
-<li>Generating method/property PHPdoc</li>
-<li>Generating License header (based on <code>composer.json</code> data)</li>
-<li>Sorting &quot;use statements&quot; by aphabetical order</li>
-<li>Accepting custom templates</li>
+<li>return type hints</li>
+<li>method body (mirror of test method body)</li>
+<li>better argument naming (based on names used in test)</li>
 </ul>
                 </section>
 
