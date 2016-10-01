@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## 0.7.0: Scalar Type Hints
+
+Upgraded Memio to v2.0@alpha, meaning:
+
+* PHP 5 support was dropped    
+* scalar arguments now get type hinted
+* maximum method argument line length changed from 120 to 80
+* opening curly brace changed to be on the same line as the method
+  closing parenthesis, when arguments are on many lines
+* properties changed to not have empty lines between them,
+  except if they have PHPdoc
+
 ## 0.6.2: Re-enabled constructor generator
 
 Constructor generator wasn't registered as a generator in phpspec 3,
