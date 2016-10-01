@@ -22,37 +22,20 @@ class InsertConstructorHandler implements CommandHandler
     const METHOD = '/^    public function /';
     const CLASS_ENDING = '/^}$/';
 
-    /**
-     * @var Editor
-     */
     private $editor;
-
-    /**
-     * @var PrettyPrinter
-     */
     private $prettyPrinter;
 
-    /**
-     * @param Editor        $editor
-     * @param PrettyPrinter $prettyPrinter
-     */
     public function __construct(Editor $editor, PrettyPrinter $prettyPrinter)
     {
         $this->editor = $editor;
         $this->prettyPrinter = $prettyPrinter;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function supports(Command $command)
+    public function supports(Command $command) : bool
     {
         return $command instanceof InsertConstructor;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function handle(Command $command)
     {
         if ($this->editor->hasBelow($command->file, self::CONSTRUCTOR, 0)) {

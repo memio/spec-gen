@@ -16,6 +16,7 @@ use Gnugat\Redaktilo\File;
 use Memio\Model\FullyQualifiedName;
 use Memio\SpecGen\CodeEditor\InsertUseStatement;
 use Memio\SpecGen\CodeEditor\InsertUseStatementHandler;
+use Memio\SpecGen\CommandBus\CommandHandler;
 use PhpSpec\ObjectBehavior;
 
 class InsertUseStatementHandlerSpec extends ObjectBehavior
@@ -33,7 +34,7 @@ class InsertUseStatementHandlerSpec extends ObjectBehavior
 
     function it_is_a_command_handler()
     {
-        $this->shouldImplement('Memio\SpecGen\CommandBus\CommandHandler');
+        $this->shouldImplement(CommandHandler::class);
     }
 
     function it_supports_insert_use_statement_command(InsertUseStatement $insertUseStatement)

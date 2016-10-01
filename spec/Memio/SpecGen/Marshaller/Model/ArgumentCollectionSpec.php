@@ -11,8 +11,8 @@
 
 namespace spec\Memio\SpecGen\Marshaller\Model;
 
+use Memio\Model\Argument;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class ArgumentCollectionSpec extends ObjectBehavior
 {
@@ -22,7 +22,7 @@ class ArgumentCollectionSpec extends ObjectBehavior
 
         $arguments = $this->all();
         $stringArgument = $arguments[0];
-        $stringArgument->shouldHaveType('Memio\Model\Argument');
+        $stringArgument->shouldHaveType(Argument::class);
         $stringArgument->getType()->shouldBe('string');
         $stringArgument->getName()->shouldBe('argument');
     }

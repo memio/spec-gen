@@ -23,14 +23,8 @@ class GeneratedMethod extends Event
 {
     const EVENT_NAME = 'generated_method';
 
-    /**
-     * @var File
-     */
     public $file;
 
-    /**
-     * @param File $file
-     */
     public function __construct(File $file)
     {
         $this->file = $file;

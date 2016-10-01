@@ -16,6 +16,8 @@ use Memio\Model\FullyQualifiedName as FullyQualifiedNameModel;
 use Memio\Model\Method as MethodModel;
 use Memio\Model\Object as ObjectModel;
 use Memio\SpecGen\CodeEditor\CodeEditor;
+use Memio\SpecGen\CodeEditor\InsertMethod;
+use Memio\SpecGen\CodeEditor\InsertUseStatements;
 use Memio\SpecGen\GenerateMethod\GeneratedMethod;
 use Gnugat\Redaktilo\File;
 use PhpSpec\ObjectBehavior;
@@ -40,14 +42,14 @@ class InsertGeneratedMethodListenerSpec extends ObjectBehavior
         MethodModel $methodModel,
         ObjectModel $objectModel
     ) {
-        $insertUseStatements = Argument::type('Memio\SpecGen\CodeEditor\InsertUseStatements');
-        $insertMethod = Argument::type('Memio\SpecGen\CodeEditor\InsertMethod');
+        $insertUseStatements = Argument::type(InsertUseStatements::class);
+        $insertMethod = Argument::type(InsertMethod::class);
 
         $generatedMethod = new GeneratedMethod($fileModel->getWrappedObject());
-        $fileModel->allFullyQualifiedNames()->willReturn(array($fullyQualifiedNameModel));
+        $fileModel->allFullyQualifiedNames()->willReturn([$fullyQualifiedNameModel]);
         $fileModel->getFilename()->willReturn(self::FILE_NAME);
         $fileModel->getStructure()->willReturn($objectModel);
-        $objectModel->allMethods()->willReturn(array($methodModel));
+        $objectModel->allMethods()->willReturn([$methodModel]);
 
         $codeEditor->open(self::FILE_NAME)->willReturn($file);
         $codeEditor->handle($insertUseStatements)->shouldBeCalled();

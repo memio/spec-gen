@@ -6,7 +6,10 @@ use DateTimeInterface;
 
 class MyClass
 {
-    public function myMethod(DateTimeInterface $dateTime, array $argument1, $argument2)
-    {
+    public function myMethod(
+        DateTimeInterface $dateTime,
+        array $argument1,
+        string $argument2
+    ) {
     }
 }

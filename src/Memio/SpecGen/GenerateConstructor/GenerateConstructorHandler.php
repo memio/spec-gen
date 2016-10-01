@@ -23,20 +23,21 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class GenerateConstructorHandler implements CommandHandler
 {
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $eventDispatcher;
+    const NON_OBJECT_TYPES = [
+        'string',
+        'bool',
+        'int',
+        'double',
+        'callable',
+        'resource',
+        'array',
+        'null',
+        'mixed',
+    ];
 
-    /**
-     * @var VariableArgumentMarshaller
-     */
+    private $eventDispatcher;
     private $variableArgumentMarshaller;
 
-    /**
-     * @param EventDispatcherInterface   $eventDispatcher
-     * @param VariableArgumentMarshaller $variableArgumentMarshaller
-     */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         VariableArgumentMarshaller $variableArgumentMarshaller
@@ -45,17 +46,11 @@ class GenerateConstructorHandler implements CommandHandler
         $this->variableArgumentMarshaller = $variableArgumentMarshaller;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function supports(Command $command)
+    public function supports(Command $command) : bool
     {
         return $command instanceof GenerateConstructor;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function handle(Command $command)
     {
         $method = new Method($command->methodName);
@@ -82,17 +77,10 @@ class GenerateConstructorHandler implements CommandHandler
         $this->eventDispatcher->dispatch(GeneratedConstructor::EVENT_NAME, $generatedConstructor);
     }
 
-    /**
-     * @param File               $file
-     * @param FullyQualifiedName $fullyQualifiedName
-     *
-     * @return bool
-     */
-    private function shouldAddUseStatement(File $file, FullyQualifiedName $fullyQualifiedName)
+    private function shouldAddUseStatement(File $file, FullyQualifiedName $fullyQualifiedName) : bool
     {
         $type = $fullyQualifiedName->getFullyQualifiedName();
-        $nonObjectTypes = array('string', 'bool', 'int', 'double', 'callable', 'resource', 'array', 'null', 'mixed');
-        if (in_array($type, $nonObjectTypes, true)) {
+        if (in_array($type, self::NON_OBJECT_TYPES, true)) {
             return false;
         }
 

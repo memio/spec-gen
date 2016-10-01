@@ -26,22 +26,13 @@ use Memio\SpecGen\CodeEditor\InsertUseStatements;
  */
 class InsertGeneratedMethodListener
 {
-    /**
-     * @var CodeEditor
-     */
     private $codeEditor;
 
-    /**
-     * @param CodeEditor $codeEditor
-     */
     public function __construct(CodeEditor $codeEditor)
     {
         $this->codeEditor = $codeEditor;
     }
 
-    /**
-     * @param GeneratedMethod $generatedMethod
-     */
     public function onGeneratedMethod(GeneratedMethod $generatedMethod)
     {
         $fileName = $generatedMethod->file->getFilename();

@@ -14,6 +14,7 @@ namespace spec\Memio\SpecGen\GenerateConstructor;
 use Memio\SpecGen\GenerateConstructor\GenerateConstructor;
 use Memio\SpecGen\GenerateConstructor\GeneratedConstructor;
 use Memio\SpecGen\Marshaller\VariableArgumentMarshaller;
+use Memio\SpecGen\CommandBus\CommandHandler;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -31,7 +32,7 @@ class GenerateConstructorHandlerSpec extends ObjectBehavior
 
     function it_is_a_command_handler()
     {
-        $this->shouldImplement('Memio\SpecGen\CommandBus\CommandHandler');
+        $this->shouldImplement(CommandHandler::class);
     }
 
     function it_supports_generate_method_commands(GenerateConstructor $command)
@@ -43,11 +44,11 @@ class GenerateConstructorHandlerSpec extends ObjectBehavior
         EventDispatcherInterface $eventDispatcher,
         VariableArgumentMarshaller $variableArgumentMarshaller
     ) {
-        $variableArguments = array();
+        $variableArguments = [];
         $command = new GenerateConstructor(self::FILE_NAME, self::CLASS_NAME, self::METHOD_NAME, $variableArguments);
 
-        $variableArgumentMarshaller->marshal($variableArguments)->willReturn(array());
-        $generatedConstructor = Argument::type('Memio\SpecGen\GenerateConstructor\GeneratedConstructor');
+        $variableArgumentMarshaller->marshal($variableArguments)->willReturn([]);
+        $generatedConstructor = Argument::type(GeneratedConstructor::class);
         $eventDispatcher->dispatch(GeneratedConstructor::EVENT_NAME, $generatedConstructor)->shouldBeCalled();
 
         $this->handle($command);

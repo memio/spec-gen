@@ -3,16 +3,17 @@
 /*
  * This file is part of the memio/spec-gen package.
  *
- * (c) Loïc Chardonnet <loic.chardonnet@gmail.com>
+ * (c) Loïc Faugeron <faugeron.loic@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Memio\SpecGen\Tests\Generator;
+namespace tests\Memio\SpecGen\Generator;
 
-use Memio\SpecGen\Tests\Build;
-use Memio\SpecGen\Tests\GeneratorTestCase;
+use tests\Memio\SpecGen\Build;
+use tests\Memio\SpecGen\GeneratorTestCase;
+use PhpSpec\Locator\Resource;
 
 class GenerateMethodTest extends GeneratorTestCase
 {
@@ -33,15 +34,15 @@ class GenerateMethodTest extends GeneratorTestCase
     {
         $filename = $this->getFixtureFilename();
 
-        $resource = $this->prophesize('PhpSpec\Locator\Resource');
+        $resource = $this->prophesize(Resource::class);
         $resource->getSrcFilename()->willReturn($filename);
         $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
         $resource->getSrcClassname()->willReturn(self::CLASS_NAME);
 
-        $this->methodGenerator->generate($resource->reveal(), array(
+        $this->methodGenerator->generate($resource->reveal(), [
             'name' => 'myMethod',
-            'arguments' => array(),
-        ));
+            'arguments' => [],
+        ]);
 
         $this->assertExpectedCode($filename);
     }
@@ -53,19 +54,19 @@ class GenerateMethodTest extends GeneratorTestCase
     {
         $filename = $this->getFixtureFilename();
 
-        $resource = $this->prophesize('PhpSpec\Locator\Resource');
+        $resource = $this->prophesize(Resource::class);
         $resource->getSrcFilename()->willReturn($filename);
         $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
         $resource->getSrcClassname()->willReturn(self::CLASS_NAME);
 
-        $this->methodGenerator->generate($resource->reveal(), array(
+        $this->methodGenerator->generate($resource->reveal(), [
             'name' => 'myMethod',
-            'arguments' => array(
+            'arguments' => [
                 new \DateTime(),
-                array(),
+                [],
                 'string',
-            ),
-        ));
+            ],
+        ]);
 
         $this->assertExpectedCode($filename);
     }
@@ -77,17 +78,17 @@ class GenerateMethodTest extends GeneratorTestCase
     {
         $filename = $this->getFixtureFilename();
 
-        $resource = $this->prophesize('PhpSpec\Locator\Resource');
+        $resource = $this->prophesize(Resource::class);
         $resource->getSrcFilename()->willReturn($filename);
         $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
         $resource->getSrcClassname()->willReturn(self::CLASS_NAME);
 
-        $this->methodGenerator->generate($resource->reveal(), array(
+        $this->methodGenerator->generate($resource->reveal(), [
             'name' => 'myMethod',
-            'arguments' => array(
+            'arguments' => [
                 new \DateTime(),
-            ),
-        ));
+            ],
+        ]);
 
         $this->assertExpectedCode($filename);
     }
@@ -99,15 +100,15 @@ class GenerateMethodTest extends GeneratorTestCase
     {
         $filename = $this->getFixtureFilename();
 
-        $resource = $this->prophesize('PhpSpec\Locator\Resource');
+        $resource = $this->prophesize(Resource::class);
         $resource->getSrcFilename()->willReturn($filename);
         $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
         $resource->getSrcClassname()->willReturn(self::CLASS_NAME);
 
-        $this->methodGenerator->generate($resource->reveal(), array(
+        $this->methodGenerator->generate($resource->reveal(), [
             'name' => 'myMethod',
-            'arguments' => array(1, 2, 3, 4, 5, 6, 7, 8),
-        ));
+            'arguments' => [1, 2, 3, 4, 5, 6, 7, 8],
+        ]);
 
         $this->assertExpectedCode($filename);
     }

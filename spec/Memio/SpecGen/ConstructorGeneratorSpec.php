@@ -12,6 +12,8 @@
 namespace spec\Memio\SpecGen;
 
 use Memio\SpecGen\CommandBus\CommandBus;
+use Memio\SpecGen\GenerateConstructor\GenerateConstructor;
+use PhpSpec\CodeGenerator\Generator\Generator;
 use PhpSpec\Locator\Resource;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -30,12 +32,12 @@ class ConstructorGeneratorSpec extends ObjectBehavior
 
     function it_is_a_generator()
     {
-        $this->shouldImplement('PhpSpec\CodeGenerator\Generator\Generator');
+        $this->shouldImplement(Generator::class);
     }
 
     function it_supports_constructor_generation(Resource $resource)
     {
-        $data = array('name' => self::METHOD_NAME);
+        $data = ['name' => self::METHOD_NAME];
         $this->supports($resource, 'method', $data)->shouldBe(true);
     }
 
@@ -44,12 +46,12 @@ class ConstructorGeneratorSpec extends ObjectBehavior
         $resource->getSrcFilename()->willReturn(self::FILE_NAME);
         $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
         $resource->getSrcClassname()->willReturn(self::CLASS_NAME);
-        $data = array(
+        $data = [
             'name' => self::METHOD_NAME,
-            'arguments' => array(),
-        );
+            'arguments' => [],
+        ];
 
-        $command = Argument::type('Memio\SpecGen\GenerateConstructor\GenerateConstructor');
+        $command = Argument::type(GenerateConstructor::class);
         $commandBus->handle($command)->shouldbeCalled();
 
         $this->generate($resource, $data);

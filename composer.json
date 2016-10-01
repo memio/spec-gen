@@ -21,18 +21,23 @@
     "autoload-dev": {
         "psr-4": {
             "Memio\\SpecGen\\Fixtures\\": "fixtures",
-            "Memio\\SpecGen\\Tests\\": "tests"
+            "tests\\Memio\\SpecGen\\": "tests"
         }
     },
     "require": {
         "gnugat/redaktilo": "^1.7",
-        "memio/memio": "^1.1",
-        "php": "^5.6 || ^7.0",
-        "phpspec/phpspec": "^3.0@beta",
+        "memio/memio": "^2.0@alpha",
+        "memio/linter": "^2.0@alpha",
+        "memio/validator": "^2.0@alpha",
+        "memio/model": "^2.0@alpha",
+        "memio/pretty-printer": "^2.0@alpha",
+        "memio/twig-template-engine": "^2.0@alpha",
+        "php": "^7.0",
+        "phpspec/phpspec": "^3.0",
         "symfony/event-dispatcher": "^2.7 || ^3.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^1.6",
-        "phpunit/phpunit": "^4.6 || ^5.0"
+        "phpunit/phpunit": "^5.4"
     }
 }

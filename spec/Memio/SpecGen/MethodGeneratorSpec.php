@@ -12,6 +12,8 @@
 namespace spec\Memio\SpecGen;
 
 use Memio\SpecGen\CommandBus\CommandBus;
+use Memio\SpecGen\GenerateMethod\GenerateMethod;
+use PhpSpec\CodeGenerator\Generator\Generator;
 use PhpSpec\Locator\Resource;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -30,12 +32,12 @@ class MethodGeneratorSpec extends ObjectBehavior
 
     function it_is_a_generator()
     {
-        $this->shouldImplement('PhpSpec\CodeGenerator\Generator\Generator');
+        $this->shouldImplement(Generator::class);
     }
 
     function it_supports_method_generation(Resource $resource)
     {
-        $this->supports($resource, 'method', array())->shouldBe(true);
+        $this->supports($resource, 'method', [])->shouldBe(true);
     }
 
     function it_calls_the_command_bus(CommandBus $commandBus, Resource $resource)
@@ -43,12 +45,12 @@ class MethodGeneratorSpec extends ObjectBehavior
         $resource->getSrcFilename()->willReturn(self::FILE_NAME);
         $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
         $resource->getSrcClassname()->willReturn(self::CLASS_NAME);
-        $data = array(
+        $data = [
             'name' => self::METHOD_NAME,
-            'arguments' => array(),
-        );
+            'arguments' => [],
+        ];
 
-        $command = Argument::type('Memio\SpecGen\GenerateMethod\GenerateMethod');
+        $command = Argument::type(GenerateMethod::class);
         $commandBus->handle($command)->shouldbeCalled();
 
         $this->generate($resource, $data);

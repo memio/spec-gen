@@ -3,16 +3,17 @@
 /*
  * This file is part of the memio/spec-gen package.
  *
- * (c) Loïc Chardonnet <loic.chardonnet@gmail.com>
+ * (c) Loïc Faugeron <faugeron.loic@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Memio\SpecGen\Tests\Generator;
+namespace tests\Memio\SpecGen\Generator;
 
-use Memio\SpecGen\Tests\Build;
-use Memio\SpecGen\Tests\GeneratorTestCase;
+use tests\Memio\SpecGen\Build;
+use tests\Memio\SpecGen\GeneratorTestCase;
+use PhpSpec\Locator\Resource;
 
 class GenerateConstructorTest extends GeneratorTestCase
 {
@@ -33,15 +34,15 @@ class GenerateConstructorTest extends GeneratorTestCase
     {
         $filename = $this->getFixtureFilename();
 
-        $resource = $this->prophesize('PhpSpec\Locator\Resource');
+        $resource = $this->prophesize(Resource::class);
         $resource->getSrcFilename()->willReturn($filename);
         $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
         $resource->getSrcClassname()->willReturn(self::CLASS_NAME);
 
-        $this->constructorGenerator->generate($resource->reveal(), array(
+        $this->constructorGenerator->generate($resource->reveal(), [
             'name' => '__construct',
-            'arguments' => array(),
-        ));
+            'arguments' => [],
+        ]);
 
         $this->assertExpectedCode($filename);
     }
@@ -53,17 +54,17 @@ class GenerateConstructorTest extends GeneratorTestCase
     {
         $filename = $this->getFixtureFilename();
 
-        $resource = $this->prophesize('PhpSpec\Locator\Resource');
+        $resource = $this->prophesize(Resource::class);
         $resource->getSrcFilename()->willReturn($filename);
         $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
         $resource->getSrcClassname()->willReturn(self::CLASS_NAME);
 
-        $this->constructorGenerator->generate($resource->reveal(), array(
+        $this->constructorGenerator->generate($resource->reveal(), [
             'name' => '__construct',
-            'arguments' => array(
+            'arguments' => [
                 new \DateTime(),
-            ),
-        ));
+            ],
+        ]);
 
         $this->assertExpectedCode($filename);
     }

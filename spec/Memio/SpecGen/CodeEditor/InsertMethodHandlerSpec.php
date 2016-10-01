@@ -17,6 +17,7 @@ use Memio\Model\Method;
 use Memio\PrettyPrinter\PrettyPrinter;
 use Memio\SpecGen\CodeEditor\InsertMethod;
 use Memio\SpecGen\CodeEditor\InsertMethodHandler;
+use Memio\SpecGen\CommandBus\CommandHandler;
 use PhpSpec\ObjectBehavior;
 
 class InsertMethodHandlerSpec extends ObjectBehavior
@@ -32,7 +33,7 @@ class InsertMethodHandlerSpec extends ObjectBehavior
 
     function it_is_a_command_handler()
     {
-        $this->shouldImplement('Memio\SpecGen\CommandBus\CommandHandler');
+        $this->shouldImplement(CommandHandler::class);
     }
 
     function it_supports_insert_method_command(InsertMethod $insertMethod)

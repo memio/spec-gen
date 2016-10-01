@@ -17,20 +17,9 @@ use Memio\SpecGen\CommandBus\Command;
 
 class InsertConstructor implements Command
 {
-    /**
-     * @var File
-     */
     public $file;
-
-    /**
-     * @var Method
-     */
     public $method;
 
-    /**
-     * @param File   $file
-     * @param Method $method
-     */
     public function __construct(File $file, Method $method)
     {
         $this->file = $file;

@@ -33,7 +33,7 @@ class LogGeneratedMethodListenerSpec extends ObjectBehavior
         $generatedMethod = new GeneratedMethod($file->getWrappedObject());
         $file->getStructure()->willReturn($object);
         $object->getName()->willReturn(self::CLASS_NAME);
-        $object->allMethods()->willReturn(array($method));
+        $object->allMethods()->willReturn([$method]);
         $method->getName()->willReturn(self::METHOD_NAME);
 
         $className = self::CLASS_NAME;

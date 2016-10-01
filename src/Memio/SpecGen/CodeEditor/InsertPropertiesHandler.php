@@ -16,30 +16,18 @@ use Memio\SpecGen\CommandBus\CommandHandler;
 
 class InsertPropertiesHandler implements CommandHandler
 {
-    /**
-     * @var InsertPropertyHandler
-     */
     private $insertPropertyHandler;
 
-    /**
-     * @param InsertPropertyHandler $insertPropertyHandler
-     */
     public function __construct(InsertPropertyHandler $insertPropertyHandler)
     {
         $this->insertPropertyHandler = $insertPropertyHandler;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function supports(Command $command)
+    public function supports(Command $command) : bool
     {
         return $command instanceof InsertProperties;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function handle(Command $command)
     {
         foreach ($command->properties as $property) {

@@ -25,9 +25,6 @@ class MemioSpecGenExtension implements Extension
 {
     const CODE_GENERATOR_TAG = ['code_generator.generators'];
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(ServiceContainer $container, array $params)
     {
         $this->defineupSharedServices($container);
@@ -37,9 +34,6 @@ class MemioSpecGenExtension implements Extension
         $this->defineupGenerators($container);
     }
 
-    /**
-     * @param ServiceContainer $container
-     */
     private function defineupSharedServices(ServiceContainer $container)
     {
         $container->define('redaktilo.editor', function () {
@@ -62,9 +56,6 @@ class MemioSpecGenExtension implements Extension
         });
     }
 
-    /**
-     * @param ServiceContainer $container
-     */
     private function defineupCodeEditor(ServiceContainer $container)
     {
         $container->define('memio_spec_gen.code_editor', function (ServiceContainer $container) {
@@ -101,9 +92,6 @@ class MemioSpecGenExtension implements Extension
         });
     }
 
-    /**
-     * @param ServiceContainer $container
-     */
     private function defineupGenerateConstructorHandler(ServiceContainer $container)
     {
         $eventDispatcher = $container->get('memio_spec_gen.event_dispatcher');
@@ -116,8 +104,8 @@ class MemioSpecGenExtension implements Extension
         $logGeneratedConstructorListener = new \Memio\SpecGen\GenerateConstructor\LogGeneratedConstructorListener(
             $container->get('console.io')
         );
-        $eventDispatcher->addListener(GeneratedConstructor::EVENT_NAME, array($insertGeneratedConstructorListener, 'onGeneratedConstructor'));
-        $eventDispatcher->addListener(GeneratedConstructor::EVENT_NAME, array($logGeneratedConstructorListener, 'onGeneratedConstructor'));
+        $eventDispatcher->addListener(GeneratedConstructor::EVENT_NAME, [$insertGeneratedConstructorListener, 'onGeneratedConstructor']);
+        $eventDispatcher->addListener(GeneratedConstructor::EVENT_NAME, [$logGeneratedConstructorListener, 'onGeneratedConstructor']);
 
         $generateConstructorHandler = new \Memio\SpecGen\GenerateConstructor\GenerateConstructorHandler(
             $container->get('memio_spec_gen.event_dispatcher'),
@@ -126,9 +114,6 @@ class MemioSpecGenExtension implements Extension
         $commandBus->addCommandHandler($generateConstructorHandler);
     }
 
-    /**
-     * @param ServiceContainer $container
-     */
     private function defineupGenerateMethodHandler(ServiceContainer $container)
     {
         $eventDispatcher = $container->get('memio_spec_gen.event_dispatcher');
@@ -141,8 +126,8 @@ class MemioSpecGenExtension implements Extension
         $logGeneratedMethodListener = new \Memio\SpecGen\GenerateMethod\LogGeneratedMethodListener(
             $container->get('console.io')
         );
-        $eventDispatcher->addListener(GeneratedMethod::EVENT_NAME, array($insertGeneratedMethodListener, 'onGeneratedMethod'));
-        $eventDispatcher->addListener(GeneratedMethod::EVENT_NAME, array($logGeneratedMethodListener, 'onGeneratedMethod'));
+        $eventDispatcher->addListener(GeneratedMethod::EVENT_NAME, [$insertGeneratedMethodListener, 'onGeneratedMethod']);
+        $eventDispatcher->addListener(GeneratedMethod::EVENT_NAME, [$logGeneratedMethodListener, 'onGeneratedMethod']);
 
         $generateMethodHandler = new \Memio\SpecGen\GenerateMethod\GenerateMethodHandler(
             $container->get('memio_spec_gen.event_dispatcher'),
@@ -151,9 +136,6 @@ class MemioSpecGenExtension implements Extension
         $commandBus->addCommandHandler($generateMethodHandler);
     }
 
-    /**
-     * @param ServiceContainer $container
-     */
     private function defineupGenerators(ServiceContainer $container)
     {
         $container->define('code_generator.generators.method', function (ServiceContainer $container) {

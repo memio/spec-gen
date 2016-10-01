@@ -21,30 +21,18 @@ class InsertUseStatementHandler implements CommandHandler
     const NAME_SPACE = '/^namespace /';
     const USE_STATEMENT = '/^use /';
 
-    /**
-     * @var Editor
-     */
     private $editor;
 
-    /**
-     * @param Editor $editor
-     */
     public function __construct(Editor $editor)
     {
         $this->editor = $editor;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function supports(Command $command)
+    public function supports(Command $command) : bool
     {
         return $command instanceof InsertUseStatement;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function handle(Command $command)
     {
         $namespace = $command->fullyQualifiedName->getNamespace();

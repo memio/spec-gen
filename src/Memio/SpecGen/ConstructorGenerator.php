@@ -21,31 +21,19 @@ use PhpSpec\Locator\Resource;
  */
 class ConstructorGenerator implements Generator
 {
-    /**
-     * @var CommandBus
-     */
     private $commandBus;
 
-    /**
-     * @param CommandBus $commandBus
-     */
     public function __construct(CommandBus $commandBus)
     {
         $this->commandBus = $commandBus;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function supports(Resource $resource, $generation, array $data)
+    public function supports(Resource $resource, $generation, array $data) : bool
     {
         return 'method' === $generation && '__construct' === $data['name'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function generate(Resource $resource, array $data = array())
+    public function generate(Resource $resource, array $data = [])
     {
         $generateConstructor = new GenerateConstructor(
             $resource->getSrcFilename(),

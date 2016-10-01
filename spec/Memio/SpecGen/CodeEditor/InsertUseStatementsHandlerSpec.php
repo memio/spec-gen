@@ -16,6 +16,8 @@ use Gnugat\Redaktilo\File;
 use Memio\Model\FullyQualifiedName;
 use Memio\SpecGen\CodeEditor\InsertUseStatementHandler;
 use Memio\SpecGen\CodeEditor\InsertUseStatements;
+use Memio\SpecGen\CodeEditor\InsertUseStatement;
+use Memio\SpecGen\CommandBus\CommandHandler;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -28,7 +30,7 @@ class InsertUseStatementsHandlerSpec extends ObjectBehavior
 
     function it_is_a_command_handler()
     {
-        $this->shouldImplement('Memio\SpecGen\CommandBus\CommandHandler');
+        $this->shouldImplement(CommandHandler::class);
     }
 
     function it_supports_insert_use_statements_command(InsertUseStatements $insertUseStatements)
@@ -42,12 +44,12 @@ class InsertUseStatementsHandlerSpec extends ObjectBehavior
         FullyQualifiedName $fullyQualifiedName,
         InsertUseStatementHandler $insertUseStatementHandler
     ) {
-        $fullyQualifiedNames = array($fullyQualifiedName->getWrappedObject());
+        $fullyQualifiedNames = [$fullyQualifiedName->getWrappedObject()];
         $insertUseStatements = new InsertUseStatements($file->getWrappedObject(), $fullyQualifiedNames);
 
         $fullyQualifiedName->getFullyQualifiedName()->willReturn('Vendor\Project\MyDependency');
         $editor->hasBelow($file, '/^use Vendor\\\\Project\\\\MyDependency;$/', 0)->willReturn(false);
-        $insertUseStatement = Argument::Type('Memio\SpecGen\CodeEditor\InsertUseStatement');
+        $insertUseStatement = Argument::Type(InsertUseStatement::class);
         $insertUseStatementHandler->handle($insertUseStatement)->shouldBeCalled();
 
         $this->handle($insertUseStatements);
@@ -59,12 +61,12 @@ class InsertUseStatementsHandlerSpec extends ObjectBehavior
         FullyQualifiedName $fullyQualifiedName,
         InsertUseStatementHandler $insertUseStatementHandler
     ) {
-        $fullyQualifiedNames = array($fullyQualifiedName->getWrappedObject());
+        $fullyQualifiedNames = [$fullyQualifiedName->getWrappedObject()];
         $insertUseStatements = new InsertUseStatements($file->getWrappedObject(), $fullyQualifiedNames);
 
         $fullyQualifiedName->getFullyQualifiedName()->willReturn('Vendor\Project\MyDependency');
         $editor->hasBelow($file, '/^use Vendor\\\\Project\\\\MyDependency;$/', 0)->willReturn(true);
-        $insertUseStatement = Argument::Type('Memio\SpecGen\CodeEditor\InsertUseStatement');
+        $insertUseStatement = Argument::Type(InsertUseStatement::class);
         $insertUseStatementHandler->handle($insertUseStatement)->shouldNotBeCalled();
 
         $this->handle($insertUseStatements);

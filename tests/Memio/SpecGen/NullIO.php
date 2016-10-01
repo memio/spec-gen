@@ -3,28 +3,22 @@
 /*
  * This file is part of the memio/spec-gen package.
  *
- * (c) Loïc Chardonnet <loic.chardonnet@gmail.com>
+ * (c) Loïc Faugeron <faugeron.loic@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Memio\SpecGen\Tests;
+namespace tests\Memio\SpecGen;
 
 use PhpSpec\IO\IO;
 
 class NullIO implements IO
 {
-    /**
-     * {@inheritdoc}
-     */
     public function write($message)
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isVerbose()
     {
         return false;
