@@ -4,7 +4,7 @@ This extension for [phpspec](http://phpspec.net/) provides a powerful code gener
 
 * method generation:
     * it inserts method at the end of the class
-    * it typehints object (uses interface when possible), array and callable arguments
+    * it typehints arguments (uses interface when possible)
     * it names object arguments after their type (strips `Interface` suffix from names)
     * it names scalar arguments after a generic name (`argument`)
     * it adds number on names that could collide (e.g. `$argument1, $argument2`)
@@ -19,7 +19,7 @@ This extension for [phpspec](http://phpspec.net/) provides a powerful code gener
 
 First install it using [Composer](https://getcomposer.org/download):
 
-    composer require --dev memio/spec-gen:^0.6
+    composer require --dev memio/spec-gen:^0.7
 
 Then enable it in `phpspec.yml`:
 
@@ -76,9 +76,10 @@ class TextEditor
 
     public function __construct(Filesytem $filesystem)
     {
+        $this->filesystem = $filesystem;
     }
 
-    public function open($argument1, $argument2)
+    public function open(string $argument1, bool $argument2)
     {
     }
 }
@@ -102,7 +103,6 @@ And finally some meta documentation:
 
 ## Roadmap
 
-* Generating method/property PHPdoc
-* Generating License header (based on `composer.json` data)
-* Sorting "use statements" by aphabetical order
-* Accepting custom templates
+* return type hints
+* method body (mirror of test method body)
+* better argument naming (based on names used in test)

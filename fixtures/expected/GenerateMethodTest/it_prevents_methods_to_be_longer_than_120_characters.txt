@@ -5,15 +5,14 @@ namespace Vendor\Project;
 class MyClass
 {
     public function myMethod(
-        $argument1,
-        $argument2,
-        $argument3,
-        $argument4,
-        $argument5,
-        $argument6,
-        $argument7,
-        $argument8
-    )
-    {
+        int $argument1,
+        int $argument2,
+        int $argument3,
+        int $argument4,
+        int $argument5,
+        int $argument6,
+        int $argument7,
+        int $argument8
+    ) {
     }
 }

@@ -26,7 +26,12 @@
     },
     "require": {
         "gnugat/redaktilo": "^1.7",
-        "memio/memio": "^1.1",
+        "memio/memio": "^2.0@alpha",
+        "memio/linter": "^2.0@alpha",
+        "memio/validator": "^2.0@alpha",
+        "memio/model": "^2.0@alpha",
+        "memio/pretty-printer": "^2.0@alpha",
+        "memio/twig-template-engine": "^2.0@alpha",
         "php": "^7.0",
         "phpspec/phpspec": "^3.0",
         "symfony/event-dispatcher": "^2.7 || ^3.0"
