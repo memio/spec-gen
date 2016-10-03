@@ -70,9 +70,21 @@
 <h2 id="installation">Installation</h2>
 <p>First install it using <a href="https://getcomposer.org/download">Composer</a>:</p>
 <pre><code>composer require --dev memio/spec-gen:^0.7</code></pre>
+<blockquote>
+<p><strong>Note</strong>: you'll also need to set in your <code>composer.json</code> the
+<code>minimum-stability</code> parameter to <code>alpha</code>.</p>
+</blockquote>
 <p>Then enable it in <code>phpspec.yml</code>:</p>
 <pre><code>extensions:
     Memio\SpecGen\MemioSpecGenExtension: ~</code></pre>
+<blockquote>
+<p><strong>Version guide</strong>:</p>
+<ul>
+<li>using phpspec 2? Then use spec-gen v0.4</li>
+<li>using phpspec 3 and PHP 5.6? Then use spec-gen v0.6</li>
+<li>using phpspec 3 and PHP 7? Then use spec-gen v0.7 and above</li>
+</ul>
+</blockquote>
 <h2 id="full-example">Full example</h2>
 <p>Let's write the following specification:</p>
 <pre><code class="language-php">&lt;?php
