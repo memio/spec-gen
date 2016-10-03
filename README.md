@@ -21,12 +21,21 @@ First install it using [Composer](https://getcomposer.org/download):
 
     composer require --dev memio/spec-gen:^0.7
 
+> **Note**: you'll also need to set in your `composer.json` the
+> `minimum-stability` parameter to `alpha`.
+
 Then enable it in `phpspec.yml`:
 
 ```
 extensions:
     Memio\SpecGen\MemioSpecGenExtension: ~
 ```
+
+> **Version guide**:
+>
+> * using phpspec 2? Then use spec-gen v0.4
+> * using phpspec 3 and PHP 5.6? Then use spec-gen v0.6
+> * using phpspec 3 and PHP 7? Then use spec-gen v0.7 and above
 
 ## Full example
 
