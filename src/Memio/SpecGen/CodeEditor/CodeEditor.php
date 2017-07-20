@@ -30,7 +30,7 @@ class CodeEditor
         $this->editor = $editor;
     }
 
-    public function open(string $filename) : File
+    public function open(string $filename): File
     {
         return $this->editor->open($filename);
     }

@@ -15,11 +15,11 @@ use PhpSpec\IO\IO;
 
 class NullIO implements IO
 {
-    public function write($message)
+    public function write(string $message)
     {
     }
 
-    public function isVerbose()
+    public function isVerbose(): bool
     {
         return false;
     }

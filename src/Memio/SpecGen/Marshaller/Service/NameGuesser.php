@@ -25,7 +25,7 @@ class NameGuesser
         'mixed',
     ];
 
-    public function guess(string $type) : string
+    public function guess(string $type): string
     {
         if (in_array($type, self::NON_OBJECT_TYPES, true)) {
             return 'argument';

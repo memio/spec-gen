@@ -46,7 +46,7 @@ class GenerateConstructorHandler implements CommandHandler
         $this->variableArgumentMarshaller = $variableArgumentMarshaller;
     }
 
-    public function supports(Command $command) : bool
+    public function supports(Command $command): bool
     {
         return $command instanceof GenerateConstructor;
     }
@@ -77,7 +77,7 @@ class GenerateConstructorHandler implements CommandHandler
         $this->eventDispatcher->dispatch(GeneratedConstructor::EVENT_NAME, $generatedConstructor);
     }
 
-    private function shouldAddUseStatement(File $file, FullyQualifiedName $fullyQualifiedName) : bool
+    private function shouldAddUseStatement(File $file, FullyQualifiedName $fullyQualifiedName): bool
     {
         $type = $fullyQualifiedName->getFullyQualifiedName();
         if (in_array($type, self::NON_OBJECT_TYPES, true)) {

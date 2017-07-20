@@ -23,6 +23,7 @@ use PhpSpec\IO\IO;
 class LogGeneratedMethodListener
 {
     private $io;
+
     public function __construct(IO $io)
     {
         $this->io = $io;

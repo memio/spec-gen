@@ -33,11 +33,11 @@
         "memio/pretty-printer": "^2.0@alpha",
         "memio/twig-template-engine": "^2.0@alpha",
         "php": "^7.0",
-        "phpspec/phpspec": "^3.0",
-        "symfony/event-dispatcher": "^2.7 || ^3.0"
+        "phpspec/phpspec": "^4.0@rc",
+        "symfony/event-dispatcher": "^2.7 || ^3.0 || ^4.0"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^1.6",
-        "phpunit/phpunit": "^5.4"
+        "friendsofphp/php-cs-fixer": "^2.0",
+        "phpunit/phpunit": "^6.0"
     }
 }

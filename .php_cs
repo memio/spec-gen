@@ -1,19 +1,19 @@
 <?php
 
-$finder = Symfony\CS\Finder\DefaultFinder::create()
+$finder = PhpCsFixer\Finder::create()
     ->exclude('bin')
-    ->exclude('doc')
     ->exclude('vendor')
-    ->exclude('fixtures')
     ->in(__DIR__)
 ;
 
-return Symfony\CS\Config\Config::create()
-    ->fixers([
-        '-visibility',
-        '-multiple_use',
-        'short_array_syntax',
+return PhpCsFixer\Config::create()
+    ->setRules([
+        '@Symfony' => true,
+        'visibility_required' => false,
+        'array_syntax' => [
+            'syntax' => 'short',
+        ],
     ])
     ->setUsingCache(true)
-    ->finder($finder)
+    ->setFinder($finder)
 ;

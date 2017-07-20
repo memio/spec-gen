@@ -19,7 +19,7 @@ This extension for [phpspec](http://phpspec.net/) provides a powerful code gener
 
 First install it using [Composer](https://getcomposer.org/download):
 
-    composer require --dev memio/spec-gen:^0.7
+    composer require --dev memio/spec-gen:^0.8
 
 > **Note**: you'll also need to set in your `composer.json` the
 > `minimum-stability` parameter to `alpha`.
@@ -33,9 +33,10 @@ extensions:
 
 > **Version guide**:
 >
-> * using phpspec 2? Then use spec-gen v0.4
+> * using phpspec 4? Then use spec-gen v0.8 and above
+> * using phpspec 3 and PHP 7? Then use spec-gen v0.7
 > * using phpspec 3 and PHP 5.6? Then use spec-gen v0.6
-> * using phpspec 3 and PHP 7? Then use spec-gen v0.7 and above
+> * using phpspec 2? Then use spec-gen v0.4
 
 ## Full example
 

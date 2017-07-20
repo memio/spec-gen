@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 
 class GeneratorTestCase extends TestCase
 {
-    protected function getFixtureFilename() : string
+    protected function getFixtureFilename(): string
     {
         $path = $this->getPath();
         $method = $this->getMethod();
@@ -36,7 +36,7 @@ class GeneratorTestCase extends TestCase
         $this->assertFileEquals($expectedFilename, $actualFilename);
     }
 
-    private function getPath() : string
+    private function getPath(): string
     {
         $trace = debug_backtrace();
         $testFqcn = $trace[2]['class'];
@@ -45,7 +45,7 @@ class GeneratorTestCase extends TestCase
         return str_replace('\\', '/', $type);
     }
 
-    private function getMethod() : string
+    private function getMethod(): string
     {
         $trace = debug_backtrace();
 

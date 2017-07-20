@@ -28,7 +28,7 @@ class ConstructorGenerator implements Generator
         $this->commandBus = $commandBus;
     }
 
-    public function supports(Resource $resource, $generation, array $data) : bool
+    public function supports(Resource $resource, string $generation, array $data): bool
     {
         return 'method' === $generation && '__construct' === $data['name'];
     }
@@ -47,7 +47,7 @@ class ConstructorGenerator implements Generator
     /**
      * {@inheritdoc}
      */
-    public function getPriority()
+    public function getPriority(): int
     {
         return 1;
     }

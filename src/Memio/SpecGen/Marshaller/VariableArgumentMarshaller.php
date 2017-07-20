@@ -26,7 +26,7 @@ class VariableArgumentMarshaller
         $this->typeGuesser = $typeGuesser;
     }
 
-    public function marshal(array $variables) : array
+    public function marshal(array $variables): array
     {
         $argumentCollection = new ArgumentCollection();
         foreach ($variables as $variable) {
