@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.8.0: phpspec 4
+
+Upgraded phpspec to v4.0@rc, meaning:
+
+* phpspec v2 and v3 support was dropped
+
 ## 0.7.0: Scalar Type Hints
 
 Upgraded Memio to v2.0@alpha, meaning:

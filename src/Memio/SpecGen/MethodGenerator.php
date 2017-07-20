@@ -28,7 +28,7 @@ class MethodGenerator implements Generator
         $this->commandBus = $commandBus;
     }
 
-    public function supports(Resource $resource, $generation, array $data)
+    public function supports(Resource $resource, string $generation, array $data): bool
     {
         return 'method' === $generation;
     }
@@ -44,7 +44,7 @@ class MethodGenerator implements Generator
         $this->commandBus->handle($generateMethod);
     }
 
-    public function getPriority()
+    public function getPriority(): int
     {
         return 0;
     }

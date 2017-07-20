@@ -23,7 +23,7 @@ class InsertPropertiesHandler implements CommandHandler
         $this->insertPropertyHandler = $insertPropertyHandler;
     }
 
-    public function supports(Command $command) : bool
+    public function supports(Command $command): bool
     {
         return $command instanceof InsertProperties;
     }

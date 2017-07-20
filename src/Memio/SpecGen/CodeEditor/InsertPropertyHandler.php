@@ -32,7 +32,7 @@ class InsertPropertyHandler implements CommandHandler
         $this->prettyPrinter = $prettyPrinter;
     }
 
-    public function supports(Command $command) : bool
+    public function supports(Command $command): bool
     {
         return $command instanceof InsertProperty;
     }

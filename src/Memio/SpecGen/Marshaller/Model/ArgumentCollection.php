@@ -37,7 +37,7 @@ class ArgumentCollection
         }
     }
 
-    public function all() : array
+    public function all(): array
     {
         return $this->arguments;
     }

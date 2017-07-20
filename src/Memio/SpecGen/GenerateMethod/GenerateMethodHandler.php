@@ -45,7 +45,7 @@ class GenerateMethodHandler implements CommandHandler
         $this->variableArgumentMarshaller = $variableArgumentMarshaller;
     }
 
-    public function supports(Command $command) : bool
+    public function supports(Command $command): bool
     {
         return $command instanceof GenerateMethod;
     }
@@ -70,7 +70,7 @@ class GenerateMethodHandler implements CommandHandler
         $this->eventDispatcher->dispatch(GeneratedMethod::EVENT_NAME, $generatedMethod);
     }
 
-    private function shouldAddUseStatement(File $file, FullyQualifiedName $fullyQualifiedName) : bool
+    private function shouldAddUseStatement(File $file, FullyQualifiedName $fullyQualifiedName): bool
     {
         $type = $fullyQualifiedName->getFullyQualifiedName();
         if (in_array($type, self::NON_OBJECT_TYPES, true)) {

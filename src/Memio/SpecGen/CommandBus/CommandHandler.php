@@ -16,6 +16,7 @@ namespace Memio\SpecGen\CommandBus;
  */
 interface CommandHandler
 {
-    public function supports(Command $command) : bool;
+    public function supports(Command $command): bool;
+
     public function handle(Command $command);
 }

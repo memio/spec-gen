@@ -16,7 +16,7 @@ use Prophecy\Doubler\Generator\ReflectionInterface;
 
 class TypeGuesser
 {
-    public function guess($variable) : string
+    public function guess($variable): string
     {
         if (is_callable($variable)) {
             return 'callable';
@@ -38,7 +38,7 @@ class TypeGuesser
         return get_class($variable);
     }
 
-    private function getNonObjectType($variable) : string
+    private function getNonObjectType($variable): string
     {
         $normalizations = [
             'boolean' => 'bool',

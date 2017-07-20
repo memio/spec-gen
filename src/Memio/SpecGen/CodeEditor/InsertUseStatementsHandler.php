@@ -28,7 +28,7 @@ class InsertUseStatementsHandler implements CommandHandler
         $this->insertUseStatementHandler = $insertUseStatementHandler;
     }
 
-    public function supports(Command $command) : bool
+    public function supports(Command $command): bool
     {
         return $command instanceof InsertUseStatements;
     }
