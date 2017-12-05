@@ -24,7 +24,7 @@ class ArgumentCollection
         $indexedName = $name.$this->nameCount[$name];
         $isNameDuplicated = ($this->nameCount[$name] > 1);
         $this->arguments[] = new Argument($type, $isNameDuplicated ? $indexedName : $name);
-        if ($this->nameCount[$name] !== 2) {
+        if (2 !== $this->nameCount[$name]) {
             return;
         }
         $argumentsCount = count($this->arguments);

@@ -26,12 +26,12 @@
     },
     "require": {
         "gnugat/redaktilo": "^1.7",
-        "memio/memio": "^2.0@alpha",
-        "memio/linter": "^2.0@alpha",
-        "memio/validator": "^2.0@alpha",
-        "memio/model": "^2.0@alpha",
-        "memio/pretty-printer": "^2.0@alpha",
-        "memio/twig-template-engine": "^2.0@alpha",
+        "memio/memio": "^2.0",
+        "memio/linter": "^2.0",
+        "memio/validator": "^2.0",
+        "memio/model": "^2.0",
+        "memio/pretty-printer": "^2.0",
+        "memio/twig-template-engine": "^2.0",
         "php": "^7.0",
         "phpspec/phpspec": "^4.0@rc",
         "symfony/event-dispatcher": "^2.7 || ^3.0 || ^4.0"
