@@ -112,4 +112,23 @@ class GenerateMethodTest extends GeneratorTestCase
 
         $this->assertExpectedCode($filename);
     }
+    /**
+     * @test
+     */
+    public function it_prevents_methods_to_use_a_special_class_name()
+    {
+        $filename = $this->getFixtureFilename();
+
+        $resource = $this->prophesize(Resource::class);
+        $resource->getSrcFilename()->willReturn($filename);
+        $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
+        $resource->getSrcClassname()->willReturn(self::CLASS_NAME);
+
+        $this->methodGenerator->generate($resource->reveal(), [
+            'name' => 'myMethod',
+            'arguments' => ['string', 1.1, 1, true],
+        ]);
+
+        $this->assertExpectedCode($filename);
+    }
 }

@@ -32,6 +32,7 @@ class GenerateMethodHandler implements CommandHandler
         'array',
         'null',
         'mixed',
+        'float',
     ];
 
     private $eventDispatcher;
