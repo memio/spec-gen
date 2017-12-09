@@ -112,6 +112,7 @@ class GenerateMethodTest extends GeneratorTestCase
 
         $this->assertExpectedCode($filename);
     }
+
     /**
      * @test
      */
