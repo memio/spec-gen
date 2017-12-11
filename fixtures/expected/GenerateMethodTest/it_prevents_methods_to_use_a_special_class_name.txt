@@ -1,0 +1,14 @@
+<?php
+
+namespace Vendor\Project;
+
+class MyClass
+{
+    public function myMethod(
+        string $argument1,
+        float $argument2,
+        int $argument3,
+        bool $argument4
+    ) {
+    }
+}
