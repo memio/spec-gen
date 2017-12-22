@@ -39,5 +39,10 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.0",
         "phpunit/phpunit": "^6.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.1-dev"
+        }
     }
 }
