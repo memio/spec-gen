@@ -29,9 +29,9 @@
         "memio/memio": "^2.0",
         "memio/linter": "^2.0",
         "memio/validator": "^2.0",
-        "memio/model": "^2.0",
+        "memio/model": "^2.0.1",
         "memio/pretty-printer": "^2.0",
-        "memio/twig-template-engine": "^2.0",
+        "memio/twig-template-engine": "^2.0.1",
         "php": "^7.0",
         "phpspec/phpspec": "^4.0",
         "symfony/event-dispatcher": "^2.7 || ^3.0 || ^4.0"

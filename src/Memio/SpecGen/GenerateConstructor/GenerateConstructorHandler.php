@@ -14,7 +14,7 @@ namespace Memio\SpecGen\GenerateConstructor;
 use Memio\Model\File;
 use Memio\Model\FullyQualifiedName;
 use Memio\Model\Method;
-use Memio\Model\Object;
+use Memio\Model\Objekt;
 use Memio\Model\Property;
 use Memio\SpecGen\CommandBus\Command;
 use Memio\SpecGen\CommandBus\CommandHandler;
@@ -54,7 +54,7 @@ class GenerateConstructorHandler implements CommandHandler
     public function handle(Command $command)
     {
         $method = new Method($command->methodName);
-        $object = Object::make($command->fullyQualifiedName)->addMethod($method);
+        $object = Objekt::make($command->fullyQualifiedName)->addMethod($method);
         $file = File::make($command->fileName)->setStructure($object);
         $arguments = $this->variableArgumentMarshaller->marshal($command->arguments);
         foreach ($arguments as $argument) {
