@@ -14,7 +14,7 @@ namespace Memio\SpecGen\GenerateMethod;
 use Memio\Model\File;
 use Memio\Model\FullyQualifiedName;
 use Memio\Model\Method;
-use Memio\Model\Object;
+use Memio\Model\Objekt;
 use Memio\SpecGen\CommandBus\Command;
 use Memio\SpecGen\CommandBus\CommandHandler;
 use Memio\SpecGen\Marshaller\VariableArgumentMarshaller;
@@ -55,7 +55,7 @@ class GenerateMethodHandler implements CommandHandler
     {
         $method = new Method($command->methodName);
         $file = File::make($command->fileName)
-            ->setStructure(Object::make($command->fullyQualifiedName)
+            ->setStructure(Objekt::make($command->fullyQualifiedName)
                 ->addMethod($method)
             )
         ;

@@ -13,7 +13,7 @@ namespace spec\Memio\SpecGen\GenerateConstructor;
 
 use Memio\Model\File;
 use Memio\Model\Method;
-use Memio\Model\Object;
+use Memio\Model\Objekt;
 use Memio\Model\Property;
 use Memio\SpecGen\GenerateConstructor\GeneratedConstructor;
 use PhpSpec\Console\ConsoleIO;
@@ -30,7 +30,7 @@ class LogGeneratedConstructorListenerSpec extends ObjectBehavior
         $this->beConstructedWith($io);
     }
 
-    function it_logs_the_generated_constructor(File $file, ConsoleIO $io, Method $method, Object $object, Property $property)
+    function it_logs_the_generated_constructor(File $file, ConsoleIO $io, Method $method, Objekt $object, Property $property)
     {
         $generatedConstructor = new GeneratedConstructor($file->getWrappedObject());
         $file->getStructure()->willReturn($object);

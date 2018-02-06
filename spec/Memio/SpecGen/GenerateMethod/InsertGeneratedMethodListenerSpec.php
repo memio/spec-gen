@@ -14,7 +14,7 @@ namespace spec\Memio\SpecGen\GenerateMethod;
 use Memio\Model\File as FileModel;
 use Memio\Model\FullyQualifiedName as FullyQualifiedNameModel;
 use Memio\Model\Method as MethodModel;
-use Memio\Model\Object as ObjectModel;
+use Memio\Model\Objekt as ObjectModel;
 use Memio\SpecGen\CodeEditor\CodeEditor;
 use Memio\SpecGen\CodeEditor\InsertMethod;
 use Memio\SpecGen\CodeEditor\InsertUseStatements;

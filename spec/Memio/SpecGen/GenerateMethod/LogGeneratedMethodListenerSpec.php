@@ -13,7 +13,7 @@ namespace spec\Memio\SpecGen\GenerateMethod;
 
 use Memio\Model\File;
 use Memio\Model\Method;
-use Memio\Model\Object;
+use Memio\Model\Objekt;
 use Memio\SpecGen\GenerateMethod\GeneratedMethod;
 use PhpSpec\Console\ConsoleIO;
 use PhpSpec\ObjectBehavior;
@@ -28,7 +28,7 @@ class LogGeneratedMethodListenerSpec extends ObjectBehavior
         $this->beConstructedWith($io);
     }
 
-    function it_logs_the_generated_method(File $file, ConsoleIO $io, Method $method, Object $object)
+    function it_logs_the_generated_method(File $file, ConsoleIO $io, Method $method, Objekt $object)
     {
         $generatedMethod = new GeneratedMethod($file->getWrappedObject());
         $file->getStructure()->willReturn($object);
