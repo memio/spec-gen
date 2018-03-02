@@ -21,9 +21,6 @@ First install it using [Composer](https://getcomposer.org/download):
 
     composer require --dev memio/spec-gen:^0.8
 
-> **Note**: you'll also need to set in your `composer.json` the
-> `minimum-stability` parameter to `alpha`.
-
 Then enable it in `phpspec.yml`:
 
 ```
