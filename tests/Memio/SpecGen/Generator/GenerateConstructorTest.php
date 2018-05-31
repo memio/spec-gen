@@ -68,4 +68,29 @@ class GenerateConstructorTest extends GeneratorTestCase
 
         $this->assertExpectedCode($filename);
     }
+
+    /**
+     * @test
+     */
+    public function it_prevents_constructor_to_use_a_special_class_name()
+    {
+        $filename = $this->getFixtureFilename();
+
+        $resource = $this->prophesize(Resource::class);
+        $resource->getSrcFilename()->willReturn($filename);
+        $resource->getSrcNamespace()->willReturn(self::NAME_SPACE);
+        $resource->getSrcClassname()->willReturn(self::CLASS_NAME);
+
+        $this->constructorGenerator->generate($resource->reveal(), [
+            'name' => '__construct',
+            'arguments' => [
+                77,
+                3.14,
+                'letsgoboys',
+                true,
+            ],
+        ]);
+
+        $this->assertExpectedCode($filename);
+    }
 }
