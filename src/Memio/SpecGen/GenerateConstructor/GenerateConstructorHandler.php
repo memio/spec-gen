@@ -33,7 +33,6 @@ class GenerateConstructorHandler implements CommandHandler
         'array',
         'null',
         'mixed',
-        'float',
     ];
 
     private $eventDispatcher;
