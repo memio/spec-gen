@@ -1,0 +1,26 @@
+<?php
+
+namespace Vendor\Project;
+
+class MyClass
+{
+    private $argument1;
+
+    private $argument2;
+
+    private $argument3;
+
+    private $argument4;
+
+    public function __construct(
+        int $argument1,
+        float $argument2,
+        string $argument3,
+        bool $argument4
+    ) {
+        $this->argument1 = $argument1;
+        $this->argument2 = $argument2;
+        $this->argument3 = $argument3;
+        $this->argument4 = $argument4;
+    }
+}
