@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## 0.8.5: Normalized float to double
+
+Normalization from float to double, thanks to @ItsKelsBoys
+
+## 0.8.4: PHP 7.2 support
+
+Thanks to @roukmoute for adding PHP 7.2 support
+
+## 0.8.3: Fixed float arguments
+
+Marked float as being a non object type, thanks to @arn0d
+
+## 0.8.2: phpspec 4
+
+Using phpspec 4.0 stable, thanks to @arn0d
+
+## 0.8.1: Memio 2.0
+
+Using Memio 2.0, thanks to @arn0d
+
 ## 0.8.0: phpspec 4
 
 Upgraded phpspec to v4.0@rc, meaning:
