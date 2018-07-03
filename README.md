@@ -1,4 +1,4 @@
-# Memio's SpecGen [![SensioLabsInsight](https://insight.sensiolabs.com/projects/7cea8bf7-2f9f-4d34-a7e8-55fabeed867f/mini.png)](https://insight.sensiolabs.com/projects/7cea8bf7-2f9f-4d34-a7e8-55fabeed867f) [![Travis CI](https://travis-ci.org/memio/spec-gen.png)](https://travis-ci.org/memio/spec-gen)
+# Memio's SpecGen [![Travis CI](https://travis-ci.org/memio/spec-gen.png)](https://travis-ci.org/memio/spec-gen)
 
 This extension for [phpspec](http://phpspec.net/) provides a powerful code generator:
 
@@ -19,7 +19,7 @@ This extension for [phpspec](http://phpspec.net/) provides a powerful code gener
 
 First install it using [Composer](https://getcomposer.org/download):
 
-    composer require --dev memio/spec-gen:^0.8
+    composer require --dev memio/spec-gen:^0.9
 
 Then enable it in `phpspec.yml`:
 
@@ -30,7 +30,8 @@ extensions:
 
 > **Version guide**:
 >
-> * using phpspec 4? Then use spec-gen v0.8 and above
+> * using phpspec 5? Then use spec-gen v0.9
+> * using phpspec 4? Then use spec-gen v0.8
 > * using phpspec 3 and PHP 7? Then use spec-gen v0.7
 > * using phpspec 3 and PHP 5.6? Then use spec-gen v0.6
 > * using phpspec 2? Then use spec-gen v0.4
