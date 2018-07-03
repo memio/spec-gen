@@ -29,8 +29,9 @@ class LogGeneratedConstructorListener
         $this->io = $io;
     }
 
-    public function onGeneratedConstructor(GeneratedConstructor $generatedConstructor)
-    {
+    public function onGeneratedConstructor(
+        GeneratedConstructor $generatedConstructor
+    ): void {
         $object = $generatedConstructor->file->getStructure();
         $className = $object->getName();
         $propertiesCount = count($object->allProperties());

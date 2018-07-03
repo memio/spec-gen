@@ -25,7 +25,7 @@ class MemioSpecGenExtension implements Extension
 {
     const CODE_GENERATOR_TAG = ['code_generator.generators'];
 
-    public function load(ServiceContainer $container, array $params)
+    public function load(ServiceContainer $container, array $params): void
     {
         $this->defineupSharedServices($container);
         $this->defineupCodeEditor($container);
@@ -34,7 +34,7 @@ class MemioSpecGenExtension implements Extension
         $this->defineupGenerators($container);
     }
 
-    private function defineupSharedServices(ServiceContainer $container)
+    private function defineupSharedServices(ServiceContainer $container): void
     {
         $container->define('redaktilo.editor', function () {
             return \Gnugat\Redaktilo\EditorFactory::createEditor();
@@ -56,7 +56,7 @@ class MemioSpecGenExtension implements Extension
         });
     }
 
-    private function defineupCodeEditor(ServiceContainer $container)
+    private function defineupCodeEditor(ServiceContainer $container): void
     {
         $container->define('memio_spec_gen.code_editor', function (ServiceContainer $container) {
             $editor = $container->get('redaktilo.editor');
@@ -92,7 +92,7 @@ class MemioSpecGenExtension implements Extension
         });
     }
 
-    private function defineupGenerateConstructorHandler(ServiceContainer $container)
+    private function defineupGenerateConstructorHandler(ServiceContainer $container): void
     {
         $eventDispatcher = $container->get('memio_spec_gen.event_dispatcher');
         $commandBus = $container->get('memio_spec_gen.command_bus');
@@ -114,7 +114,7 @@ class MemioSpecGenExtension implements Extension
         $commandBus->addCommandHandler($generateConstructorHandler);
     }
 
-    private function defineupGenerateMethodHandler(ServiceContainer $container)
+    private function defineupGenerateMethodHandler(ServiceContainer $container): void
     {
         $eventDispatcher = $container->get('memio_spec_gen.event_dispatcher');
         $commandBus = $container->get('memio_spec_gen.command_bus');
@@ -136,7 +136,7 @@ class MemioSpecGenExtension implements Extension
         $commandBus->addCommandHandler($generateMethodHandler);
     }
 
-    private function defineupGenerators(ServiceContainer $container)
+    private function defineupGenerators(ServiceContainer $container): void
     {
         $container->define('code_generator.generators.method', function (ServiceContainer $container) {
             return new \Memio\SpecGen\MethodGenerator($container->get('memio_spec_gen.command_bus'));

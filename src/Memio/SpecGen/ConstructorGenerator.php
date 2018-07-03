@@ -28,8 +28,11 @@ class ConstructorGenerator implements Generator
         $this->commandBus = $commandBus;
     }
 
-    public function supports(Resource $resource, string $generation, array $data): bool
-    {
+    public function supports(
+        Resource $resource,
+        string $generation,
+        array $data
+    ): bool {
         return 'method' === $generation && '__construct' === $data['name'];
     }
 

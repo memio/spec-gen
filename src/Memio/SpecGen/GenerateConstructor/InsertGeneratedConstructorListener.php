@@ -35,8 +35,9 @@ class InsertGeneratedConstructorListener
         $this->codeEditor = $codeEditor;
     }
 
-    public function onGeneratedConstructor(GeneratedConstructor $generatedConstructor)
-    {
+    public function onGeneratedConstructor(
+        GeneratedConstructor $generatedConstructor
+    ): void {
         $fileName = $generatedConstructor->file->getFilename();
         $fullyQualifiedNames = $generatedConstructor->file->allFullyQualifiedNames();
         $allMethods = $generatedConstructor->file->getStructure()->allMethods();

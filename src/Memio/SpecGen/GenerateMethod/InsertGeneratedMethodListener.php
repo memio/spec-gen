@@ -33,7 +33,7 @@ class InsertGeneratedMethodListener
         $this->codeEditor = $codeEditor;
     }
 
-    public function onGeneratedMethod(GeneratedMethod $generatedMethod)
+    public function onGeneratedMethod(GeneratedMethod $generatedMethod): void
     {
         $fileName = $generatedMethod->file->getFilename();
         $fullyQualifiedNames = $generatedMethod->file->allFullyQualifiedNames();

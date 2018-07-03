@@ -50,7 +50,7 @@ class GenerateMethodHandler implements CommandHandler
         return $command instanceof GenerateMethod;
     }
 
-    public function handle(Command $command)
+    public function handle(Command $command): void
     {
         $method = new Method($command->methodName);
         $file = File::make($command->fileName)

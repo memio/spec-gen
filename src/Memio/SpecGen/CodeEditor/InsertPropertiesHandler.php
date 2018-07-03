@@ -28,7 +28,7 @@ class InsertPropertiesHandler implements CommandHandler
         return $command instanceof InsertProperties;
     }
 
-    public function handle(Command $command)
+    public function handle(Command $command): void
     {
         foreach ($command->properties as $property) {
             $this->insertPropertyHandler->handle(new InsertProperty($command->file, $property));

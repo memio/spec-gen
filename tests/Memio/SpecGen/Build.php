@@ -19,7 +19,7 @@ class Build
 {
     private static $serviceContainer;
 
-    public static function serviceContainer()
+    public static function serviceContainer(): ServiceContainer
     {
         if (null === self::$serviceContainer) {
             self::$serviceContainer = new IndexedServiceContainer();
@@ -35,7 +35,7 @@ class Build
         return self::$serviceContainer;
     }
 
-    public static function fixtures()
+    public static function fixtures(): void
     {
     }
 }

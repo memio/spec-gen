@@ -51,7 +51,7 @@ class GenerateConstructorHandler implements CommandHandler
         return $command instanceof GenerateConstructor;
     }
 
-    public function handle(Command $command)
+    public function handle(Command $command): void
     {
         $method = new Method($command->methodName);
         $object = Objekt::make($command->fullyQualifiedName)->addMethod($method);

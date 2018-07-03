@@ -35,12 +35,12 @@ class CodeEditor
         return $this->editor->open($filename);
     }
 
-    public function save(File $file)
+    public function save(File $file): void
     {
         $this->editor->save($file);
     }
 
-    public function handle(Command $command)
+    public function handle(Command $command): void
     {
         $this->commandBus->handle($command);
     }

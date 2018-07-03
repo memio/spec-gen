@@ -36,7 +36,7 @@ class InsertConstructorHandler implements CommandHandler
         return $command instanceof InsertConstructor;
     }
 
-    public function handle(Command $command)
+    public function handle(Command $command): void
     {
         if ($this->editor->hasBelow($command->file, self::CONSTRUCTOR, 0)) {
             return;
