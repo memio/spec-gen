@@ -46,7 +46,7 @@
 
                 
                 <section id="content" class="col-sm-offset-3 col-lg-offset-2 col-sm-9 col-lg-10">
-                    <h1 id="memios-specgen">Memio's SpecGen <a href="https://insight.sensiolabs.com/projects/7cea8bf7-2f9f-4d34-a7e8-55fabeed867f"><img src="https://insight.sensiolabs.com/projects/7cea8bf7-2f9f-4d34-a7e8-55fabeed867f/mini.png" alt="SensioLabsInsight" /></a> <a href="https://travis-ci.org/memio/spec-gen"><img src="https://travis-ci.org/memio/spec-gen.png" alt="Travis CI" /></a></h1>
+                    <h1 id="memios-specgen">Memio's SpecGen <a href="https://travis-ci.org/memio/spec-gen"><img src="https://travis-ci.org/memio/spec-gen.png" alt="Travis CI" /></a></h1>
 <p>This extension for <a href="http://phpspec.net/">phpspec</a> provides a powerful code generator:</p>
 <ul>
 <li>method generation:
@@ -69,20 +69,18 @@
 </blockquote>
 <h2 id="installation">Installation</h2>
 <p>First install it using <a href="https://getcomposer.org/download">Composer</a>:</p>
-<pre><code>composer require --dev memio/spec-gen:^0.7</code></pre>
-<blockquote>
-<p><strong>Note</strong>: you'll also need to set in your <code>composer.json</code> the
-<code>minimum-stability</code> parameter to <code>alpha</code>.</p>
-</blockquote>
+<pre><code>composer require --dev memio/spec-gen:^0.9</code></pre>
 <p>Then enable it in <code>phpspec.yml</code>:</p>
 <pre><code>extensions:
     Memio\SpecGen\MemioSpecGenExtension: ~</code></pre>
 <blockquote>
 <p><strong>Version guide</strong>:</p>
 <ul>
-<li>using phpspec 2? Then use spec-gen v0.4</li>
+<li>using phpspec 5? Then use spec-gen v0.9</li>
+<li>using phpspec 4? Then use spec-gen v0.8</li>
+<li>using phpspec 3 and PHP 7? Then use spec-gen v0.7</li>
 <li>using phpspec 3 and PHP 5.6? Then use spec-gen v0.6</li>
-<li>using phpspec 3 and PHP 7? Then use spec-gen v0.7 and above</li>
+<li>using phpspec 2? Then use spec-gen v0.4</li>
 </ul>
 </blockquote>
 <h2 id="full-example">Full example</h2>
