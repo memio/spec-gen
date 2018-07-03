@@ -18,9 +18,9 @@ use Memio\SpecGen\CommandBus\CommandHandler;
 
 class InsertConstructorHandler implements CommandHandler
 {
-    const CONSTRUCTOR = '/function __construct\(/';
-    const METHOD = '/^    public function /';
-    const CLASS_ENDING = '/^}$/';
+    public const CONSTRUCTOR = '/function __construct\(/';
+    public const METHOD = '/^    public function /';
+    public const CLASS_ENDING = '/^}$/';
 
     private $editor;
     private $prettyPrinter;
@@ -36,7 +36,7 @@ class InsertConstructorHandler implements CommandHandler
         return $command instanceof InsertConstructor;
     }
 
-    public function handle(Command $command)
+    public function handle(Command $command): void
     {
         if ($this->editor->hasBelow($command->file, self::CONSTRUCTOR, 0)) {
             return;

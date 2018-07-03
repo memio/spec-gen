@@ -13,7 +13,7 @@ namespace Memio\SpecGen\Marshaller\Service;
 
 class NameGuesser
 {
-    const NON_OBJECT_TYPES = [
+    private const NON_OBJECT_TYPES = [
         'string',
         'bool',
         'int',

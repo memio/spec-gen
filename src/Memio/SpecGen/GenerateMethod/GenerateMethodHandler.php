@@ -22,7 +22,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class GenerateMethodHandler implements CommandHandler
 {
-    const NON_OBJECT_TYPES = [
+    private const NON_OBJECT_TYPES = [
         'string',
         'bool',
         'int',
@@ -50,7 +50,7 @@ class GenerateMethodHandler implements CommandHandler
         return $command instanceof GenerateMethod;
     }
 
-    public function handle(Command $command)
+    public function handle(Command $command): void
     {
         $method = new Method($command->methodName);
         $file = File::make($command->fileName)

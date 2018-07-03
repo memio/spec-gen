@@ -33,7 +33,7 @@ class InsertUseStatementsHandler implements CommandHandler
         return $command instanceof InsertUseStatements;
     }
 
-    public function handle(Command $command)
+    public function handle(Command $command): void
     {
         foreach ($command->fullyQualifiedNames as $fullyQualifiedName) {
             $escapedFullyQualifiedClassName = addslashes($fullyQualifiedName->getFullyQualifiedName());

@@ -18,12 +18,12 @@ class CommandBus
 {
     private $commandHandlers = [];
 
-    public function addCommandHandler(CommandHandler $commandHandler)
+    public function addCommandHandler(CommandHandler $commandHandler): void
     {
         $this->commandHandlers[] = $commandHandler;
     }
 
-    public function handle(Command $command)
+    public function handle(Command $command): void
     {
         foreach ($this->commandHandlers as $commandHandler) {
             if ($commandHandler->supports($command)) {

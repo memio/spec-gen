@@ -18,7 +18,7 @@ class ArgumentCollection
     private $arguments = [];
     private $nameCount = [];
 
-    public function add(string $type, string $name)
+    public function add(string $type, string $name): void
     {
         $this->nameCount[$name] = (isset($this->nameCount[$name]) ? $this->nameCount[$name] + 1 : 1);
         $indexedName = $name.$this->nameCount[$name];

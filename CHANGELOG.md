@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 0.9.0: phpspec 5
+
+Upgraded phpspec to v5.0@rc, meaning:
+
+* phpspec v4 support was dropped
+* PHP 7.0 support was dropped
+* Symfony 2.7, 3.0, 3.1, 3.2 and 3.3 was dropped
+* added usage of void return type
+* added usage of constant visibility
+
 ## 0.8.5: Normalized float to double
 
 Normalization from float to double, thanks to @ItsKelsBoys

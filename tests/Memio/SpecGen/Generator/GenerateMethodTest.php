@@ -17,8 +17,8 @@ use PhpSpec\Locator\Resource;
 
 class GenerateMethodTest extends GeneratorTestCase
 {
-    const NAME_SPACE = 'Vendor\Project';
-    const CLASS_NAME = 'Vendor\Project\MyClass';
+    private const NAME_SPACE = 'Vendor\Project';
+    private const CLASS_NAME = 'Vendor\Project\MyClass';
 
     private $methodGenerator;
 

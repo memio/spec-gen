@@ -23,7 +23,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class GenerateConstructorHandler implements CommandHandler
 {
-    const NON_OBJECT_TYPES = [
+    private const NON_OBJECT_TYPES = [
         'string',
         'bool',
         'int',
@@ -51,7 +51,7 @@ class GenerateConstructorHandler implements CommandHandler
         return $command instanceof GenerateConstructor;
     }
 
-    public function handle(Command $command)
+    public function handle(Command $command): void
     {
         $method = new Method($command->methodName);
         $object = Objekt::make($command->fullyQualifiedName)->addMethod($method);

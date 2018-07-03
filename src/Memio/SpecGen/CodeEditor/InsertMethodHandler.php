@@ -18,7 +18,7 @@ use Memio\SpecGen\CommandBus\CommandHandler;
 
 class InsertMethodHandler implements CommandHandler
 {
-    const CLASS_ENDING = '/^}$/';
+    public const CLASS_ENDING = '/^}$/';
 
     private $editor;
     private $prettyPrinter;
@@ -34,7 +34,7 @@ class InsertMethodHandler implements CommandHandler
         return $command instanceof InsertMethod;
     }
 
-    public function handle(Command $command)
+    public function handle(Command $command): void
     {
         $methodPattern = '/^    public function '.$command->method->getName().'\(/';
         if ($this->editor->hasBelow($command->file, $methodPattern, 0)) {
