@@ -21,7 +21,7 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class GeneratedMethod extends Event
 {
-    const EVENT_NAME = 'generated_method';
+    public const EVENT_NAME = 'generated_method';
 
     public $file;
 

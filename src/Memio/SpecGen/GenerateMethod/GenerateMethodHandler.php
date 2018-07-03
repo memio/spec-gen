@@ -22,7 +22,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class GenerateMethodHandler implements CommandHandler
 {
-    const NON_OBJECT_TYPES = [
+    private const NON_OBJECT_TYPES = [
         'string',
         'bool',
         'int',

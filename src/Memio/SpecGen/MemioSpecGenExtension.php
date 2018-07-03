@@ -23,7 +23,7 @@ use PhpSpec\ServiceContainer;
  */
 class MemioSpecGenExtension implements Extension
 {
-    const CODE_GENERATOR_TAG = ['code_generator.generators'];
+    private const CODE_GENERATOR_TAG = ['code_generator.generators'];
 
     public function load(ServiceContainer $container, array $params): void
     {

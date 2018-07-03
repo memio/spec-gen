@@ -18,7 +18,7 @@ use Memio\SpecGen\CommandBus\CommandHandler;
 
 class InsertMethodHandler implements CommandHandler
 {
-    const CLASS_ENDING = '/^}$/';
+    public const CLASS_ENDING = '/^}$/';
 
     private $editor;
     private $prettyPrinter;

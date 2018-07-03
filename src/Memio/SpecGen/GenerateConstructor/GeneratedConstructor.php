@@ -21,7 +21,7 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class GeneratedConstructor extends Event
 {
-    const EVENT_NAME = 'generated_constructor';
+    public const EVENT_NAME = 'generated_constructor';
 
     public $file;
 

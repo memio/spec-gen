@@ -18,10 +18,10 @@ use Memio\SpecGen\CommandBus\CommandHandler;
 
 class InsertPropertyHandler implements CommandHandler
 {
-    const CLASS_OPENING = '/^{$/';
-    const CLASS_ENDING = '/^}$/';
-    const CONSTANT = '/^    const /';
-    const PROPERTY = '/^    private \$/';
+    public const CLASS_OPENING = '/^{$/';
+    public const CLASS_ENDING = '/^}$/';
+    public const CONSTANT = '/^    const /';
+    public const PROPERTY = '/^    private \$/';
 
     private $editor;
     private $prettyPrinter;

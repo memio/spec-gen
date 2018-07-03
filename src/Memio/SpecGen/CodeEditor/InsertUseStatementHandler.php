@@ -17,9 +17,9 @@ use Memio\SpecGen\CommandBus\CommandHandler;
 
 class InsertUseStatementHandler implements CommandHandler
 {
-    const CLASS_ENDING = '}';
-    const NAME_SPACE = '/^namespace /';
-    const USE_STATEMENT = '/^use /';
+    public const CLASS_ENDING = '}';
+    public const NAME_SPACE = '/^namespace /';
+    public const USE_STATEMENT = '/^use /';
 
     private $editor;
 

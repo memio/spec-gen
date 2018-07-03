@@ -18,9 +18,9 @@ use Memio\SpecGen\CommandBus\CommandHandler;
 
 class InsertConstructorHandler implements CommandHandler
 {
-    const CONSTRUCTOR = '/function __construct\(/';
-    const METHOD = '/^    public function /';
-    const CLASS_ENDING = '/^}$/';
+    public const CONSTRUCTOR = '/function __construct\(/';
+    public const METHOD = '/^    public function /';
+    public const CLASS_ENDING = '/^}$/';
 
     private $editor;
     private $prettyPrinter;
