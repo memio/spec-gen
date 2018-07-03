@@ -33,7 +33,7 @@ class ConstructorGenerator implements Generator
         return 'method' === $generation && '__construct' === $data['name'];
     }
 
-    public function generate(Resource $resource, array $data = [])
+    public function generate(Resource $resource, array $data = []): void
     {
         $generateConstructor = new GenerateConstructor(
             $resource->getSrcFilename(),

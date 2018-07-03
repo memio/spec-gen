@@ -15,7 +15,7 @@ use PhpSpec\IO\IO;
 
 class NullIO implements IO
 {
-    public function write(string $message)
+    public function write(string $message): void
     {
     }
 

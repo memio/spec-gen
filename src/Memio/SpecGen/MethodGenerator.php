@@ -33,7 +33,7 @@ class MethodGenerator implements Generator
         return 'method' === $generation;
     }
 
-    public function generate(Resource $resource, array $data = [])
+    public function generate(Resource $resource, array $data = []): void
     {
         $generateMethod = new GenerateMethod(
             $resource->getSrcFilename(),
