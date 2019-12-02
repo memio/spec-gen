@@ -11,8 +11,8 @@
 
 namespace Memio\SpecGen\Marshaller\Service;
 
-use Prophecy\Prophecy\ProphecySubjectInterface;
 use Prophecy\Doubler\Generator\ReflectionInterface;
+use Prophecy\Prophecy\ProphecySubjectInterface;
 
 class TypeGuesser
 {

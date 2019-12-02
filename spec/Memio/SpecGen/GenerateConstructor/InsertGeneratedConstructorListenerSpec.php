@@ -11,6 +11,7 @@
 
 namespace spec\Memio\SpecGen\GenerateConstructor;
 
+use Gnugat\Redaktilo\File;
 use Memio\Model\File as FileModel;
 use Memio\Model\FullyQualifiedName as FullyQualifiedNameModel;
 use Memio\Model\Method as MethodModel;
@@ -21,7 +22,6 @@ use Memio\SpecGen\CodeEditor\InsertConstructor;
 use Memio\SpecGen\CodeEditor\InsertProperties;
 use Memio\SpecGen\CodeEditor\InsertUseStatements;
 use Memio\SpecGen\GenerateConstructor\GeneratedConstructor;
-use Gnugat\Redaktilo\File;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 

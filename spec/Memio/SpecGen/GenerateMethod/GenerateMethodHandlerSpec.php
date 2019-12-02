@@ -12,8 +12,8 @@
 namespace spec\Memio\SpecGen\GenerateMethod;
 
 use Memio\SpecGen\CommandBus\CommandHandler;
-use Memio\SpecGen\GenerateMethod\GenerateMethod;
 use Memio\SpecGen\GenerateMethod\GeneratedMethod;
+use Memio\SpecGen\GenerateMethod\GenerateMethod;
 use Memio\SpecGen\Marshaller\VariableArgumentMarshaller;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
