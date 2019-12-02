@@ -67,7 +67,10 @@ class GenerateMethodHandler implements CommandHandler
             $method->addArgument($argument);
         }
         $generatedMethod = new GeneratedMethod($file);
-        $this->eventDispatcher->dispatch(GeneratedMethod::EVENT_NAME, $generatedMethod);
+        $this->eventDispatcher->dispatch(
+            $generatedMethod,
+            GeneratedMethod::EVENT_NAME
+        );
     }
 
     private function shouldAddUseStatement(File $file, FullyQualifiedName $fullyQualifiedName): bool

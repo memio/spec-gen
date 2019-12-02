@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 0.10.0: Symfony 5, phpspec 6, PHP 7.2
+
+Upgraded requirements:
+
+* Symfony 5
+* phpspec 6.1
+* PHP 7.2
+
 ## 0.9.0: phpspec 5
 
 Upgraded phpspec to v5.0@rc, meaning:

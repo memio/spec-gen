@@ -22,7 +22,7 @@ class GenerateMethodTest extends GeneratorTestCase
 
     private $methodGenerator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->methodGenerator = Build::serviceContainer()->get('code_generator.generators.method');
     }

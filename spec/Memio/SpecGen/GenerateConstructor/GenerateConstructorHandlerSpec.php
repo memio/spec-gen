@@ -49,7 +49,10 @@ class GenerateConstructorHandlerSpec extends ObjectBehavior
 
         $variableArgumentMarshaller->marshal($variableArguments)->willReturn([]);
         $generatedConstructor = Argument::type(GeneratedConstructor::class);
-        $eventDispatcher->dispatch(GeneratedConstructor::EVENT_NAME, $generatedConstructor)->shouldBeCalled();
+        $eventDispatcher->dispatch(
+            $generatedConstructor,
+            GeneratedConstructor::EVENT_NAME
+        )->shouldBeCalled();
 
         $this->handle($command);
     }

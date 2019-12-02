@@ -12,7 +12,7 @@
 namespace Memio\SpecGen\GenerateMethod;
 
 use Memio\Model\File;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Data Transfer Object (DTO).

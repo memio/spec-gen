@@ -22,7 +22,7 @@ class GenerateConstructorTest extends GeneratorTestCase
 
     private $constructorGenerator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->constructorGenerator = Build::serviceContainer()->get('code_generator.generators.constructor');
     }

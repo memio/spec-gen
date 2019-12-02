@@ -49,7 +49,10 @@ class GenerateMethodHandlerSpec extends ObjectBehavior
 
         $variableArgumentMarshaller->marshal($variableArguments)->willReturn([]);
         $generatedMethod = Argument::type(GeneratedMethod::class);
-        $eventDispatcher->dispatch(GeneratedMethod::EVENT_NAME, $generatedMethod)->shouldBeCalled();
+        $eventDispatcher->dispatch(
+            $generatedMethod,
+            GeneratedMethod::EVENT_NAME
+        )->shouldBeCalled();
 
         $this->handle($command);
     }
