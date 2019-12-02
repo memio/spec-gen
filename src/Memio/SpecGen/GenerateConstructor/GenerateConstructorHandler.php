@@ -74,7 +74,10 @@ class GenerateConstructorHandler implements CommandHandler
             $method->setBody($body);
         }
         $generatedConstructor = new GeneratedConstructor($file);
-        $this->eventDispatcher->dispatch(GeneratedConstructor::EVENT_NAME, $generatedConstructor);
+        $this->eventDispatcher->dispatch(
+            $generatedConstructor,
+            GeneratedConstructor::EVENT_NAME
+        );
     }
 
     private function shouldAddUseStatement(File $file, FullyQualifiedName $fullyQualifiedName): bool

@@ -11,10 +11,10 @@
 
 namespace spec\Memio\SpecGen\GenerateConstructor;
 
+use Memio\SpecGen\CommandBus\CommandHandler;
 use Memio\SpecGen\GenerateConstructor\GenerateConstructor;
 use Memio\SpecGen\GenerateConstructor\GeneratedConstructor;
 use Memio\SpecGen\Marshaller\VariableArgumentMarshaller;
-use Memio\SpecGen\CommandBus\CommandHandler;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -49,7 +49,10 @@ class GenerateConstructorHandlerSpec extends ObjectBehavior
 
         $variableArgumentMarshaller->marshal($variableArguments)->willReturn([]);
         $generatedConstructor = Argument::type(GeneratedConstructor::class);
-        $eventDispatcher->dispatch(GeneratedConstructor::EVENT_NAME, $generatedConstructor)->shouldBeCalled();
+        $eventDispatcher->dispatch(
+            $generatedConstructor,
+            GeneratedConstructor::EVENT_NAME
+        )->shouldBeCalled();
 
         $this->handle($command);
     }

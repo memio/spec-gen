@@ -13,9 +13,9 @@ namespace spec\Memio\SpecGen\CodeEditor;
 
 use Gnugat\Redaktilo\File;
 use Memio\Model\Property;
-use Memio\SpecGen\CodeEditor\InsertPropertyHandler;
 use Memio\SpecGen\CodeEditor\InsertProperties;
 use Memio\SpecGen\CodeEditor\InsertProperty;
+use Memio\SpecGen\CodeEditor\InsertPropertyHandler;
 use Memio\SpecGen\CommandBus\CommandHandler;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;

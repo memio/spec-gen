@@ -11,9 +11,9 @@
 
 namespace tests\Memio\SpecGen\Generator;
 
+use PhpSpec\Locator\Resource;
 use tests\Memio\SpecGen\Build;
 use tests\Memio\SpecGen\GeneratorTestCase;
-use PhpSpec\Locator\Resource;
 
 class GenerateConstructorTest extends GeneratorTestCase
 {
@@ -22,7 +22,7 @@ class GenerateConstructorTest extends GeneratorTestCase
 
     private $constructorGenerator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->constructorGenerator = Build::serviceContainer()->get('code_generator.generators.constructor');
     }

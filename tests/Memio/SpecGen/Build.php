@@ -11,9 +11,9 @@
 
 namespace tests\Memio\SpecGen;
 
+use Memio\SpecGen\MemioSpecGenExtension;
 use PhpSpec\ServiceContainer;
 use PhpSpec\ServiceContainer\IndexedServiceContainer;
-use Memio\SpecGen\MemioSpecGenExtension;
 
 class Build
 {

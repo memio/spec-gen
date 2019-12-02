@@ -11,6 +11,7 @@
 
 namespace spec\Memio\SpecGen\GenerateMethod;
 
+use Gnugat\Redaktilo\File;
 use Memio\Model\File as FileModel;
 use Memio\Model\FullyQualifiedName as FullyQualifiedNameModel;
 use Memio\Model\Method as MethodModel;
@@ -19,7 +20,6 @@ use Memio\SpecGen\CodeEditor\CodeEditor;
 use Memio\SpecGen\CodeEditor\InsertMethod;
 use Memio\SpecGen\CodeEditor\InsertUseStatements;
 use Memio\SpecGen\GenerateMethod\GeneratedMethod;
-use Gnugat\Redaktilo\File;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 

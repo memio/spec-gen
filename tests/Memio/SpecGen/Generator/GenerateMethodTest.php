@@ -11,9 +11,9 @@
 
 namespace tests\Memio\SpecGen\Generator;
 
+use PhpSpec\Locator\Resource;
 use tests\Memio\SpecGen\Build;
 use tests\Memio\SpecGen\GeneratorTestCase;
-use PhpSpec\Locator\Resource;
 
 class GenerateMethodTest extends GeneratorTestCase
 {
@@ -22,7 +22,7 @@ class GenerateMethodTest extends GeneratorTestCase
 
     private $methodGenerator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->methodGenerator = Build::serviceContainer()->get('code_generator.generators.method');
     }

@@ -12,8 +12,8 @@
 namespace spec\Memio\SpecGen\GenerateMethod;
 
 use Memio\SpecGen\CommandBus\CommandHandler;
-use Memio\SpecGen\GenerateMethod\GenerateMethod;
 use Memio\SpecGen\GenerateMethod\GeneratedMethod;
+use Memio\SpecGen\GenerateMethod\GenerateMethod;
 use Memio\SpecGen\Marshaller\VariableArgumentMarshaller;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -49,7 +49,10 @@ class GenerateMethodHandlerSpec extends ObjectBehavior
 
         $variableArgumentMarshaller->marshal($variableArguments)->willReturn([]);
         $generatedMethod = Argument::type(GeneratedMethod::class);
-        $eventDispatcher->dispatch(GeneratedMethod::EVENT_NAME, $generatedMethod)->shouldBeCalled();
+        $eventDispatcher->dispatch(
+            $generatedMethod,
+            GeneratedMethod::EVENT_NAME
+        )->shouldBeCalled();
 
         $this->handle($command);
     }

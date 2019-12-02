@@ -3,6 +3,8 @@
 /vendor
 /phpunit.xml
 /.couscous
+/.php_cs.cache
+/.phpunit.result.cache
 
 # Temporary files
 /.php_cs.cache
