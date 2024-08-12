@@ -19,11 +19,13 @@ This extension for [phpspec](http://phpspec.net/) provides a powerful code gener
 
 First install it using [Composer](https://getcomposer.org/download):
 
-    composer require --dev memio/spec-gen:^0.9
+```console
+$ composer require --dev memio/spec-gen:^0.10
+```
 
 Then enable it in `phpspec.yml`:
 
-```
+```yaml
 extensions:
     Memio\SpecGen\MemioSpecGenExtension: ~
 ```
@@ -69,7 +71,7 @@ class TextEditorSpec extends ObjectBehavior
 }
 ```
 
-Running the tests (`phpspec run`) will generate the following class:
+Executing the specifications (`phpspec run`) will generate the following class:
 
 ```php
 <?php
@@ -111,6 +113,7 @@ And finally some meta documentation:
 
 ## Roadmap
 
+* constructor property promotion
 * return type hints
 * method body (mirror of test method body)
-* better argument naming (based on names used in test)
+* better scalar argument naming (based on names used in test)

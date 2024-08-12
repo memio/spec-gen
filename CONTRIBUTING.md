@@ -21,43 +21,69 @@ Here's some tips to make you the best contributor ever:
 Use [PHP CS fixer](http://cs.sensiolabs.org/) to make your code compliant with
 Memio's coding standards:
 
-    ./vendor/bin/php-cs-fixer fix .
+```console
+$ ./vendor/bin/php-cs-fixer fix .
+```
 
 ## Specifications
 
-Memio drives its development using [phpspec](http://www.phpspec.net/):
+Memio drives its development using [phpspec](http://www.phpspec.net/).
 
-    # Generate the specification class:
-    phpspec describe 'Memio\Memio\MyNewClass'
+First bootstrap the code for the Specification:
 
-    # Customize the specification class:
-    $EDITOR tests/spec/Memio/SpecGen/MyNewClass.php
+```console
+$ phpspec describe 'Memio\Memio\MyNewUseCase'
+```
 
-    # Generate the specified class:
-    phpspec run
+Next, write the actual code of the Specification:
 
-    # Customize the class:
-    $EDITOR src/Memio/SpecGen/MyNewClass.php
+```console
+$ $EDITOR spec/Memio/SpecGen/MyNewUseCase.php
+```
 
-    phpspec run # Should be green!
+Then bootstrap the code for the corresponding Use Case:
+
+```console
+$ phpspec run
+```
+
+Follow that by writing the actual code of the Use Case:
+
+```console
+$ $EDITOR src/Memio/SpecGen/MyNewUseCase.php
+```
+
+Finally run the specification:
+
+```console
+$ phpspec run
+```
+
+Results should be green!
 
 ## Keeping your fork up-to-date
 
 To keep your fork up-to-date, you should track the upstream (original) one
 using the following command:
 
-    git remote add upstream https://github.com/memio/spec-gen.git
+```console
+$ git remote add upstream https://github.com/memio/spec-gen.git
+```
 
 Then get the upstream changes:
 
-    git checkout master
-    git pull --rebase origin master
-    git pull --rebase upstream master
-    git checkout <your-branch>
-    git rebase master
+```console
+git checkout main
+git pull --rebase origin main
+git pull --rebase upstream main
+git checkout <your-branch>
+git rebase main
+```
 
 Finally, publish your changes:
 
-    git push -f origin <your-branch>
+```console
+$ git push -f origin <your-branch>
+```
 
 Your pull request will be automatically updated.
