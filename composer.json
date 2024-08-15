@@ -15,25 +15,25 @@
     ],
     "autoload": {
         "psr-4": {
-            "Memio\\SpecGen\\": "src/Memio/SpecGen"
+            "Memio\\SpecGen\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Memio\\SpecGen\\Fixtures\\": "fixtures",
-            "tests\\Memio\\SpecGen\\": "tests"
+            "Memio\\SpecGen\\Fixtures\\": "fixtures/",
+            "tests\\Memio\\SpecGen\\": "tests/"
         }
     },
     "require": {
         "gnugat/redaktilo": "^2.0",
-        "memio/memio": "^2.0",
-        "memio/linter": "^2.0",
-        "memio/validator": "^2.0",
-        "memio/model": "^2.0.1",
-        "memio/pretty-printer": "^2.0",
-        "memio/twig-template-engine": "^2.0.1",
-        "php": "^7.2",
-        "phpspec/phpspec": "^6.1",
+        "memio/memio": "^3.0",
+        "memio/linter": "^3.0",
+        "memio/validator": "^3.0.1",
+        "memio/model": "^3.0.1",
+        "memio/pretty-printer": "^3.0",
+        "memio/twig-template-engine": "^3.0.1",
+        "php": "^8.0",
+        "phpspec/phpspec": "^7.0",
         "symfony/event-dispatcher": "^5.0"
     },
     "require-dev": {

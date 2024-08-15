@@ -1,2 +1,7 @@
+suites:
+    spec_gen_suite:
+        namespace: 'Memio\SpecGen'
+        psr4_prefix: 'Memio\SpecGen'
+
 extensions:
     Memio\SpecGen\MemioSpecGenExtension: ~
