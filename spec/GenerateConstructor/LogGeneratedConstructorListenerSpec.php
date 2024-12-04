@@ -21,30 +21,28 @@ use PhpSpec\ObjectBehavior;
 
 class LogGeneratedConstructorListenerSpec extends ObjectBehavior
 {
+    const FILE_NAME = 'src/MyClass.php';
     const CLASS_NAME = 'MyClass';
     const METHOD_NAME = '__construct';
-    const PROPERTIES_COUNT = 1;
 
     function let(ConsoleIO $io)
     {
         $this->beConstructedWith($io);
     }
 
-    function it_logs_the_generated_constructor(File $file, ConsoleIO $io, Method $method, Objekt $object, Property $property)
+    function it_logs_the_generated_constructor(ConsoleIO $io)
     {
-        $generatedConstructor = new GeneratedConstructor($file->getWrappedObject());
-        $file->getStructure()->willReturn($object);
-        $object->getName()->willReturn(self::CLASS_NAME);
-        $object->allProperties()->willReturn([$property]);
-        $object->allMethods()->willReturn([$method]);
-        $method->getName()->willReturn(self::METHOD_NAME);
+        $file = new File(self::FILE_NAME);
+        $file->structure = (new Objekt(self::CLASS_NAME))
+            ->addMethod(new Method(self::METHOD_NAME))
+        ;
+        $generatedConstructor = new GeneratedConstructor($file);
 
         $className = self::CLASS_NAME;
         $methodName = self::METHOD_NAME;
-        $propertiesCount = self::PROPERTIES_COUNT;
         $io->write(<<<OUTPUT
 
-  <info>Generated <value>$propertiesCount</value> property for <value>$className</value>, with its constructor</info>
+  <info>Generated <value>{$className}#{$methodName}</value></info>
 
 OUTPUT
         )->shouldBeCalled();

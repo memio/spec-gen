@@ -11,9 +11,8 @@
 
 namespace spec\Memio\SpecGen\CodeEditor;
 
-use Gnugat\Redaktilo\Editor;
-use Gnugat\Redaktilo\File;
-use Memio\Model\Method;
+use Gnugat\Redaktilo;
+use Memio\Model;
 use Memio\PrettyPrinter\PrettyPrinter;
 use Memio\SpecGen\CodeEditor\InsertMethod;
 use Memio\SpecGen\CodeEditor\InsertMethodHandler;
@@ -22,13 +21,11 @@ use PhpSpec\ObjectBehavior;
 
 class InsertMethodHandlerSpec extends ObjectBehavior
 {
-    const METHOD_NAME = 'method';
-    const METHOD_PATTERN = '/^    public function method\(/';
-    const GENERATED_CODE = '    public function method() { }';
-
-    function let(Editor $editor, PrettyPrinter $prettyPrinter)
-    {
-        $this->beConstructedWith($editor, $prettyPrinter);
+    function let(
+        Redaktilo\Editor $redaktiloEditor,
+        PrettyPrinter $prettyPrinter
+    ) {
+        $this->beConstructedWith($redaktiloEditor, $prettyPrinter);
     }
 
     function it_is_a_command_handler()
@@ -42,55 +39,107 @@ class InsertMethodHandlerSpec extends ObjectBehavior
     }
 
     function it_does_not_insert_a_method_twice(
-        Editor $editor,
-        File $file,
-        Method $method,
+        Redaktilo\Editor $redaktiloEditor,
         PrettyPrinter $prettyPrinter
     ) {
-        $insertMethod = new InsertMethod($file->getWrappedObject(), $method->getWrappedObject());
-        $method->getName()->willReturn(self::METHOD_NAME);
+        $redaktiloFile = Redaktilo\File::fromString(<<<'FILE'
+<?php
 
-        $editor->hasBelow($file, self::METHOD_PATTERN, 0)->willReturn(true);
-        $prettyPrinter->generateCode($method)->shouldNotBeCalled();
+namespace Vendor\Project;
+
+class MyClass
+{
+    public function method()
+    {
+    }
+}
+FILE);
+        $modelMethod = (new Model\Method('method'))
+            ->addArgument(new Model\Argument('Vendor\Project\ValueObject', 'valueObject'))
+            ->addArgument(new Model\Argument('string', 'filename'))
+        ;
+        $insertMethod = new InsertMethod($redaktiloFile, $modelMethod);
+
+        $methodPattern = '/^    public function method\(/';
+        $redaktiloEditor->hasBelow($redaktiloFile, $methodPattern, 0)->willReturn(true);
+        $prettyPrinter->generateCode($modelMethod)->shouldNotBeCalled();
 
         $this->handle($insertMethod);
     }
 
     function it_inserts_method_in_empty_class(
-        Editor $editor,
-        File $file,
-        Method $method,
+        Redaktilo\Editor $redaktiloEditor,
         PrettyPrinter $prettyPrinter
     ) {
-        $insertMethod = new InsertMethod($file->getWrappedObject(), $method->getWrappedObject());
-        $method->getName()->willReturn(self::METHOD_NAME);
+        $redaktiloFile = Redaktilo\File::fromString(<<<'FILE'
+<?php
 
-        $editor->hasBelow($file, self::METHOD_PATTERN, 0)->willReturn(false);
-        $editor->jumpBelow($file, InsertMethodHandler::CLASS_ENDING, 0)->shouldBeCalled();
-        $file->decrementCurrentLineNumber(1)->shouldBeCalled();
-        $file->getLine()->willReturn('{');
-        $prettyPrinter->generateCode($method)->willReturn(self::GENERATED_CODE);
-        $editor->insertBelow($file, self::GENERATED_CODE)->shouldBeCalled();
+namespace Vendor\Project;
+
+class MyClass
+{
+}
+FILE);
+        $modelMethod = (new Model\Method('method'))
+            ->addArgument(new Model\Argument('Vendor\Project\ValueObject', 'valueObject'))
+            ->addArgument(new Model\Argument('string', 'filename'))
+        ;
+        $insertMethod = new InsertMethod($redaktiloFile, $modelMethod);
+
+        $methodPattern = '/^    public function method\(/';
+        $generatedCode =<<<'GENERATED_CODE'
+    public function method(ValueObject $valueObject, string $filename)
+    {
+    }
+GENERATED_CODE;
+        $redaktiloEditor->hasBelow($redaktiloFile, $methodPattern, 0)->willReturn(false);
+        $redaktiloEditor->jumpBelow($redaktiloFile, InsertMethodHandler::CLASS_ENDING, 0)->shouldBeCalled();
+        $redaktiloFile->setCurrentLineNumber(6);
+        $prettyPrinter->generateCode($modelMethod)->willReturn($generatedCode);
+        $redaktiloEditor->insertBelow($redaktiloFile, $generatedCode)->shouldBeCalled();
 
         $this->handle($insertMethod);
     }
 
     function it_inserts_method_in_class_with_stuff(
-        Editor $editor,
-        File $file,
-        Method $method,
+        Redaktilo\Editor $redaktiloEditor,
         PrettyPrinter $prettyPrinter
     ) {
-        $insertMethod = new InsertMethod($file->getWrappedObject(), $method->getWrappedObject());
-        $method->getName()->willReturn(self::METHOD_NAME);
+        $redaktiloFile = Redaktilo\File::fromString(<<<'FILE'
+<?php
 
-        $editor->hasBelow($file, self::METHOD_PATTERN, 0)->willReturn(false);
-        $editor->jumpBelow($file, InsertMethodHandler::CLASS_ENDING, 0)->shouldBeCalled();
-        $file->decrementCurrentLineNumber(1)->shouldBeCalled();
-        $file->getLine()->willReturn('    }');
-        $editor->insertBelow($file, '')->shouldBeCalled();
-        $prettyPrinter->generateCode($method)->willReturn(self::GENERATED_CODE);
-        $editor->insertBelow($file, self::GENERATED_CODE)->shouldBeCalled();
+namespace Vendor\Project;
+
+use Vendor\OtherProject\Dependency;
+
+class MyClass
+{
+    private $dependency;
+
+    public function __construct(Dependency $dependency)
+    {
+        $this->dependency = $dependency;
+    }
+}
+FILE);
+        $modelMethod = (new Model\Method('method'))
+            ->addArgument(new Model\Argument('Vendor\Project\ValueObject', 'valueObject'))
+            ->addArgument(new Model\Argument('string', 'filename'))
+        ;
+        $insertMethod = new InsertMethod($redaktiloFile, $modelMethod);
+
+        $methodPattern = '/^    public function method\(/';
+        $generatedCode =<<<'GENERATED_CODE'
+    public function method(ValueObject $valueObject, string $filename)
+    {
+    }
+GENERATED_CODE;
+        $redaktiloEditor->hasBelow($redaktiloFile, $methodPattern, 0)->willReturn(false);
+        $redaktiloEditor->jumpBelow($redaktiloFile, InsertMethodHandler::CLASS_ENDING, 0)->shouldBeCalled();
+        $redaktiloFile->setCurrentLineNumber(14);
+        $redaktiloEditor->insertBelow($redaktiloFile, '')->shouldBeCalled();
+        $prettyPrinter->generateCode($modelMethod)->willReturn($generatedCode);
+        $redaktiloEditor->insertBelow($redaktiloFile, $generatedCode)->shouldBeCalled();
 
         $this->handle($insertMethod);
     }

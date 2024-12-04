@@ -35,7 +35,7 @@ class VariableArgumentMarshallerSpec extends ObjectBehavior
 
         $arguments = $this->marshal($variables);
         $argument = $arguments[0];
-        $argument->getType()->shouldBe(self::ARGUMENT_TYPE);
-        $argument->getName()->shouldBe(self::ARGUMENT_NAME);
+        $argument->type->name->shouldBe(self::ARGUMENT_TYPE);
+        $argument->name->shouldBe(self::ARGUMENT_NAME);
     }
 }

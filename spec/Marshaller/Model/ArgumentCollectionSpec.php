@@ -23,19 +23,19 @@ class ArgumentCollectionSpec extends ObjectBehavior
         $arguments = $this->all();
         $stringArgument = $arguments[0];
         $stringArgument->shouldHaveType(Argument::class);
-        $stringArgument->getType()->shouldBe('string');
-        $stringArgument->getName()->shouldBe('argument');
+        $stringArgument->type->name->shouldBe('string');
+        $stringArgument->name->shouldBe('argument');
     }
 
     function it_prevents_name_duplication()
     {
-        $this->add('array', 'argument');
         $this->add('string', 'argument');
+        $this->add('array', 'argument');
 
         $arguments = $this->all();
         $stringArgument = $arguments[0];
-        $stringArgument->getName()->shouldBe('argument1');
+        $stringArgument->name->shouldBe('argument1');
         $arrayArgument = $arguments[1];
-        $arrayArgument->getName()->shouldBe('argument2');
+        $arrayArgument->name->shouldBe('argument2');
     }
 }

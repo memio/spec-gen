@@ -11,9 +11,8 @@
 
 namespace spec\Memio\SpecGen\CodeEditor;
 
-use Gnugat\Redaktilo\Editor;
-use Gnugat\Redaktilo\File;
-use Memio\Model\Method;
+use Gnugat\Redaktilo;
+use Memio\Model;
 use Memio\PrettyPrinter\PrettyPrinter;
 use Memio\SpecGen\CodeEditor\InsertConstructor;
 use Memio\SpecGen\CodeEditor\InsertConstructorHandler;
@@ -22,11 +21,11 @@ use PhpSpec\ObjectBehavior;
 
 class InsertConstructorHandlerSpec extends ObjectBehavior
 {
-    const GENERATED_CODE = '    abstract public function __construct();';
-
-    function let(Editor $editor, PrettyPrinter $prettyPrinter)
-    {
-        $this->beConstructedWith($editor, $prettyPrinter);
+    function let(
+        Redaktilo\Editor $redaktiloEditor,
+        PrettyPrinter $prettyPrinter
+    ) {
+        $this->beConstructedWith($redaktiloEditor, $prettyPrinter);
     }
 
     function it_is_a_command_handler()
@@ -40,95 +39,189 @@ class InsertConstructorHandlerSpec extends ObjectBehavior
     }
 
     function it_does_not_insert_a_constructor_twice(
-        Editor $editor,
-        File $file,
-        Method $method,
+        Redaktilo\Editor $redaktiloEditor,
         PrettyPrinter $prettyPrinter
     ) {
-        $insertConstructor = new InsertConstructor($file->getWrappedObject(), $method->getWrappedObject());
+        $redaktiloFile = Redaktilo\File::fromString(<<<'FILE'
+<?php
 
-        $editor->hasBelow($file, InsertConstructorHandler::CONSTRUCTOR, 0)->willReturn(true);
-        $prettyPrinter->generateCode($method)->shouldNotBeCalled();
+namespace Vendor\Project;
+
+class MyClass
+{
+    public function __construct()
+    {
+    }
+}
+FILE);
+        $modelMethod = (new Model\Method('__construct'))
+            ->addArgument(new Model\Argument('Vendor\Project\Dependency', 'dependency'))
+            ->addArgument(new Model\Argument('string', 'filename'))
+        ;
+        $insertConstructor = new InsertConstructor($redaktiloFile, $modelMethod);
+
+        $redaktiloEditor->hasBelow($redaktiloFile, InsertConstructorHandler::CONSTRUCTOR, 0)->willReturn(true);
+        $prettyPrinter->generateCode($modelMethod)->shouldNotBeCalled();
 
         $this->handle($insertConstructor);
     }
 
     function it_inserts_constructor_in_empty_class(
-        Editor $editor,
-        File $file,
-        Method $method,
+        Redaktilo\Editor $redaktiloEditor,
         PrettyPrinter $prettyPrinter
     ) {
-        $insertConstructor = new InsertConstructor($file->getWrappedObject(), $method->getWrappedObject());
+        $redaktiloFile = Redaktilo\File::fromString(<<<'FILE'
+<?php
 
-        $editor->hasBelow($file, InsertConstructorHandler::CONSTRUCTOR, 0)->willReturn(false);
-        $editor->hasBelow($file, InsertConstructorHandler::METHOD, 0)->willReturn(false);
-        $editor->jumpBelow($file, InsertConstructorHandler::CLASS_ENDING, 0)->shouldBeCalled();
-        $prettyPrinter->generateCode($method)->willReturn(self::GENERATED_CODE);
-        $editor->insertAbove($file, self::GENERATED_CODE)->shouldBeCalled();
-        $file->decrementCurrentLineNumber(1)->shouldBeCalled();
-        $file->getLine()->willReturn('{');
+namespace Vendor\Project;
+
+class MyClass
+{
+}
+FILE);
+        $modelMethod = (new Model\Method('__construct'))
+            ->addArgument(new Model\Argument('Vendor\Project\Dependency', 'dependency'))
+            ->addArgument(new Model\Argument('string', 'filename'))
+        ;
+        $insertConstructor = new InsertConstructor($redaktiloFile, $modelMethod);
+
+        $generatedCode =<<<'GENERATED_CODE'
+    public function __construct(Dependency $dependency, string $filename)
+    {
+        $this->dependency = $dependency;
+        $this->filename = $filename;
+    }
+GENERATED_CODE;
+        $redaktiloEditor->hasBelow($redaktiloFile, InsertConstructorHandler::CONSTRUCTOR, 0)->willReturn(false);
+        $redaktiloEditor->hasBelow($redaktiloFile, InsertConstructorHandler::METHOD, 0)->willReturn(false);
+        $redaktiloEditor->jumpBelow($redaktiloFile, InsertConstructorHandler::CLASS_ENDING, 0)->shouldBeCalled();
+        $redaktiloFile->setCurrentLineNumber(6);
+        $prettyPrinter->generateCode($modelMethod)->willReturn($generatedCode);
+        $redaktiloEditor->insertAbove($redaktiloFile, $generatedCode)->shouldBeCalled();
 
         $this->handle($insertConstructor);
     }
 
-    function it_inserts_constructor_in_class_without_methods(
-        Editor $editor,
-        File $file,
-        Method $method,
+    function it_inserts_constructor_in_class_with_properties_but_without_methods(
+        Redaktilo\Editor $redaktiloEditor,
         PrettyPrinter $prettyPrinter
     ) {
-        $insertConstructor = new InsertConstructor($file->getWrappedObject(), $method->getWrappedObject());
+        $redaktiloFile = Redaktilo\File::fromString(<<<'FILE'
+<?php
 
-        $editor->hasBelow($file, InsertConstructorHandler::CONSTRUCTOR, 0)->willReturn(false);
-        $editor->hasBelow($file, InsertConstructorHandler::METHOD, 0)->willReturn(false);
-        $editor->jumpBelow($file, InsertConstructorHandler::CLASS_ENDING, 0)->shouldBeCalled();
-        $prettyPrinter->generateCode($method)->willReturn(self::GENERATED_CODE);
-        $editor->insertAbove($file, self::GENERATED_CODE)->shouldBeCalled();
-        $file->decrementCurrentLineNumber(1)->shouldBeCalled();
-        $file->getLine()->willReturn('    private $property;');
-        $editor->insertBelow($file, '')->shouldBeCalled();
+namespace Vendor\Project;
+
+class MyClass
+{
+    private $property;
+}
+FILE);
+        $modelMethod = (new Model\Method('__construct'))
+            ->addArgument(new Model\Argument('Vendor\Project\Dependency', 'dependency'))
+            ->addArgument(new Model\Argument('string', 'filename'))
+        ;
+        $insertConstructor = new InsertConstructor($redaktiloFile, $modelMethod);
+
+        $generatedCode =<<<'GENERATED_CODE'
+    public function __construct(Dependency $dependency, string $filename)
+    {
+        $this->dependency = $dependency;
+        $this->filename = $filename;
+    }
+GENERATED_CODE;
+
+        $redaktiloEditor->hasBelow($redaktiloFile, InsertConstructorHandler::CONSTRUCTOR, 0)->willReturn(false);
+        $redaktiloEditor->hasBelow($redaktiloFile, InsertConstructorHandler::METHOD, 0)->willReturn(false);
+        $redaktiloEditor->jumpBelow($redaktiloFile, InsertConstructorHandler::CLASS_ENDING, 0)->shouldBeCalled();
+        $redaktiloFile->setCurrentLineNumber(7);
+        $prettyPrinter->generateCode($modelMethod)->willReturn($generatedCode);
+        $redaktiloEditor->insertAbove($redaktiloFile, $generatedCode)->shouldBeCalled();
+        $redaktiloEditor->insertBelow($redaktiloFile, '')->shouldBeCalled();
 
         $this->handle($insertConstructor);
     }
 
-    function it_inserts_constructor_in_class_with_only_methods(
-        Editor $editor,
-        File $file,
-        Method $method,
+    function it_inserts_constructor_in_class_without_properties_but_with_methods(
+        Redaktilo\Editor $redaktiloEditor,
         PrettyPrinter $prettyPrinter
     ) {
-        $insertConstructor = new InsertConstructor($file->getWrappedObject(), $method->getWrappedObject());
+        $redaktiloFile = Redaktilo\File::fromString(<<<'FILE'
+<?php
 
-        $editor->hasBelow($file, InsertConstructorHandler::CONSTRUCTOR, 0)->willReturn(false);
-        $editor->hasBelow($file, InsertConstructorHandler::METHOD, 0)->willReturn(true);
-        $editor->jumpBelow($file, InsertConstructorHandler::METHOD, 0)->shouldBeCalled();
-        $editor->insertAbove($file, '')->shouldBeCalled();
-        $prettyPrinter->generateCode($method)->willReturn(self::GENERATED_CODE);
-        $editor->insertAbove($file, self::GENERATED_CODE)->shouldBeCalled();
-        $file->decrementCurrentLineNumber(1)->shouldBeCalled();
-        $file->getLine()->willReturn('{');
+namespace Vendor\Project;
+
+class MyClass
+{
+    public function existingMethod()
+    {
+    }
+}
+FILE);
+        $modelMethod = (new Model\Method('__construct'))
+            ->addArgument(new Model\Argument('Vendor\Project\Dependency', 'dependency'))
+            ->addArgument(new Model\Argument('string', 'filename'))
+        ;
+        $insertConstructor = new InsertConstructor($redaktiloFile, $modelMethod);
+
+        $generatedCode =<<<'GENERATED_CODE'
+    public function __construct(Dependency $dependency, string $filename)
+    {
+        $this->dependency = $dependency;
+        $this->filename = $filename;
+    }
+GENERATED_CODE;
+
+        $redaktiloEditor->hasBelow($redaktiloFile, InsertConstructorHandler::CONSTRUCTOR, 0)->willReturn(false);
+        $redaktiloEditor->hasBelow($redaktiloFile, InsertConstructorHandler::METHOD, 0)->willReturn(true);
+        $redaktiloEditor->jumpBelow($redaktiloFile, InsertConstructorHandler::METHOD, 0)->shouldBeCalled();
+        $redaktiloFile->setCurrentLineNumber(6);
+        $redaktiloEditor->insertAbove($redaktiloFile, '')->shouldBeCalled();
+        $prettyPrinter->generateCode($modelMethod)->willReturn($generatedCode);
+        $redaktiloEditor->insertAbove($redaktiloFile, $generatedCode)->shouldBeCalled();
 
         $this->handle($insertConstructor);
     }
 
     function it_inserts_constructor_in_class_with_methods_and_other_stuff(
-        Editor $editor,
-        File $file,
-        Method $method,
+        Redaktilo\Editor $redaktiloEditor,
         PrettyPrinter $prettyPrinter
     ) {
-        $insertConstructor = new InsertConstructor($file->getWrappedObject(), $method->getWrappedObject());
+        $redaktiloFile = Redaktilo\File::fromString(<<<'FILE'
+<?php
 
-        $editor->hasBelow($file, InsertConstructorHandler::CONSTRUCTOR, 0)->willReturn(false);
-        $editor->hasBelow($file, InsertConstructorHandler::METHOD, 0)->willReturn(true);
-        $editor->jumpBelow($file, InsertConstructorHandler::METHOD, 0)->shouldBeCalled();
-        $editor->insertAbove($file, '')->shouldBeCalled();
-        $prettyPrinter->generateCode($method)->willReturn(self::GENERATED_CODE);
-        $editor->insertAbove($file, self::GENERATED_CODE)->shouldBeCalled();
-        $file->decrementCurrentLineNumber(1)->shouldBeCalled();
-        $file->getLine()->willReturn('    const CONSTANT = 42;');
-        $editor->insertBelow($file, '')->shouldBeCalled();
+namespace Vendor\Project;
+
+class MyClass
+{
+    const CONSTANT = 42;
+
+    public function existingMethod()
+    {
+    }
+}
+FILE);
+        $modelMethod = (new Model\Method('__construct'))
+            ->addArgument(new Model\Argument('Vendor\Project\Dependency', 'dependency'))
+            ->addArgument(new Model\Argument('string', 'filename'))
+        ;
+        $insertConstructor = new InsertConstructor($redaktiloFile, $modelMethod);
+
+        $generatedCode =<<<'GENERATED_CODE'
+    public function __construct(Dependency $dependency, string $filename)
+    {
+        $this->dependency = $dependency;
+        $this->filename = $filename;
+    }
+GENERATED_CODE;
+
+        $redaktiloEditor->hasBelow($redaktiloFile, InsertConstructorHandler::CONSTRUCTOR, 0)->willReturn(false);
+        $redaktiloEditor->hasBelow($redaktiloFile, InsertConstructorHandler::METHOD, 0)->willReturn(true);
+        $redaktiloEditor->jumpBelow($redaktiloFile, InsertConstructorHandler::METHOD, 0)->shouldBeCalled();
+        $redaktiloFile->setCurrentLineNumber(11);
+        $redaktiloEditor->insertAbove($redaktiloFile, '')->shouldBeCalled();
+        $prettyPrinter->generateCode($modelMethod)->willReturn($generatedCode);
+        $redaktiloEditor->insertAbove($redaktiloFile, $generatedCode)->shouldBeCalled();
+        $redaktiloEditor->insertBelow($redaktiloFile, '')->shouldBeCalled();
 
         $this->handle($insertConstructor);
     }

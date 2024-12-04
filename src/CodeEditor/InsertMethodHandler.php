@@ -36,7 +36,7 @@ class InsertMethodHandler implements CommandHandler
 
     public function handle(Command $command): void
     {
-        $methodPattern = '/^    public function '.$command->method->getName().'\(/';
+        $methodPattern = "/^    public function {$command->method->name}\(/";
         if ($this->editor->hasBelow($command->file, $methodPattern, 0)) {
             return;
         }

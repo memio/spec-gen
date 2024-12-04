@@ -11,9 +11,8 @@
 
 namespace spec\Memio\SpecGen\CodeEditor;
 
-use Gnugat\Redaktilo\Editor;
-use Gnugat\Redaktilo\File;
-use Memio\Model\Property;
+use Gnugat\Redaktilo;
+use Memio\Model;
 use Memio\PrettyPrinter\PrettyPrinter;
 use Memio\SpecGen\CodeEditor\InsertProperty;
 use Memio\SpecGen\CodeEditor\InsertPropertyHandler;
@@ -22,9 +21,11 @@ use PhpSpec\ObjectBehavior;
 
 class InsertPropertyHandlerSpec extends ObjectBehavior
 {
-    function let(Editor $editor, PrettyPrinter $prettyPrinter)
-    {
-        $this->beConstructedWith($editor, $prettyPrinter);
+    function let(
+        Redaktilo\Editor $redaktiloEditor,
+        PrettyPrinter $prettyPrinter
+    ) {
+        $this->beConstructedWith($redaktiloEditor, $prettyPrinter);
     }
 
     function it_is_a_command_handler()
@@ -38,105 +39,164 @@ class InsertPropertyHandlerSpec extends ObjectBehavior
     }
 
     function it_does_not_insert_a_property_twice(
-        Editor $editor,
-        File $file,
-        PrettyPrinter $prettyPrinter,
-        Property $property
+        Redaktilo\Editor $redaktiloEditor
     ) {
-        $insertProperty = new InsertProperty($file->getWrappedObject(), $property->getWrappedObject());
-        $property->getName()->willReturn('property');
+        $redaktiloFile = Redaktilo\File::fromString(<<<'FILE'
+<?php
 
-        $editor->hasBelow($file, '/^    private \$property;$/', 0)->willReturn(true);
-        $prettyPrinter->generateCode($property)->shouldNotBeCalled();
+namespace Vendor\OtherProject;
+
+class MyClass
+{
+    private $dependency;
+}
+FILE);
+        $modelProperty = new Model\Property('dependency');
+        $insertProperty = new InsertProperty($redaktiloFile, $modelProperty);
+
+        $propertyPattern = '/^    private $dependency;$/';
+        $generatedCode =<<<'GENERATED_CODE'
+    private $dependency;
+GENERATED_CODE;
+
+        $redaktiloEditor->hasBelow($redaktiloFile, $propertyPattern, 0)->willReturn(true);
+        $redaktiloEditor->insertBelow($redaktiloFile, $generatedCode)->shouldNotBeCalled();
 
         $this->handle($insertProperty);
     }
 
     function it_inserts_property_in_empty_class(
-        Editor $editor,
-        File $file,
-        PrettyPrinter $prettyPrinter,
-        Property $property
+        Redaktilo\Editor $redaktiloEditor,
+        PrettyPrinter $prettyPrinter
     ) {
-        $insertProperty = new InsertProperty($file->getWrappedObject(), $property->getWrappedObject());
-        $property->getName()->willReturn('property');
+        $redaktiloFile = Redaktilo\File::fromString(<<<'FILE'
+<?php
 
-        $editor->hasBelow($file, '/^    private \$property;$/', 0)->willReturn(false);
-        $editor->hasBelow($file, InsertPropertyHandler::PROPERTY, 0)->willReturn(false);
-        $editor->hasBelow($file, InsertPropertyHandler::CONSTANT, 0)->willReturn(false);
-        $editor->jumpBelow($file, InsertPropertyHandler::CLASS_OPENING, 0)->shouldBeCalled();
-        $prettyPrinter->generateCode($property)->willReturn('    private $property;');
-        $editor->insertBelow($file, '    private $property;')->shouldBeCalled();
-        $file->incrementCurrentLineNumber(1)->shouldBeCalled();
-        $file->getLine()->willReturn('}');
+namespace Vendor\OtherProject;
+
+class MyClass
+{
+}
+FILE);
+        $modelProperty = new Model\Property('dependency');
+        $insertProperty = new InsertProperty($redaktiloFile, $modelProperty);
+
+        $propertyPattern = '/^    private $dependency;$/';
+        $generatedCode =<<<'GENERATED_CODE'
+    private $dependency;
+GENERATED_CODE;
+
+        $redaktiloEditor->hasBelow($redaktiloFile, $propertyPattern, 0)->willReturn(false);
+        $redaktiloEditor->hasBelow($redaktiloFile, InsertPropertyHandler::PROPERTY, 0)->willReturn(false);
+        $redaktiloEditor->hasBelow($redaktiloFile, InsertPropertyHandler::CONSTANT, 0)->willReturn(false);
+        $redaktiloEditor->jumpBelow($redaktiloFile, InsertPropertyHandler::CLASS_OPENING, 0)->shouldBeCalled();
+        $prettyPrinter->generateCode($modelProperty)->willReturn($generatedCode);
+        $redaktiloEditor->insertBelow($redaktiloFile, $generatedCode)->shouldBeCalled();
 
         $this->handle($insertProperty);
     }
 
     function it_inserts_property_in_class_with_properties(
-        Editor $editor,
-        File $file,
-        PrettyPrinter $prettyPrinter,
-        Property $property
+        Redaktilo\Editor $redaktiloEditor,
+        PrettyPrinter $prettyPrinter
     ) {
-        $insertProperty = new InsertProperty($file->getWrappedObject(), $property->getWrappedObject());
-        $property->getName()->willReturn('property');
+        $redaktiloFile = Redaktilo\File::fromString(<<<'FILE'
+<?php
 
-        $editor->hasBelow($file, '/^    private \$property;$/', 0)->willReturn(false);
-        $editor->hasBelow($file, InsertPropertyHandler::PROPERTY, 0)->willReturn(true);
-        $editor->hasBelow($file, InsertPropertyHandler::CONSTANT, 0)->willReturn(false);
-        $editor->jumpBelow($file, InsertPropertyHandler::CLASS_ENDING, 0)->shouldBeCalled();
-        $editor->jumpAbove($file, InsertPropertyHandler::PROPERTY)->shouldBeCalled();
-        $editor->insertBelow($file, '')->shouldBeCalled();
-        $prettyPrinter->generateCode($property)->willReturn('    private $property;');
-        $editor->insertBelow($file, '    private $property;')->shouldBeCalled();
-        $file->incrementCurrentLineNumber(1)->shouldBeCalled();
-        $file->getLine()->willReturn('}');
+namespace Vendor\OtherProject;
+
+class MyClass
+{
+    private $filename;
+}
+FILE);
+        $modelProperty = new Model\Property('dependency');
+        $insertProperty = new InsertProperty($redaktiloFile, $modelProperty);
+
+        $propertyPattern = '/^    private $dependency;$/';
+        $generatedCode =<<<'GENERATED_CODE'
+    private $dependency;
+GENERATED_CODE;
+
+        $redaktiloEditor->hasBelow($redaktiloFile, $propertyPattern, 0)->willReturn(false);
+        $redaktiloEditor->hasBelow($redaktiloFile, InsertPropertyHandler::PROPERTY, 0)->willReturn(true);
+        $redaktiloEditor->hasBelow($redaktiloFile, InsertPropertyHandler::CONSTANT, 0)->willReturn(false);
+        $redaktiloEditor->jumpBelow($redaktiloFile, InsertPropertyHandler::CLASS_ENDING, 0)->shouldBeCalled();
+        $redaktiloEditor->jumpAbove($redaktiloFile, InsertPropertyHandler::PROPERTY)->shouldBeCalled();
+        $redaktiloEditor->insertBelow($redaktiloFile, '')->shouldBeCalled();
+        $prettyPrinter->generateCode($modelProperty)->willReturn($generatedCode);
+        $redaktiloEditor->insertBelow($redaktiloFile, $generatedCode)->shouldBeCalled();
 
         $this->handle($insertProperty);
     }
 
     function it_inserts_property_in_class_with_constants(
-        Editor $editor,
-        File $file,
-        PrettyPrinter $prettyPrinter,
-        Property $property
+        Redaktilo\Editor $redaktiloEditor,
+        PrettyPrinter $prettyPrinter
     ) {
-        $insertProperty = new InsertProperty($file->getWrappedObject(), $property->getWrappedObject());
-        $property->getName()->willReturn('property');
+        $redaktiloFile = Redaktilo\File::fromString(<<<'FILE'
+<?php
 
-        $editor->hasBelow($file, '/^    private \$property;$/', 0)->willReturn(false);
-        $editor->hasBelow($file, InsertPropertyHandler::PROPERTY, 0)->willReturn(false);
-        $editor->hasBelow($file, InsertPropertyHandler::CONSTANT, 0)->willReturn(true);
-        $editor->jumpBelow($file, InsertPropertyHandler::CLASS_ENDING, 0)->shouldBeCalled();
-        $editor->jumpAbove($file, InsertPropertyHandler::CONSTANT)->shouldBeCalled();
-        $editor->insertBelow($file, '')->shouldBeCalled();
-        $prettyPrinter->generateCode($property)->willReturn('    private $property;');
-        $editor->insertBelow($file, '    private $property;')->shouldBeCalled();
-        $file->incrementCurrentLineNumber(1)->shouldBeCalled();
-        $file->getLine()->willReturn('}');
+namespace Vendor\OtherProject;
+
+class MyClass
+{
+    const CONSTANT = 42;
+}
+FILE);
+        $modelProperty = new Model\Property('dependency');
+        $insertProperty = new InsertProperty($redaktiloFile, $modelProperty);
+
+        $propertyPattern = '/^    private $dependency;$/';
+        $generatedCode =<<<'GENERATED_CODE'
+    private $dependency;
+GENERATED_CODE;
+
+        $redaktiloEditor->hasBelow($redaktiloFile, $propertyPattern, 0)->willReturn(false);
+        $redaktiloEditor->hasBelow($redaktiloFile, InsertPropertyHandler::PROPERTY, 0)->willReturn(false);
+        $redaktiloEditor->hasBelow($redaktiloFile, InsertPropertyHandler::CONSTANT, 0)->willReturn(true);
+        $redaktiloEditor->jumpBelow($redaktiloFile, InsertPropertyHandler::CLASS_ENDING, 0)->shouldBeCalled();
+        $redaktiloEditor->jumpAbove($redaktiloFile, InsertPropertyHandler::CONSTANT)->shouldBeCalled();
+        $redaktiloEditor->insertBelow($redaktiloFile, '')->shouldBeCalled();
+        $prettyPrinter->generateCode($modelProperty)->willReturn($generatedCode);
+        $redaktiloEditor->insertBelow($redaktiloFile, $generatedCode)->shouldBeCalled();
 
         $this->handle($insertProperty);
     }
 
     function it_inserts_property_in_class_with_methods(
-        Editor $editor,
-        File $file,
-        PrettyPrinter $prettyPrinter,
-        Property $property
+        Redaktilo\Editor $redaktiloEditor,
+        PrettyPrinter $prettyPrinter
     ) {
-        $insertProperty = new InsertProperty($file->getWrappedObject(), $property->getWrappedObject());
-        $property->getName()->willReturn('property');
+        $redaktiloFile = Redaktilo\File::fromString(<<<'FILE'
+<?php
 
-        $editor->hasBelow($file, '/^    private \$property;$/', 0)->willReturn(false);
-        $editor->hasBelow($file, InsertPropertyHandler::PROPERTY, 0)->willReturn(false);
-        $editor->hasBelow($file, InsertPropertyHandler::CONSTANT, 0)->willReturn(false);
-        $editor->jumpBelow($file, InsertPropertyHandler::CLASS_OPENING, 0)->shouldBeCalled();
-        $prettyPrinter->generateCode($property)->willReturn('    private $property;');
-        $editor->insertBelow($file, '    private $property;')->shouldBeCalled();
-        $file->incrementCurrentLineNumber(1)->shouldBeCalled();
-        $file->getLine()->willReturn('    public function __construct($property)');
-        $editor->insertAbove($file, '')->shouldBeCalled();
+namespace Vendor\OtherProject;
+
+class MyClass
+{
+    public function __constructy(Dependency $dependency)
+    {
+        $this->dependency = $dependency;
+    }
+}
+FILE);
+        $modelProperty = new Model\Property('dependency');
+        $insertProperty = new InsertProperty($redaktiloFile, $modelProperty);
+
+        $propertyPattern = '/^    private $dependency;$/';
+        $generatedCode =<<<'GENERATED_CODE'
+    private $dependency;
+GENERATED_CODE;
+
+        $redaktiloEditor->hasBelow($redaktiloFile, $propertyPattern, 0)->willReturn(false);
+        $redaktiloEditor->hasBelow($redaktiloFile, InsertPropertyHandler::PROPERTY, 0)->willReturn(false);
+        $redaktiloEditor->hasBelow($redaktiloFile, InsertPropertyHandler::CONSTANT, 0)->willReturn(false);
+        $redaktiloEditor->jumpBelow($redaktiloFile, InsertPropertyHandler::CLASS_OPENING, 0)->shouldBeCalled();
+        $prettyPrinter->generateCode($modelProperty)->willReturn($generatedCode);
+        $redaktiloEditor->insertBelow($redaktiloFile, $generatedCode)->shouldBeCalled();
+        $redaktiloFile->setCurrentLineNumber(7);
+        $redaktiloEditor->insertAbove($redaktiloFile, '')->shouldBeCalled();
 
         $this->handle($insertProperty);
     }

@@ -21,13 +21,18 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class GenerateConstructorHandlerSpec extends ObjectBehavior
 {
-    const FILE_NAME = 'src/Vendor/Project/MyClass.php';
+    const FILE_NAME = 'src/MyClass.php';
     const CLASS_NAME = 'MyClass';
-    const METHOD_NAME = 'myMethod';
+    const METHOD_NAME = '__construct';
 
-    function let(EventDispatcherInterface $eventDispatcher, VariableArgumentMarshaller $variableArgumentMarshaller)
-    {
-        $this->beConstructedWith($eventDispatcher, $variableArgumentMarshaller);
+    function let(
+        EventDispatcherInterface $eventDispatcher,
+        VariableArgumentMarshaller $variableArgumentMarshaller
+    ) {
+        $this->beConstructedWith(
+            $eventDispatcher,
+            $variableArgumentMarshaller
+        );
     }
 
     function it_is_a_command_handler()

@@ -35,14 +35,16 @@ class InsertGeneratedMethodListener
 
     public function onGeneratedMethod(GeneratedMethod $generatedMethod): void
     {
-        $fileName = $generatedMethod->file->getFilename();
-        $fullyQualifiedNames = $generatedMethod->file->allFullyQualifiedNames();
-        $allMethods = $generatedMethod->file->getStructure()->allMethods();
-        $method = array_shift($allMethods); // $object should contain only one method, the generated one.
-
-        $file = $this->codeEditor->open($fileName);
-        $this->codeEditor->handle(new InsertUseStatements($file, $fullyQualifiedNames));
-        $this->codeEditor->handle(new InsertMethod($file, $method));
+        // GeneratedMethod only contains one single method (the generated one).
+        $file = $this->codeEditor->open($generatedMethod->file->filename);
+        $this->codeEditor->handle(new InsertUseStatements(
+            $file,
+            $generatedMethod->file->fullyQualifiedNames,
+        ));
+        $this->codeEditor->handle(new InsertMethod(
+            $file,
+            $generatedMethod->file->structure->methods[0],
+        ));
         $this->codeEditor->save($file);
     }
 }

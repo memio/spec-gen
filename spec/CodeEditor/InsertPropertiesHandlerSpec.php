@@ -11,8 +11,8 @@
 
 namespace spec\Memio\SpecGen\CodeEditor;
 
-use Gnugat\Redaktilo\File;
-use Memio\Model\Property;
+use Gnugat\Redaktilo;
+use Memio\Model;
 use Memio\SpecGen\CodeEditor\InsertProperties;
 use Memio\SpecGen\CodeEditor\InsertProperty;
 use Memio\SpecGen\CodeEditor\InsertPropertyHandler;
@@ -22,8 +22,9 @@ use Prophecy\Argument;
 
 class InsertPropertiesHandlerSpec extends ObjectBehavior
 {
-    function let(InsertPropertyHandler $insertPropertyHandler)
-    {
+    function let(
+        InsertPropertyHandler $insertPropertyHandler
+    ) {
         $this->beConstructedWith($insertPropertyHandler);
     }
 
@@ -32,15 +33,29 @@ class InsertPropertiesHandlerSpec extends ObjectBehavior
         $this->shouldImplement(CommandHandler::class);
     }
 
-    function it_supports_insert_properties_command(InsertProperties $insertProperties)
-    {
+    function it_supports_insert_properties_command(
+        InsertProperties $insertProperties
+    ) {
         $this->supports($insertProperties)->shouldBe(true);
     }
 
-    function it_inserts_properties(File $file, Property $property, InsertPropertyHandler $insertPropertyHandler)
-    {
-        $properties = [$property->getWrappedObject()];
-        $insertProperties = new InsertProperties($file->getWrappedObject(), $properties);
+    function it_inserts_properties(
+        InsertPropertyHandler $insertPropertyHandler
+    ) {
+        $redaktiloFile = Redaktilo\File::fromString(<<<'FILE'
+<?php
+
+namespace Vendor\OtherProject;
+
+class MyClass
+{
+}
+FILE);
+        $modelProperties = [
+            new Model\Property('dependency'),
+            new Model\Property('filename'),
+        ];
+        $insertProperties = new InsertProperties($redaktiloFile, $modelProperties);
 
         $insertProperty = Argument::Type(InsertProperty::class);
         $insertPropertyHandler->handle($insertProperty)->shouldBeCalled();

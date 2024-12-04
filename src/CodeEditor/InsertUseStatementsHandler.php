@@ -36,8 +36,8 @@ class InsertUseStatementsHandler implements CommandHandler
     public function handle(Command $command): void
     {
         foreach ($command->fullyQualifiedNames as $fullyQualifiedName) {
-            $escapedFullyQualifiedClassName = addslashes($fullyQualifiedName->getFullyQualifiedName());
-            if (!$this->editor->hasBelow($command->file, "/^use $escapedFullyQualifiedClassName;$/", 0)) {
+            $escapedFullyQualifiedClassName = addslashes($fullyQualifiedName->fullyQualifiedName);
+            if (!$this->editor->hasBelow($command->file, "/^use {$escapedFullyQualifiedClassName};$/", 0)) {
                 $this->insertUseStatementHandler->handle(new InsertUseStatement($command->file, $fullyQualifiedName));
             }
         }

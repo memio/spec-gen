@@ -11,9 +11,8 @@
 
 namespace spec\Memio\SpecGen\CodeEditor;
 
-use Gnugat\Redaktilo\Editor;
-use Gnugat\Redaktilo\File;
-use Memio\Model\FullyQualifiedName;
+use Gnugat\Redaktilo;
+use Memio\Model;
 use Memio\SpecGen\CodeEditor\InsertUseStatement;
 use Memio\SpecGen\CodeEditor\InsertUseStatementHandler;
 use Memio\SpecGen\CodeEditor\InsertUseStatements;
@@ -23,9 +22,11 @@ use Prophecy\Argument;
 
 class InsertUseStatementsHandlerSpec extends ObjectBehavior
 {
-    function let(Editor $editor, InsertUseStatementHandler $insertUseStatementHandler)
-    {
-        $this->beConstructedWith($editor, $insertUseStatementHandler);
+    function let(
+        Redaktilo\Editor $redaktiloEditor,
+        InsertUseStatementHandler $insertUseStatementHandler
+    ) {
+        $this->beConstructedWith($redaktiloEditor, $insertUseStatementHandler);
     }
 
     function it_is_a_command_handler()
@@ -38,17 +39,30 @@ class InsertUseStatementsHandlerSpec extends ObjectBehavior
         $this->supports($insertUseStatements)->shouldBe(true);
     }
 
-    function it_inserts_the_same_use_statement_once(
-        Editor $editor,
-        File $file,
-        FullyQualifiedName $fullyQualifiedName,
+    function it_inserts_use_statements(
+        Redaktilo\Editor $redaktiloEditor,
         InsertUseStatementHandler $insertUseStatementHandler
     ) {
-        $fullyQualifiedNames = [$fullyQualifiedName->getWrappedObject()];
-        $insertUseStatements = new InsertUseStatements($file->getWrappedObject(), $fullyQualifiedNames);
+        $redaktiloFile = Redaktilo\File::fromString(<<<'FILE'
+<?php
 
-        $fullyQualifiedName->getFullyQualifiedName()->willReturn('Vendor\Project\MyDependency');
-        $editor->hasBelow($file, '/^use Vendor\\\\Project\\\\MyDependency;$/', 0)->willReturn(false);
+namespace Vendor\OtherProject;
+
+class MyClass
+{
+}
+FILE);
+        $modelFullyQualifiedNames = [
+            new Model\FullyQualifiedName('Vendor\Project\Dependency'),
+        ];
+        $insertUseStatements = new InsertUseStatements($redaktiloFile, $modelFullyQualifiedNames);
+
+        $useStatementPattern = '/^use Vendor\\\\Project\\\\Dependency;$/';
+        $generatedCode =<<<'GENERATED_CODE'
+use Vendor\Project\Dependency;
+GENERATED_CODE;
+
+        $redaktiloEditor->hasBelow($redaktiloFile, $useStatementPattern, 0)->willReturn(false);
         $insertUseStatement = Argument::Type(InsertUseStatement::class);
         $insertUseStatementHandler->handle($insertUseStatement)->shouldBeCalled();
 
@@ -56,16 +70,31 @@ class InsertUseStatementsHandlerSpec extends ObjectBehavior
     }
 
     function it_does_not_insert_the_same_use_statement_twice(
-        Editor $editor,
-        File $file,
-        FullyQualifiedName $fullyQualifiedName,
+        Redaktilo\Editor $redaktiloEditor,
         InsertUseStatementHandler $insertUseStatementHandler
     ) {
-        $fullyQualifiedNames = [$fullyQualifiedName->getWrappedObject()];
-        $insertUseStatements = new InsertUseStatements($file->getWrappedObject(), $fullyQualifiedNames);
+        $redaktiloFile = Redaktilo\File::fromString(<<<'FILE'
+<?php
 
-        $fullyQualifiedName->getFullyQualifiedName()->willReturn('Vendor\Project\MyDependency');
-        $editor->hasBelow($file, '/^use Vendor\\\\Project\\\\MyDependency;$/', 0)->willReturn(true);
+namespace Vendor\OtherProject;
+
+use Vendor\Project\Dependency;
+
+class MyClass
+{
+}
+FILE);
+        $modelFullyQualifiedNames = [
+            new Model\FullyQualifiedName('Vendor\Project\Dependency'),
+        ];
+        $insertUseStatements = new InsertUseStatements($redaktiloFile, $modelFullyQualifiedNames);
+
+        $useStatementPattern = '/^use Vendor\\\\Project\\\\Dependency;$/';
+        $generatedCode =<<<'GENERATED_CODE'
+use Vendor\Project\Dependency;
+GENERATED_CODE;
+
+        $redaktiloEditor->hasBelow($redaktiloFile, $useStatementPattern, 0)->willReturn(true);
         $insertUseStatement = Argument::Type(InsertUseStatement::class);
         $insertUseStatementHandler->handle($insertUseStatement)->shouldNotBeCalled();
 

@@ -54,17 +54,19 @@ class GenerateConstructorHandler implements CommandHandler
     public function handle(Command $command): void
     {
         $method = new Method($command->methodName);
-        $object = Objekt::make($command->fullyQualifiedName)->addMethod($method);
-        $file = File::make($command->fileName)->setStructure($object);
+        $object = (new Objekt($command->fullyQualifiedName))
+            ->addMethod($method)
+        ;
+        $file = (new File($command->fileName))
+            ->setStructure($object)
+        ;
         $arguments = $this->variableArgumentMarshaller->marshal($command->arguments);
         foreach ($arguments as $argument) {
-            $argumentType = $argument->getType();
-            $argumentName = $argument->getName();
-            $fullyQualifiedName = new FullyQualifiedName($argumentType);
+            $fullyQualifiedName = new FullyQualifiedName($argument->type);
             if ($this->shouldAddUseStatement($file, $fullyQualifiedName)) {
                 $file->addFullyQualifiedName($fullyQualifiedName);
             }
-            $object->addProperty(new Property($argumentName));
+            $object->addProperty(new Property($argument->name));
             $method->addArgument($argument);
             $body = $method->getBody();
             if (!empty($body)) {

@@ -20,7 +20,8 @@ use PhpSpec\ObjectBehavior;
 
 class LogGeneratedMethodListenerSpec extends ObjectBehavior
 {
-    const CLASS_NAME = 'MyClass';
+    const FILE_NAME = 'src/MyClass.php';
+    const CLASS_NAME = 'Vendor\Project\MyClass';
     const METHOD_NAME = 'myMethod';
 
     function let(ConsoleIO $io)
@@ -28,19 +29,19 @@ class LogGeneratedMethodListenerSpec extends ObjectBehavior
         $this->beConstructedWith($io);
     }
 
-    function it_logs_the_generated_method(File $file, ConsoleIO $io, Method $method, Objekt $object)
+    function it_logs_the_generated_method(ConsoleIO $io)
     {
-        $generatedMethod = new GeneratedMethod($file->getWrappedObject());
-        $file->getStructure()->willReturn($object);
-        $object->getName()->willReturn(self::CLASS_NAME);
-        $object->allMethods()->willReturn([$method]);
-        $method->getName()->willReturn(self::METHOD_NAME);
+        $file = new File(self::FILE_NAME);
+        $file->structure = (new Objekt(self::CLASS_NAME))
+            ->addMethod(new Method(self::METHOD_NAME))
+        ;
+        $generatedMethod = new GeneratedMethod($file);
 
         $className = self::CLASS_NAME;
         $methodName = self::METHOD_NAME;
         $io->write(<<<OUTPUT
 
-  <info>Generated <value>$className#$methodName</value></info>
+  <info>Generated <value>{$className}#{$methodName}</value></info>
 
 OUTPUT
         )->shouldBeCalled();

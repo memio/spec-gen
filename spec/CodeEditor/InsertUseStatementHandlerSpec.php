@@ -11,9 +11,8 @@
 
 namespace spec\Memio\SpecGen\CodeEditor;
 
-use Gnugat\Redaktilo\Editor;
-use Gnugat\Redaktilo\File;
-use Memio\Model\FullyQualifiedName;
+use Gnugat\Redaktilo;
+use Memio\Model;
 use Memio\SpecGen\CodeEditor\InsertUseStatement;
 use Memio\SpecGen\CodeEditor\InsertUseStatementHandler;
 use Memio\SpecGen\CommandBus\CommandHandler;
@@ -21,15 +20,9 @@ use PhpSpec\ObjectBehavior;
 
 class InsertUseStatementHandlerSpec extends ObjectBehavior
 {
-    const FULLY_QUALIFIED_NAME = 'Vendor\Project\MyClass';
-    const NAME_SPACE = 'Vendor\Project';
-    const NAME_SPACE_PATTERN = '/^namespace Vendor\\\\Project;$/';
-    const USE_STATEMENT = 'use Vendor\Project\MyClass;';
-    const USE_STATEMENT_PATTERN = '/^use Vendor\\\\Project\\\\MyClass;$/';
-
-    function let(Editor $editor)
+    function let(Redaktilo\Editor $redaktiloEditor)
     {
-        $this->beConstructedWith($editor);
+        $this->beConstructedWith($redaktiloEditor);
     }
 
     function it_is_a_command_handler()
@@ -43,71 +36,122 @@ class InsertUseStatementHandlerSpec extends ObjectBehavior
     }
 
     function it_does_not_insert_use_statement_in_same_namespace(
-        Editor $editor,
-        File $file,
-        FullyQualifiedName $fullyQualifiedName
+        Redaktilo\Editor $redaktiloEditor
     ) {
-        $insertUseStatement = new InsertUseStatement($file->getWrappedObject(), $fullyQualifiedName->getWrappedObject());
-        $fullyQualifiedName->getNamespace()->willReturn(self::NAME_SPACE);
-        $fullyQualifiedName->getFullyQualifiedName()->willReturn(self::FULLY_QUALIFIED_NAME);
+        $redaktiloFile = Redaktilo\File::fromString(<<<'FILE'
+<?php
 
-        $editor->hasBelow($file, self::NAME_SPACE_PATTERN, 0)->willReturn(true);
-        $editor->insertBelow($file, self::USE_STATEMENT)->shouldNotBeCalled();
+namespace Vendor\Project;
+
+class MyClass
+{
+}
+FILE);
+        $modelFullyQualifiedName = new Model\FullyQualifiedName('Vendor\Project\Dependency');
+        $insertUseStatement = new InsertUseStatement($redaktiloFile, $modelFullyQualifiedName);
+
+        $nameSpacePattern = '/^namespace Vendor\\\\Project;$/';
+        $generatedCode =<<<'GENERATED_CODE'
+use Vendor\Project\Dependency;
+GENERATED_CODE;
+
+        $redaktiloEditor->hasBelow($redaktiloFile, $nameSpacePattern, 0)->willReturn(true);
+        $redaktiloEditor->insertBelow($redaktiloFile, $generatedCode)->shouldNotBeCalled();
 
         $this->handle($insertUseStatement);
     }
 
     function it_does_not_insert_use_statement_twice(
-        Editor $editor,
-        File $file,
-        FullyQualifiedName $fullyQualifiedName
+        Redaktilo\Editor $redaktiloEditor
     ) {
-        $insertUseStatement = new InsertUseStatement($file->getWrappedObject(), $fullyQualifiedName->getWrappedObject());
-        $fullyQualifiedName->getNamespace()->willReturn(self::NAME_SPACE);
-        $fullyQualifiedName->getFullyQualifiedName()->willReturn(self::FULLY_QUALIFIED_NAME);
+        $redaktiloFile = Redaktilo\File::fromString(<<<'FILE'
+<?php
 
-        $editor->hasBelow($file, self::NAME_SPACE_PATTERN, 0)->willReturn(false);
-        $editor->hasBelow($file, self::USE_STATEMENT_PATTERN, 0)->willReturn(true);
-        $editor->insertBelow($file, self::USE_STATEMENT)->shouldNotBeCalled();
+namespace Vendor\OtherProject;
+
+use Vendor\Project\Dependency;
+
+class MyClass
+{
+}
+FILE);
+        $modelFullyQualifiedName = new Model\FullyQualifiedName('Vendor\Project\Dependency');
+        $insertUseStatement = new InsertUseStatement($redaktiloFile, $modelFullyQualifiedName);
+
+        $nameSpacePattern = '/^namespace Vendor\\\\Project;$/';
+        $useStatementPattern = '/^use Vendor\\\\Project\\\\Dependency;$/';
+        $generatedCode =<<<'GENERATED_CODE'
+use Vendor\Project\Dependency;
+GENERATED_CODE;
+
+        $redaktiloEditor->hasBelow($redaktiloFile, $nameSpacePattern, 0)->willReturn(false);
+        $redaktiloEditor->hasBelow($redaktiloFile, $useStatementPattern, 0)->willReturn(true);
+        $redaktiloEditor->insertBelow($redaktiloFile, $generatedCode)->shouldNotBeCalled();
 
         $this->handle($insertUseStatement);
     }
 
     function it_inserts_first_use_statement(
-        Editor $editor,
-        File $file,
-        FullyQualifiedName $fullyQualifiedName
+        Redaktilo\Editor $redaktiloEditor
     ) {
-        $insertUseStatement = new InsertUseStatement($file->getWrappedObject(), $fullyQualifiedName->getWrappedObject());
-        $fullyQualifiedName->getNamespace()->willReturn(self::NAME_SPACE);
-        $fullyQualifiedName->getFullyQualifiedName()->willReturn(self::FULLY_QUALIFIED_NAME);
+        $redaktiloFile = Redaktilo\File::fromString(<<<'FILE'
+<?php
 
-        $editor->hasBelow($file, self::NAME_SPACE_PATTERN, 0)->willReturn(false);
-        $editor->hasBelow($file, self::USE_STATEMENT_PATTERN, 0)->willReturn(false);
-        $editor->jumpBelow($file, InsertUseStatementHandler::CLASS_ENDING, 0)->shouldBeCalled();
-        $editor->hasAbove($file, InsertUseStatementHandler::USE_STATEMENT)->willReturn(false);
-        $editor->jumpAbove($file, InsertUseStatementHandler::NAME_SPACE)->shouldBeCalled();
-        $editor->insertBelow($file, '')->shouldBeCalled();
-        $editor->insertBelow($file, self::USE_STATEMENT)->shouldBeCalled();
+namespace Vendor\OtherProject;
+
+class MyClass
+{
+}
+FILE);
+        $modelFullyQualifiedName = new Model\FullyQualifiedName('Vendor\Project\Dependency');
+        $insertUseStatement = new InsertUseStatement($redaktiloFile, $modelFullyQualifiedName);
+
+        $nameSpacePattern = '/^namespace Vendor\\\\Project;$/';
+        $useStatementPattern = '/^use Vendor\\\\Project\\\\Dependency;$/';
+        $generatedCode =<<<'GENERATED_CODE'
+use Vendor\Project\Dependency;
+GENERATED_CODE;
+
+        $redaktiloEditor->hasBelow($redaktiloFile, $nameSpacePattern, 0)->willReturn(false);
+        $redaktiloEditor->hasBelow($redaktiloFile, $useStatementPattern, 0)->willReturn(false);
+        $redaktiloEditor->jumpBelow($redaktiloFile, InsertUseStatementHandler::CLASS_ENDING, 0)->shouldBeCalled();
+        $redaktiloEditor->hasAbove($redaktiloFile, InsertUseStatementHandler::USE_STATEMENT)->willReturn(false);
+        $redaktiloEditor->jumpAbove($redaktiloFile, InsertUseStatementHandler::NAME_SPACE)->shouldBeCalled();
+        $redaktiloEditor->insertBelow($redaktiloFile, '')->shouldBeCalled();
+        $redaktiloEditor->insertBelow($redaktiloFile, $generatedCode)->shouldBeCalled();
 
         $this->handle($insertUseStatement);
     }
 
     function it_inserts_use_statement_at_the_end_of_use_statement_block(
-        Editor $editor,
-        File $file,
-        FullyQualifiedName $fullyQualifiedName
+        Redaktilo\Editor $redaktiloEditor
     ) {
-        $insertUseStatement = new InsertUseStatement($file->getWrappedObject(), $fullyQualifiedName->getWrappedObject());
-        $fullyQualifiedName->getNamespace()->willReturn(self::NAME_SPACE);
-        $fullyQualifiedName->getFullyQualifiedName()->willReturn(self::FULLY_QUALIFIED_NAME);
+        $redaktiloFile = Redaktilo\File::fromString(<<<'FILE'
+<?php
 
-        $editor->hasBelow($file, self::NAME_SPACE_PATTERN, 0)->willReturn(false);
-        $editor->hasBelow($file, self::USE_STATEMENT_PATTERN, 0)->willReturn(false);
-        $editor->jumpBelow($file, InsertUseStatementHandler::CLASS_ENDING, 0)->shouldBeCalled();
-        $editor->hasAbove($file, InsertUseStatementHandler::USE_STATEMENT)->willReturn(true);
-        $editor->jumpAbove($file, InsertUseStatementHandler::USE_STATEMENT)->shouldBeCalled();
-        $editor->insertBelow($file, self::USE_STATEMENT)->shouldBeCalled();
+namespace Vendor\OtherProject;
+
+use Vendor\DifferentProject\OtherClass;
+
+class MyClass
+{
+}
+FILE);
+        $modelFullyQualifiedName = new Model\FullyQualifiedName('Vendor\Project\Dependency');
+        $insertUseStatement = new InsertUseStatement($redaktiloFile, $modelFullyQualifiedName);
+
+        $nameSpacePattern = '/^namespace Vendor\\\\Project;$/';
+        $useStatementPattern = '/^use Vendor\\\\Project\\\\Dependency;$/';
+        $generatedCode =<<<'GENERATED_CODE'
+use Vendor\Project\Dependency;
+GENERATED_CODE;
+
+        $redaktiloEditor->hasBelow($redaktiloFile, $nameSpacePattern, 0)->willReturn(false);
+        $redaktiloEditor->hasBelow($redaktiloFile, $useStatementPattern, 0)->willReturn(false);
+        $redaktiloEditor->jumpBelow($redaktiloFile, InsertUseStatementHandler::CLASS_ENDING, 0)->shouldBeCalled();
+        $redaktiloEditor->hasAbove($redaktiloFile, InsertUseStatementHandler::USE_STATEMENT)->willReturn(true);
+        $redaktiloEditor->jumpAbove($redaktiloFile, InsertUseStatementHandler::USE_STATEMENT)->shouldBeCalled();
+        $redaktiloEditor->insertBelow($redaktiloFile, $generatedCode)->shouldBeCalled();
 
         $this->handle($insertUseStatement);
     }

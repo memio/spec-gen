@@ -15,19 +15,25 @@ use Memio\SpecGen\CommandBus\CommandHandler;
 use Memio\SpecGen\GenerateMethod\GeneratedMethod;
 use Memio\SpecGen\GenerateMethod\GenerateMethod;
 use Memio\SpecGen\Marshaller\VariableArgumentMarshaller;
+use Memio\SpecGen\Marshaller\Model\ArgumentCollection;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class GenerateMethodHandlerSpec extends ObjectBehavior
 {
-    const FILE_NAME = 'src/Vendor/Project/MyClass.php';
+    const FILE_NAME = 'src/MyClass.php';
     const CLASS_NAME = 'MyClass';
     const METHOD_NAME = 'myMethod';
 
-    function let(EventDispatcherInterface $eventDispatcher, VariableArgumentMarshaller $variableArgumentMarshaller)
-    {
-        $this->beConstructedWith($eventDispatcher, $variableArgumentMarshaller);
+    function let(
+        EventDispatcherInterface $eventDispatcher,
+        VariableArgumentMarshaller $variableArgumentMarshaller
+    ) {
+        $this->beConstructedWith(
+            $eventDispatcher,
+            $variableArgumentMarshaller
+        );
     }
 
     function it_is_a_command_handler()
@@ -44,10 +50,22 @@ class GenerateMethodHandlerSpec extends ObjectBehavior
         EventDispatcherInterface $eventDispatcher,
         VariableArgumentMarshaller $variableArgumentMarshaller
     ) {
-        $variableArguments = [];
-        $command = new GenerateMethod(self::FILE_NAME, self::CLASS_NAME, self::METHOD_NAME, $variableArguments);
+        $variableArguments = [
+            new \DateTime(),
+            'scalar string argument',
+        ];
+        $command = new GenerateMethod(
+            self::FILE_NAME,
+            self::CLASS_NAME,
+            self::METHOD_NAME,
+            $variableArguments,
+        );
 
-        $variableArgumentMarshaller->marshal($variableArguments)->willReturn([]);
+        $argumentCollection = new ArgumentCollection();
+        $argumentCollection->add('string', 'argument1');
+        $argumentCollection->add('DateTimeInterface', 'dateTime1');
+
+        $variableArgumentMarshaller->marshal($variableArguments)->willReturn($argumentCollection->all());
         $generatedMethod = Argument::type(GeneratedMethod::class);
         $eventDispatcher->dispatch(
             $generatedMethod,

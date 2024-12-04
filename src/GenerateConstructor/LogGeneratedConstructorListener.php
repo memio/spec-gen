@@ -32,14 +32,13 @@ class LogGeneratedConstructorListener
     public function onGeneratedConstructor(
         GeneratedConstructor $generatedConstructor
     ): void {
-        $object = $generatedConstructor->file->getStructure();
-        $className = $object->getName();
-        $propertiesCount = count($object->allProperties());
+        // GeneratedConstructor only contains one single method (the generated one).
+        $className = $generatedConstructor->file->structure->fullyQualifiedName->fullyQualifiedName;
+        $methodName = $generatedConstructor->file->structure->methods[0]->name;
 
-        $propertiesWord = (1 === $propertiesCount ? 'property' : 'properties');
         $this->io->write(<<<OUTPUT
 
-  <info>Generated <value>$propertiesCount</value> $propertiesWord for <value>$className</value>, with its constructor</info>
+  <info>Generated <value>{$className}#{$methodName}</value></info>
 
 OUTPUT
         );

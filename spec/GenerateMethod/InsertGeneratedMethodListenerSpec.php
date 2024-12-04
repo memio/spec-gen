@@ -11,11 +11,8 @@
 
 namespace spec\Memio\SpecGen\GenerateMethod;
 
-use Gnugat\Redaktilo\File;
-use Memio\Model\File as FileModel;
-use Memio\Model\FullyQualifiedName as FullyQualifiedNameModel;
-use Memio\Model\Method as MethodModel;
-use Memio\Model\Objekt as ObjectModel;
+use Gnugat\Redaktilo;
+use Memio\Model;
 use Memio\SpecGen\CodeEditor\CodeEditor;
 use Memio\SpecGen\CodeEditor\InsertMethod;
 use Memio\SpecGen\CodeEditor\InsertUseStatements;
@@ -25,9 +22,13 @@ use Prophecy\Argument;
 
 class InsertGeneratedMethodListenerSpec extends ObjectBehavior
 {
-    const FILE_NAME = 'src/Vendor/Project/MyClass.php';
+    const FILE_NAME = 'src/MyClass.php';
     const CLASS_NAME = 'MyClass';
     const METHOD_NAME = 'myMethod';
+    const ARGUMENT_1_TYPE = 'Vendor\Project\Strategy';
+    const ARGUMENT_1_NAME = 'strategy1';
+    const ARGUMENT_2_TYPE = 'int';
+    const ARGUMENT_2_NAME = 'argument1';
 
     function let(CodeEditor $codeEditor)
     {
@@ -36,25 +37,25 @@ class InsertGeneratedMethodListenerSpec extends ObjectBehavior
 
     function it_inserts_the_generated_method(
         CodeEditor $codeEditor,
-        File $file,
-        FileModel $fileModel,
-        FullyQualifiedNameModel $fullyQualifiedNameModel,
-        MethodModel $methodModel,
-        ObjectModel $objectModel
     ) {
+        $modelFile = new Model\File(self::FILE_NAME);
+        $modelFile->structure = (new Model\Objekt(self::CLASS_NAME))
+            ->addMethod((new Model\Method(self::METHOD_NAME))
+                ->addArgument(new Model\Argument(self::ARGUMENT_1_TYPE, self::ARGUMENT_1_NAME))
+                ->addArgument(new Model\Argument(self::ARGUMENT_2_TYPE, self::ARGUMENT_2_NAME))
+            )
+        ;
+        $generatedMethod = new GeneratedMethod($modelFile);
+
+        $redaktiloFile = Redaktilo\File::fromString('');
+
         $insertUseStatements = Argument::type(InsertUseStatements::class);
         $insertMethod = Argument::type(InsertMethod::class);
 
-        $generatedMethod = new GeneratedMethod($fileModel->getWrappedObject());
-        $fileModel->allFullyQualifiedNames()->willReturn([$fullyQualifiedNameModel]);
-        $fileModel->getFilename()->willReturn(self::FILE_NAME);
-        $fileModel->getStructure()->willReturn($objectModel);
-        $objectModel->allMethods()->willReturn([$methodModel]);
-
-        $codeEditor->open(self::FILE_NAME)->willReturn($file);
+        $codeEditor->open(self::FILE_NAME)->willReturn($redaktiloFile);
         $codeEditor->handle($insertUseStatements)->shouldBeCalled();
         $codeEditor->handle($insertMethod)->shouldBeCalled();
-        $codeEditor->save($file)->shouldBeCalled();
+        $codeEditor->save($redaktiloFile)->shouldBeCalled();
 
         $this->onGeneratedMethod($generatedMethod);
     }

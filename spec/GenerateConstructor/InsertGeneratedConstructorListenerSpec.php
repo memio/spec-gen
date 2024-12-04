@@ -11,12 +11,8 @@
 
 namespace spec\Memio\SpecGen\GenerateConstructor;
 
-use Gnugat\Redaktilo\File;
-use Memio\Model\File as FileModel;
-use Memio\Model\FullyQualifiedName as FullyQualifiedNameModel;
-use Memio\Model\Method as MethodModel;
-use Memio\Model\Objekt as ObjectModel;
-use Memio\Model\Property as PropertyModel;
+use Gnugat\Redaktilo;
+use Memio\Model;
 use Memio\SpecGen\CodeEditor\CodeEditor;
 use Memio\SpecGen\CodeEditor\InsertConstructor;
 use Memio\SpecGen\CodeEditor\InsertProperties;
@@ -27,9 +23,13 @@ use Prophecy\Argument;
 
 class InsertGeneratedConstructorListenerSpec extends ObjectBehavior
 {
-    const FILE_NAME = 'src/Vendor/Project/MyClass.php';
+    const FILE_NAME = 'src/MyClass.php';
     const CLASS_NAME = 'MyClass';
-    const METHOD_NAME = 'myMethod';
+    const METHOD_NAME = '__construct';
+    const ARGUMENT_1_TYPE = 'Vendor\Prophecy\Dependency';
+    const ARGUMENT_1_NAME = 'dependency';
+    const ARGUMENT_2_TYPE = 'string';
+    const ARGUMENT_2_NAME = 'rootDir';
 
     function let(CodeEditor $codeEditor)
     {
@@ -38,29 +38,34 @@ class InsertGeneratedConstructorListenerSpec extends ObjectBehavior
 
     function it_inserts_the_generated_method(
         CodeEditor $codeEditor,
-        File $file,
-        FileModel $fileModel,
-        FullyQualifiedNameModel $fullyQualifiedNameModel,
-        MethodModel $methodModel,
-        ObjectModel $objectModel,
-        PropertyModel $propertyModel
     ) {
+        $modelFile = new Model\File(self::FILE_NAME);
+        $modelFile->addFullyQualifiedName(new Model\FullyQualifiedName(self::ARGUMENT_1_TYPE));
+        $modelFile->structure = (new Model\Objekt(self::CLASS_NAME))
+            ->addProperty((new Model\Property(self::ARGUMENT_1_NAME))
+                ->makePrivate()
+            )
+            ->addProperty((new Model\Property(self::ARGUMENT_2_NAME))
+                ->makePrivate()
+            )
+            ->addMethod((new Model\Method(self::METHOD_NAME))
+                ->addArgument(new Model\Argument(self::ARGUMENT_1_TYPE, self::ARGUMENT_1_NAME))
+                ->addArgument(new Model\Argument(self::ARGUMENT_2_TYPE, self::ARGUMENT_2_NAME))
+            )
+        ;
+        $generatedConstructor = new GeneratedConstructor($modelFile);
+
+        $redaktiloFile = Redaktilo\File::fromString('');
+
         $insertUseStatements = Argument::type(InsertUseStatements::class);
         $insertProperties = Argument::type(InsertProperties::class);
         $insertConstructor = Argument::type(InsertConstructor::class);
 
-        $generatedConstructor = new GeneratedConstructor($fileModel->getWrappedObject());
-        $fileModel->allFullyQualifiedNames()->willReturn([$fullyQualifiedNameModel]);
-        $fileModel->getFilename()->willReturn(self::FILE_NAME);
-        $fileModel->getStructure()->willReturn($objectModel);
-        $objectModel->allProperties()->willReturn([$propertyModel]);
-        $objectModel->allMethods()->willReturn([$methodModel]);
-
-        $codeEditor->open(self::FILE_NAME)->willReturn($file);
+        $codeEditor->open(self::FILE_NAME)->willReturn($redaktiloFile);
         $codeEditor->handle($insertUseStatements)->shouldBeCalled();
         $codeEditor->handle($insertProperties)->shouldBeCalled();
         $codeEditor->handle($insertConstructor)->shouldBeCalled();
-        $codeEditor->save($file)->shouldBeCalled();
+        $codeEditor->save($redaktiloFile)->shouldBeCalled();
 
         $this->onGeneratedConstructor($generatedConstructor);
     }

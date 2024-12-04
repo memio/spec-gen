@@ -53,14 +53,14 @@ class GenerateMethodHandler implements CommandHandler
     public function handle(Command $command): void
     {
         $method = new Method($command->methodName);
-        $file = File::make($command->fileName)
-            ->setStructure(Objekt::make($command->fullyQualifiedName)
+        $file = (new File($command->fileName))
+            ->setStructure((new Objekt($command->fullyQualifiedName))
                 ->addMethod($method)
             )
         ;
         $arguments = $this->variableArgumentMarshaller->marshal($command->arguments);
         foreach ($arguments as $argument) {
-            $fullyQualifiedName = new FullyQualifiedName($argument->getType());
+            $fullyQualifiedName = new FullyQualifiedName($argument->type->name);
             if ($this->shouldAddUseStatement($file, $fullyQualifiedName)) {
                 $file->addFullyQualifiedName($fullyQualifiedName);
             }
@@ -75,7 +75,7 @@ class GenerateMethodHandler implements CommandHandler
 
     private function shouldAddUseStatement(File $file, FullyQualifiedName $fullyQualifiedName): bool
     {
-        $type = $fullyQualifiedName->getFullyQualifiedName();
+        $type = $fullyQualifiedName->fullyQualifiedName;
         if (in_array($type, self::NON_OBJECT_TYPES, true)) {
             return false;
         }
