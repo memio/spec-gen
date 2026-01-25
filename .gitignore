@@ -1,12 +1,17 @@
-# Third party
+# composer
 /composer.lock
-/vendor
+vendor/
+
+# friendsofphp/php-cs-fixer
+.php_cs.cache
+.php-cs-fixer.php
+.php-cs-fixer.cache
+
+# Third party
 /phpunit.xml
 /.couscous
-/.php_cs.cache
 /.phpunit.result.cache
 
 # Temporary files
-/.php_cs.cache
 /fixtures/actual
 !/fixtures/actual/Generated*Test/.gitkeep
