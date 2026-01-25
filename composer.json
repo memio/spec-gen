@@ -21,7 +21,7 @@
     "autoload-dev": {
         "psr-4": {
             "Memio\\SpecGen\\Fixtures\\": "fixtures",
-            "tests\\Memio\\SpecGen\\": "tests"
+            "tests\\Memio\\SpecGen\\": "tests/Memio/SpecGen"
         }
     },
     "require": {
