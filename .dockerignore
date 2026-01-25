@@ -1,0 +1,42 @@
+# composer
+vendor/
+
+# docker
+Dockerfile
+.dockerignore
+
+# documentation
+*.md
+
+# friendsofphp/php-cs-fixer
+.php-cs-fixer.php
+.php-cs-fixer.cache
+
+# git
+.git
+.gitignore
+.gitattributes
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# phpstan
+phpstan.neon
+
+# phpunit
+phpunit.xml
+.phpunit.cache
+
