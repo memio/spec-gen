@@ -38,7 +38,8 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.19.3",
-        "phpunit/phpunit": "^8.4"
+        "phpunit/phpunit": "^8.4",
+        "rector/swiss-knife": "^2.3"
     },
     "config": {
         "audit": {
