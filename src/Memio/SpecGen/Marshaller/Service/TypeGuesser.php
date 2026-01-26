@@ -11,6 +11,7 @@
 
 namespace Memio\SpecGen\Marshaller\Service;
 
+use Prophecy\Doubler\DoubleInterface;
 use Prophecy\Doubler\Generator\ReflectionInterface;
 use Prophecy\Prophecy\ProphecySubjectInterface;
 
@@ -25,6 +26,7 @@ class TypeGuesser
             return $this->getNonObjectType($variable);
         }
         $interfaces = class_implements($variable);
+        unset($interfaces[DoubleInterface::class]);
         unset($interfaces[ProphecySubjectInterface::class]);
         unset($interfaces[ReflectionInterface::class]);
         $interface = current($interfaces);
