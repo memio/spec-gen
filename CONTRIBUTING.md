@@ -12,9 +12,26 @@ changes, improvements or alternatives may be given).
 
 Here's some tips to make you the best contributor ever:
 
+* [Getting started](#getting-started)
 * [Standard code](#standard-code)
 * [Specifications](#specifications)
 * [Keeping your fork up-to-date](#keeping-your-fork-up-to-date)
+
+## Getting started
+
+Initialize the Docker development environment:
+
+```console
+make lib-init
+```
+
+Run the full QA pipeline:
+
+```console
+make lib-qa
+```
+
+Run `make` to see all available targets.
 
 ## Standard code
 
@@ -22,7 +39,7 @@ Use [PHP CS fixer](http://cs.sensiolabs.org/) to make your code compliant with
 Memio's coding standards:
 
 ```console
-$ ./vendor/bin/php-cs-fixer fix .
+make cs-fix
 ```
 
 ## Specifications
@@ -32,31 +49,31 @@ Memio drives its development using [phpspec](http://www.phpspec.net/).
 First bootstrap the code for the Specification:
 
 ```console
-$ phpspec describe 'Memio\Memio\MyNewUseCase'
+make phpspec arg="describe 'Memio\SpecGen\MyNewUseCase'"
 ```
 
 Next, write the actual code of the Specification:
 
 ```console
-$ $EDITOR spec/Memio/SpecGen/MyNewUseCase.php
+$EDITOR spec/Memio/SpecGen/MyNewUseCase.php
 ```
 
 Then bootstrap the code for the corresponding Use Case:
 
 ```console
-$ phpspec run
+make phpspec
 ```
 
 Follow that by writing the actual code of the Use Case:
 
 ```console
-$ $EDITOR src/Memio/SpecGen/MyNewUseCase.php
+$EDITOR src/Memio/SpecGen/MyNewUseCase.php
 ```
 
 Finally run the specification:
 
 ```console
-$ phpspec run
+make phpspec
 ```
 
 Results should be green!

@@ -8,6 +8,7 @@ LIB_SERVICE = memio-spec-gen
 # Executables
 COMPOSER = docker exec $(LIB_SERVICE) composer
 PHP_CS_FIXER = docker exec $(LIB_SERVICE) php vendor/bin/php-cs-fixer
+PHPSPEC = docker exec $(LIB_SERVICE) php vendor/bin/phpspec
 PHPSTAN = docker exec $(LIB_SERVICE) php vendor/bin/phpstan --memory-limit=256M
 PHPUNIT = docker exec $(LIB_SERVICE) php vendor/bin/phpunit
 RECTOR = docker exec $(LIB_SERVICE) php vendor/bin/rector
@@ -54,22 +55,25 @@ composer-dump: ## Dumps autoloader (arg, eg `arg='--classmap-authoritative'`)
 	@$(COMPOSER) dump-autoload --optimize --strict-psr --strict-ambiguous $(arg)
 
 cs-check: ## Checks CS with PHP-CS-Fixer (arg, eg `arg='../monolith/web'`)
-	@$(PHP_CS_FIXER) check --verbose $(arg)
+	@$(PHP_CS_FIXER) fix --dry-run --verbose $(arg)
 
 cs-fix: ## Fixes CS with Swiss Knife and PHP-CS-Fixer
-	@$(SWISS_KNIFE) namespace-to-psr-4 fixtures --namespace-root 'Memio\\SpecGen\\Fixtures\\'
-	@$(SWISS_KNIFE) namespace-to-psr-4 spec --namespace-root 'spec\\Memio\\SpecGen\\'
-	@$(SWISS_KNIFE) namespace-to-psr-4 src --namespace-root 'Memio\\SpecGen\\'
-	@$(SWISS_KNIFE) namespace-to-psr-4 tests --namespace-root 'tests\\Memio\\SpecGen\\'
+	#@$(SWISS_KNIFE) namespace-to-psr-4 fixtures --namespace-root 'Memio\\SpecGen\\Fixtures\\'
+	#@$(SWISS_KNIFE) namespace-to-psr-4 spec --namespace-root 'spec\\Memio\\SpecGen\\'
+	#@$(SWISS_KNIFE) namespace-to-psr-4 src --namespace-root 'Memio\\SpecGen\\'
+	#@$(SWISS_KNIFE) namespace-to-psr-4 tests --namespace-root 'tests\\Memio\\SpecGen\\'
 	@$(PHP_CS_FIXER) fix --verbose $(arg)
 
-static-analysis: ## Static Analysis with phpstan (arg, eg `arg='../monolith/web'`)
+phpstan: ## Static Analysis with PHPStan (arg, eg `arg='--level=6'`)
 	@$(PHPSTAN) analyze $(arg)
 
 swiss-knife: ## Automated refactorings with Swiss Knife (arg, eg `arg='namespace-to-psr-4 src --namespace-root \'App\\\''`)
 	@$(SWISS_KNIFE) $(arg)
 
-test: ## Runs the tests with PHPUnit (arg, eg `arg='./tests/Smoke'`)
+phpspec: ## Runs the specifications with phpspec (arg, eg `arg='--format=dot'`)
+	@$(PHPSPEC) --no-interaction run $(arg)
+
+phpunit: ## Runs the tests with PHPUnit (arg, eg `arg='./tests/Smoke'`)
 	@$(PHPUNIT) $(arg)
 
 rector-fix: ## Automated refactorings with Rector (arg, eg `arg='--clear-cache'`)
@@ -89,7 +93,7 @@ lib-init: ## First install / resetting (Docker build, up, etc)
 	@echo ''
 	@echo '  [OK] Lib initialized'
 
-lib-qa: ## Runs full QA pipeline (composer-dump, cs-check, static-analysis, rector-process, test)
+lib-qa: ## Runs full QA pipeline (composer-dump, cs-check, phpstan, rector-check, phpspec, phpunit)
 	@echo ''
 	@echo '  // Running composer dump...'
 	@$(MAKE) composer-dump
@@ -98,12 +102,15 @@ lib-qa: ## Runs full QA pipeline (composer-dump, cs-check, static-analysis, rect
 	@$(MAKE) cs-check
 	@echo ''
 	@echo '  // Running PHPStan...'
-	@$(MAKE) static-analysis
+	@$(MAKE) phpstan
 	@echo ''
 	@echo '  // Running Rector...'
 	@$(MAKE) rector-check
 	@echo ''
+	@echo '  // Running phpspec...'
+	@$(MAKE) phpspec
+	@echo ''
 	@echo '  // Running PHPUnit...'
-	@$(MAKE) test
+	@$(MAKE) phpunit
 	@echo ''
 	@echo '  [OK] QA done'
