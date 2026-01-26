@@ -40,6 +40,7 @@
         "friendsofphp/php-cs-fixer": "^2.19.3",
         "phpstan/phpstan": "1.12.32",
         "phpunit/phpunit": "^8.4",
+        "rector/rector": "^1.2.10",
         "rector/swiss-knife": "^2.3"
     },
     "config": {

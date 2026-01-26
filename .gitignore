@@ -1,16 +1,21 @@
 # composer
-/composer.lock
+composer.lock
 vendor/
+
+# couscous
+.couscous
 
 # friendsofphp/php-cs-fixer
 .php_cs.cache
 .php-cs-fixer.php
 .php-cs-fixer.cache
 
-# Third party
-/phpunit.xml
-/.couscous
-/.phpunit.result.cache
+# phpstan
+phpstan.neon
+
+# phpunit
+phpunit.xml
+.phpunit.result.cache
 
 # Temporary files
 /fixtures/actual
