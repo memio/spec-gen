@@ -14,6 +14,7 @@ namespace spec\Memio\SpecGen\Marshaller;
 use Memio\SpecGen\Marshaller\Service\NameGuesser;
 use Memio\SpecGen\Marshaller\Service\TypeGuesser;
 use PhpSpec\ObjectBehavior;
+use PHPUnit\Framework\Assert;
 
 class VariableArgumentMarshallerSpec extends ObjectBehavior
 {
@@ -33,9 +34,9 @@ class VariableArgumentMarshallerSpec extends ObjectBehavior
         $typeGuesser->guess($variable)->willReturn(self::ARGUMENT_TYPE);
         $nameGuesser->guess(self::ARGUMENT_TYPE)->willReturn(self::ARGUMENT_NAME);
 
-        $arguments = $this->marshal($variables);
+        $arguments = $this->marshal($variables)->getWrappedObject();
         $argument = $arguments[0];
-        $argument->getType()->shouldBe(self::ARGUMENT_TYPE);
-        $argument->getName()->shouldBe(self::ARGUMENT_NAME);
+        Assert::assertSame(self::ARGUMENT_TYPE, $argument->type->name);
+        Assert::assertSame(self::ARGUMENT_NAME, $argument->name);
     }
 }

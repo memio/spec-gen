@@ -41,13 +41,12 @@ class InsertUseStatementsHandlerSpec extends ObjectBehavior
     function it_inserts_the_same_use_statement_once(
         Editor $editor,
         File $file,
-        FullyQualifiedName $fullyQualifiedName,
         InsertUseStatementHandler $insertUseStatementHandler
     ) {
-        $fullyQualifiedNames = [$fullyQualifiedName->getWrappedObject()];
+        $fullyQualifiedName = new FullyQualifiedName('Vendor\Project\MyDependency');
+        $fullyQualifiedNames = [$fullyQualifiedName];
         $insertUseStatements = new InsertUseStatements($file->getWrappedObject(), $fullyQualifiedNames);
 
-        $fullyQualifiedName->getFullyQualifiedName()->willReturn('Vendor\Project\MyDependency');
         $editor->hasBelow($file, '/^use Vendor\\\\Project\\\\MyDependency;$/', 0)->willReturn(false);
         $insertUseStatement = Argument::Type(InsertUseStatement::class);
         $insertUseStatementHandler->handle($insertUseStatement)->shouldBeCalled();
@@ -58,13 +57,12 @@ class InsertUseStatementsHandlerSpec extends ObjectBehavior
     function it_does_not_insert_the_same_use_statement_twice(
         Editor $editor,
         File $file,
-        FullyQualifiedName $fullyQualifiedName,
         InsertUseStatementHandler $insertUseStatementHandler
     ) {
-        $fullyQualifiedNames = [$fullyQualifiedName->getWrappedObject()];
+        $fullyQualifiedName = new FullyQualifiedName('Vendor\Project\MyDependency');
+        $fullyQualifiedNames = [$fullyQualifiedName];
         $insertUseStatements = new InsertUseStatements($file->getWrappedObject(), $fullyQualifiedNames);
 
-        $fullyQualifiedName->getFullyQualifiedName()->willReturn('Vendor\Project\MyDependency');
         $editor->hasBelow($file, '/^use Vendor\\\\Project\\\\MyDependency;$/', 0)->willReturn(true);
         $insertUseStatement = Argument::Type(InsertUseStatement::class);
         $insertUseStatementHandler->handle($insertUseStatement)->shouldNotBeCalled();

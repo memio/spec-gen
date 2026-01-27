@@ -32,9 +32,9 @@ class LogGeneratedConstructorListener
     public function onGeneratedConstructor(
         GeneratedConstructor $generatedConstructor
     ): void {
-        $object = $generatedConstructor->file->getStructure();
-        $className = $object->getName();
-        $propertiesCount = count($object->allProperties());
+        $object = $generatedConstructor->file->structure;
+        $className = $object->fullyQualifiedName->name;
+        $propertiesCount = count($object->properties);
 
         $propertiesWord = (1 === $propertiesCount ? 'property' : 'properties');
         $this->io->write(<<<OUTPUT

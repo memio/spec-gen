@@ -44,11 +44,10 @@ class InsertMethodHandlerSpec extends ObjectBehavior
     function it_does_not_insert_a_method_twice(
         Editor $editor,
         File $file,
-        Method $method,
         PrettyPrinter $prettyPrinter
     ) {
-        $insertMethod = new InsertMethod($file->getWrappedObject(), $method->getWrappedObject());
-        $method->getName()->willReturn(self::METHOD_NAME);
+        $method = new Method(self::METHOD_NAME);
+        $insertMethod = new InsertMethod($file->getWrappedObject(), $method);
 
         $editor->hasBelow($file, self::METHOD_PATTERN, 0)->willReturn(true);
         $prettyPrinter->generateCode($method)->shouldNotBeCalled();
@@ -59,11 +58,10 @@ class InsertMethodHandlerSpec extends ObjectBehavior
     function it_inserts_method_in_empty_class(
         Editor $editor,
         File $file,
-        Method $method,
         PrettyPrinter $prettyPrinter
     ) {
-        $insertMethod = new InsertMethod($file->getWrappedObject(), $method->getWrappedObject());
-        $method->getName()->willReturn(self::METHOD_NAME);
+        $method = new Method(self::METHOD_NAME);
+        $insertMethod = new InsertMethod($file->getWrappedObject(), $method);
 
         $editor->hasBelow($file, self::METHOD_PATTERN, 0)->willReturn(false);
         $editor->jumpBelow($file, InsertMethodHandler::CLASS_ENDING, 0)->shouldBeCalled();
@@ -78,11 +76,10 @@ class InsertMethodHandlerSpec extends ObjectBehavior
     function it_inserts_method_in_class_with_stuff(
         Editor $editor,
         File $file,
-        Method $method,
         PrettyPrinter $prettyPrinter
     ) {
-        $insertMethod = new InsertMethod($file->getWrappedObject(), $method->getWrappedObject());
-        $method->getName()->willReturn(self::METHOD_NAME);
+        $method = new Method(self::METHOD_NAME);
+        $insertMethod = new InsertMethod($file->getWrappedObject(), $method);
 
         $editor->hasBelow($file, self::METHOD_PATTERN, 0)->willReturn(false);
         $editor->jumpBelow($file, InsertMethodHandler::CLASS_ENDING, 0)->shouldBeCalled();

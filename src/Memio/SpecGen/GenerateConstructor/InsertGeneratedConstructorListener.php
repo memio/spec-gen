@@ -38,10 +38,10 @@ class InsertGeneratedConstructorListener
     public function onGeneratedConstructor(
         GeneratedConstructor $generatedConstructor
     ): void {
-        $fileName = $generatedConstructor->file->getFilename();
-        $fullyQualifiedNames = $generatedConstructor->file->allFullyQualifiedNames();
-        $allMethods = $generatedConstructor->file->getStructure()->allMethods();
-        $allProperties = $generatedConstructor->file->getStructure()->allProperties();
+        $fileName = $generatedConstructor->file->filename;
+        $fullyQualifiedNames = $generatedConstructor->file->fullyQualifiedNames;
+        $allMethods = $generatedConstructor->file->structure->methods;
+        $allProperties = $generatedConstructor->file->structure->properties;
         $method = array_shift($allMethods); // $object should contain only one method, the generated one.
 
         $file = $this->codeEditor->open($fileName);

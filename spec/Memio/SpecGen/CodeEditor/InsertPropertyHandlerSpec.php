@@ -40,11 +40,10 @@ class InsertPropertyHandlerSpec extends ObjectBehavior
     function it_does_not_insert_a_property_twice(
         Editor $editor,
         File $file,
-        PrettyPrinter $prettyPrinter,
-        Property $property
+        PrettyPrinter $prettyPrinter
     ) {
-        $insertProperty = new InsertProperty($file->getWrappedObject(), $property->getWrappedObject());
-        $property->getName()->willReturn('property');
+        $property = new Property('property');
+        $insertProperty = new InsertProperty($file->getWrappedObject(), $property);
 
         $editor->hasBelow($file, '/^    private \$property;$/', 0)->willReturn(true);
         $prettyPrinter->generateCode($property)->shouldNotBeCalled();
@@ -55,11 +54,10 @@ class InsertPropertyHandlerSpec extends ObjectBehavior
     function it_inserts_property_in_empty_class(
         Editor $editor,
         File $file,
-        PrettyPrinter $prettyPrinter,
-        Property $property
+        PrettyPrinter $prettyPrinter
     ) {
-        $insertProperty = new InsertProperty($file->getWrappedObject(), $property->getWrappedObject());
-        $property->getName()->willReturn('property');
+        $property = new Property('property');
+        $insertProperty = new InsertProperty($file->getWrappedObject(), $property);
 
         $editor->hasBelow($file, '/^    private \$property;$/', 0)->willReturn(false);
         $editor->hasBelow($file, InsertPropertyHandler::PROPERTY, 0)->willReturn(false);
@@ -76,11 +74,10 @@ class InsertPropertyHandlerSpec extends ObjectBehavior
     function it_inserts_property_in_class_with_properties(
         Editor $editor,
         File $file,
-        PrettyPrinter $prettyPrinter,
-        Property $property
+        PrettyPrinter $prettyPrinter
     ) {
-        $insertProperty = new InsertProperty($file->getWrappedObject(), $property->getWrappedObject());
-        $property->getName()->willReturn('property');
+        $property = new Property('property');
+        $insertProperty = new InsertProperty($file->getWrappedObject(), $property);
 
         $editor->hasBelow($file, '/^    private \$property;$/', 0)->willReturn(false);
         $editor->hasBelow($file, InsertPropertyHandler::PROPERTY, 0)->willReturn(true);
@@ -99,11 +96,10 @@ class InsertPropertyHandlerSpec extends ObjectBehavior
     function it_inserts_property_in_class_with_constants(
         Editor $editor,
         File $file,
-        PrettyPrinter $prettyPrinter,
-        Property $property
+        PrettyPrinter $prettyPrinter
     ) {
-        $insertProperty = new InsertProperty($file->getWrappedObject(), $property->getWrappedObject());
-        $property->getName()->willReturn('property');
+        $property = new Property('property');
+        $insertProperty = new InsertProperty($file->getWrappedObject(), $property);
 
         $editor->hasBelow($file, '/^    private \$property;$/', 0)->willReturn(false);
         $editor->hasBelow($file, InsertPropertyHandler::PROPERTY, 0)->willReturn(false);
@@ -122,11 +118,10 @@ class InsertPropertyHandlerSpec extends ObjectBehavior
     function it_inserts_property_in_class_with_methods(
         Editor $editor,
         File $file,
-        PrettyPrinter $prettyPrinter,
-        Property $property
+        PrettyPrinter $prettyPrinter
     ) {
-        $insertProperty = new InsertProperty($file->getWrappedObject(), $property->getWrappedObject());
-        $property->getName()->willReturn('property');
+        $property = new Property('property');
+        $insertProperty = new InsertProperty($file->getWrappedObject(), $property);
 
         $editor->hasBelow($file, '/^    private \$property;$/', 0)->willReturn(false);
         $editor->hasBelow($file, InsertPropertyHandler::PROPERTY, 0)->willReturn(false);

@@ -31,11 +31,11 @@ class LogGeneratedMethodListener
 
     public function onGeneratedMethod(GeneratedMethod $generatedMethod)
     {
-        $object = $generatedMethod->file->getStructure();
-        $className = $object->getName();
-        $methods = $object->allMethods();
+        $object = $generatedMethod->file->structure;
+        $className = $object->fullyQualifiedName->name;
+        $methods = $object->methods;
         $method = array_shift($methods); // $object should contain only one method, the generated one.
-        $methodName = $method->getName();
+        $methodName = $method->name;
 
         $this->io->write(<<<OUTPUT
 
