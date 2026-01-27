@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 0.10.1: phpspec 6.3, PHP 7.2 to 8.0
+
+Upgraded requirements:
+
+* phpspec 6.3
+* PHP 7.2 to PHP 8.0
+
 ## 0.10.0: Symfony 5, phpspec 6, PHP 7.2
 
 Upgraded requirements:
