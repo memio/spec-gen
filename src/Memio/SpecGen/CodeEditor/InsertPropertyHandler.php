@@ -39,7 +39,7 @@ class InsertPropertyHandler implements CommandHandler
 
     public function handle(Command $command): void
     {
-        $propertyStatement = '/^    private \$'.$command->property->getName().';$/';
+        $propertyStatement = '/^    private \$'.$command->property->name.';$/';
         if ($this->editor->hasBelow($command->file, $propertyStatement, 0)) {
             return;
         }

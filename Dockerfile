@@ -4,7 +4,7 @@
 # PHP Dev Container
 # Utility Tools: PHP, bash, Composer
 ###
-FROM php:7.2-cli AS php_dev_container
+FROM php:8.0-cli AS php_dev_container
 
 # Composer environment variables:
 # * default user is superuser (root), so allow them
@@ -15,7 +15,7 @@ ENV COMPOSER_ALLOW_SUPERUSER=1 \
 
 # Update apt sources to use archived Debian repositories
 RUN sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list \
-    && sed -i 's/security.debian.org/archive.debian.org/g' /etc/apt/sources.list \
+    && sed -i '/debian-security/d' /etc/apt/sources.list \
     && sed -i '/stretch-updates/d' /etc/apt/sources.list
 
 # Install dependencies:

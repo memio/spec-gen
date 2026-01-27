@@ -30,17 +30,18 @@ class LogGeneratedConstructorListenerSpec extends ObjectBehavior
         $this->beConstructedWith($io);
     }
 
-    function it_logs_the_generated_constructor(File $file, ConsoleIO $io, Method $method, Objekt $object, Property $property)
+    function it_logs_the_generated_constructor(ConsoleIO $io)
     {
-        $generatedConstructor = new GeneratedConstructor($file->getWrappedObject());
-        $file->getStructure()->willReturn($object);
-        $object->getName()->willReturn(self::CLASS_NAME);
-        $object->allProperties()->willReturn([$property]);
-        $object->allMethods()->willReturn([$method]);
-        $method->getName()->willReturn(self::METHOD_NAME);
+        $method = new Method(self::METHOD_NAME);
+        $property = new Property('myProperty');
+        $object = (new Objekt('Vendor\Project\\'.self::CLASS_NAME))
+            ->addMethod($method)
+            ->addProperty($property);
+        $file = (new File('/tmp/test.php'))->setStructure($object);
+
+        $generatedConstructor = new GeneratedConstructor($file);
 
         $className = self::CLASS_NAME;
-        $methodName = self::METHOD_NAME;
         $propertiesCount = self::PROPERTIES_COUNT;
         $io->write(<<<OUTPUT
 

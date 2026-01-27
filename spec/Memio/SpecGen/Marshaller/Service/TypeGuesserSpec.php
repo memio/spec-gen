@@ -14,7 +14,6 @@ namespace spec\Memio\SpecGen\Marshaller\Service;
 use Memio\SpecGen\Fixtures\Types\DeepImplementation;
 use Memio\SpecGen\Fixtures\Types\DeepInterface;
 use Memio\SpecGen\Fixtures\Types\NoParents;
-use Memio\SpecGen\Fixtures\Types\OtherInterface;
 use Memio\SpecGen\Fixtures\Types\SomeAndOtherImplementation;
 use Memio\SpecGen\Fixtures\Types\SomeImplementation;
 use Memio\SpecGen\Fixtures\Types\SomeInterface;
@@ -70,11 +69,11 @@ class TypeGuesserSpec extends ObjectBehavior
 
     function it_guesses_phpspec_doubles_of_implementations_of_many_interfaces(SomeAndOtherImplementation $someAndOtherImplementation)
     {
-        $this->guess($someAndOtherImplementation)->shouldBe(OtherInterface::class);
+        $this->guess($someAndOtherImplementation)->shouldBe(SomeInterface::class);
     }
 
     function it_guesses_phpspec_doubles_of_implementations_of_deep_interfaces(DeepImplementation $deepImplementation)
     {
-        $this->guess($deepImplementation)->shouldBe(SomeInterface::class);
+        $this->guess($deepImplementation)->shouldBe(DeepInterface::class);
     }
 }

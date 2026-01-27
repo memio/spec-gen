@@ -35,8 +35,8 @@ class InsertUseStatementHandler implements CommandHandler
 
     public function handle(Command $command): void
     {
-        $namespace = $command->fullyQualifiedName->getNamespace();
-        $fullyQualifiedName = $command->fullyQualifiedName->getFullyQualifiedName();
+        $namespace = $command->fullyQualifiedName->namespace;
+        $fullyQualifiedName = $command->fullyQualifiedName->fullyQualifiedName;
         $namespacePattern = '/^namespace '.addslashes($namespace).';$/';
         $useStatementPattern = '/^use '.addslashes($fullyQualifiedName).';$/';
         if ($this->editor->hasBelow($command->file, $namespacePattern, 0) || $this->editor->hasBelow($command->file, $useStatementPattern, 0)) {

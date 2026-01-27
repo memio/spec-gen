@@ -28,13 +28,14 @@ class LogGeneratedMethodListenerSpec extends ObjectBehavior
         $this->beConstructedWith($io);
     }
 
-    function it_logs_the_generated_method(File $file, ConsoleIO $io, Method $method, Objekt $object)
+    function it_logs_the_generated_method(ConsoleIO $io)
     {
-        $generatedMethod = new GeneratedMethod($file->getWrappedObject());
-        $file->getStructure()->willReturn($object);
-        $object->getName()->willReturn(self::CLASS_NAME);
-        $object->allMethods()->willReturn([$method]);
-        $method->getName()->willReturn(self::METHOD_NAME);
+        $method = new Method(self::METHOD_NAME);
+        $object = (new Objekt('Vendor\Project\\'.self::CLASS_NAME))
+            ->addMethod($method);
+        $file = (new File('/tmp/test.php'))->setStructure($object);
+
+        $generatedMethod = new GeneratedMethod($file);
 
         $className = self::CLASS_NAME;
         $methodName = self::METHOD_NAME;

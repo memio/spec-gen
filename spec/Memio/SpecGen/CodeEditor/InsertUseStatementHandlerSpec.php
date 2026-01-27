@@ -44,12 +44,10 @@ class InsertUseStatementHandlerSpec extends ObjectBehavior
 
     function it_does_not_insert_use_statement_in_same_namespace(
         Editor $editor,
-        File $file,
-        FullyQualifiedName $fullyQualifiedName
+        File $file
     ) {
-        $insertUseStatement = new InsertUseStatement($file->getWrappedObject(), $fullyQualifiedName->getWrappedObject());
-        $fullyQualifiedName->getNamespace()->willReturn(self::NAME_SPACE);
-        $fullyQualifiedName->getFullyQualifiedName()->willReturn(self::FULLY_QUALIFIED_NAME);
+        $fullyQualifiedName = new FullyQualifiedName(self::FULLY_QUALIFIED_NAME);
+        $insertUseStatement = new InsertUseStatement($file->getWrappedObject(), $fullyQualifiedName);
 
         $editor->hasBelow($file, self::NAME_SPACE_PATTERN, 0)->willReturn(true);
         $editor->insertBelow($file, self::USE_STATEMENT)->shouldNotBeCalled();
@@ -59,12 +57,10 @@ class InsertUseStatementHandlerSpec extends ObjectBehavior
 
     function it_does_not_insert_use_statement_twice(
         Editor $editor,
-        File $file,
-        FullyQualifiedName $fullyQualifiedName
+        File $file
     ) {
-        $insertUseStatement = new InsertUseStatement($file->getWrappedObject(), $fullyQualifiedName->getWrappedObject());
-        $fullyQualifiedName->getNamespace()->willReturn(self::NAME_SPACE);
-        $fullyQualifiedName->getFullyQualifiedName()->willReturn(self::FULLY_QUALIFIED_NAME);
+        $fullyQualifiedName = new FullyQualifiedName(self::FULLY_QUALIFIED_NAME);
+        $insertUseStatement = new InsertUseStatement($file->getWrappedObject(), $fullyQualifiedName);
 
         $editor->hasBelow($file, self::NAME_SPACE_PATTERN, 0)->willReturn(false);
         $editor->hasBelow($file, self::USE_STATEMENT_PATTERN, 0)->willReturn(true);
@@ -75,12 +71,10 @@ class InsertUseStatementHandlerSpec extends ObjectBehavior
 
     function it_inserts_first_use_statement(
         Editor $editor,
-        File $file,
-        FullyQualifiedName $fullyQualifiedName
+        File $file
     ) {
-        $insertUseStatement = new InsertUseStatement($file->getWrappedObject(), $fullyQualifiedName->getWrappedObject());
-        $fullyQualifiedName->getNamespace()->willReturn(self::NAME_SPACE);
-        $fullyQualifiedName->getFullyQualifiedName()->willReturn(self::FULLY_QUALIFIED_NAME);
+        $fullyQualifiedName = new FullyQualifiedName(self::FULLY_QUALIFIED_NAME);
+        $insertUseStatement = new InsertUseStatement($file->getWrappedObject(), $fullyQualifiedName);
 
         $editor->hasBelow($file, self::NAME_SPACE_PATTERN, 0)->willReturn(false);
         $editor->hasBelow($file, self::USE_STATEMENT_PATTERN, 0)->willReturn(false);
@@ -95,12 +89,10 @@ class InsertUseStatementHandlerSpec extends ObjectBehavior
 
     function it_inserts_use_statement_at_the_end_of_use_statement_block(
         Editor $editor,
-        File $file,
-        FullyQualifiedName $fullyQualifiedName
+        File $file
     ) {
-        $insertUseStatement = new InsertUseStatement($file->getWrappedObject(), $fullyQualifiedName->getWrappedObject());
-        $fullyQualifiedName->getNamespace()->willReturn(self::NAME_SPACE);
-        $fullyQualifiedName->getFullyQualifiedName()->willReturn(self::FULLY_QUALIFIED_NAME);
+        $fullyQualifiedName = new FullyQualifiedName(self::FULLY_QUALIFIED_NAME);
+        $insertUseStatement = new InsertUseStatement($file->getWrappedObject(), $fullyQualifiedName);
 
         $editor->hasBelow($file, self::NAME_SPACE_PATTERN, 0)->willReturn(false);
         $editor->hasBelow($file, self::USE_STATEMENT_PATTERN, 0)->willReturn(false);

@@ -38,23 +38,23 @@ class InsertGeneratedConstructorListenerSpec extends ObjectBehavior
 
     function it_inserts_the_generated_method(
         CodeEditor $codeEditor,
-        File $file,
-        FileModel $fileModel,
-        FullyQualifiedNameModel $fullyQualifiedNameModel,
-        MethodModel $methodModel,
-        ObjectModel $objectModel,
-        PropertyModel $propertyModel
+        File $file
     ) {
         $insertUseStatements = Argument::type(InsertUseStatements::class);
         $insertProperties = Argument::type(InsertProperties::class);
         $insertConstructor = Argument::type(InsertConstructor::class);
 
-        $generatedConstructor = new GeneratedConstructor($fileModel->getWrappedObject());
-        $fileModel->allFullyQualifiedNames()->willReturn([$fullyQualifiedNameModel]);
-        $fileModel->getFilename()->willReturn(self::FILE_NAME);
-        $fileModel->getStructure()->willReturn($objectModel);
-        $objectModel->allProperties()->willReturn([$propertyModel]);
-        $objectModel->allMethods()->willReturn([$methodModel]);
+        $fullyQualifiedName = new FullyQualifiedNameModel('Vendor\Project\MyClass');
+        $method = new MethodModel(self::METHOD_NAME);
+        $property = new PropertyModel('myProperty');
+        $object = (new ObjectModel('Vendor\Project\MyClass'))
+            ->addMethod($method)
+            ->addProperty($property);
+        $fileModel = (new FileModel(self::FILE_NAME))
+            ->addFullyQualifiedName($fullyQualifiedName)
+            ->setStructure($object);
+
+        $generatedConstructor = new GeneratedConstructor($fileModel);
 
         $codeEditor->open(self::FILE_NAME)->willReturn($file);
         $codeEditor->handle($insertUseStatements)->shouldBeCalled();
